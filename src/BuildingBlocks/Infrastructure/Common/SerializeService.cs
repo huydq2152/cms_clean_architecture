@@ -1,10 +1,9 @@
-﻿using CleanArchitectureDemo.Application.Interfaces;
-using CleanArchitectureDemo.Application.Interfaces.Common;
+﻿using CleanArchitectureDemo.Application.Interfaces.Common;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 
-namespace CleanArchitectureDemo.Infrastructure.Services;
+namespace Infrastructure.Common;
 
 public class SerializeService : ISerializeService
 {
@@ -29,7 +28,7 @@ public class SerializeService : ISerializeService
         return JsonConvert.SerializeObject(obj, type, new JsonSerializerSettings());
     }
 
-    public T Deserialize<T>(string text)
+    public T? Deserialize<T>(string text)
     {
         return JsonConvert.DeserializeObject<T>(text);
     }

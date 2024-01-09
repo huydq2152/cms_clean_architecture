@@ -1,11 +1,11 @@
 ﻿using CleanArchitectureDemo.Application.Interfaces.Common;
-using CleanArchitectureDemo.Application.Interfaces.Email;
 using CleanArchitectureDemo.Application.Interfaces.Repositories;
 using CleanArchitectureDemo.Domain.Entities.Identity;
 using CleanArchitectureDemo.Infrastructure.Common;
 using CleanArchitectureDemo.Infrastructure.Common.Repositories;
 using CleanArchitectureDemo.Infrastructure.Persistence.Contexts;
 using CleanArchitectureDemo.Infrastructure.Services;
+using Infrastructure.Common;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -26,11 +26,10 @@ namespace CleanArchitectureDemo.Infrastructure.Extensions
         {
             services
                 .AddTransient<IDateTimeService, DateTimeService>()
-                .AddTransient<IEmailService, EmailService>()
                 .AddTransient<ISerializeService, SerializeService>()
                 .AddScoped<ApplicationContextSeed>()
                 .AddTransient(typeof(IUnitOfWork), typeof(UnitOfWork))
-                .AddTransient(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
+                .AddTransient(typeof(IRepositoryBase<,>), typeof(RepositoryBase<,>));
         }
 
         private static void AddDbContext(this IServiceCollection services, IConfiguration configuration)

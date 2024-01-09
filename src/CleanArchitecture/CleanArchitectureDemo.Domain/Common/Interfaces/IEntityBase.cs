@@ -1,7 +1,7 @@
 ﻿namespace CleanArchitectureDemo.Domain.Common.Interfaces
 {
-    public interface IEntityBase
+    public interface IEntityBase<T>
     {
-        int Id { get; set; }
+        T Id { get; set; }
     }
 }

@@ -4,11 +4,11 @@ namespace CleanArchitectureDemo.Application.Interfaces.Repositories
 {
     public interface IUnitOfWork : IDisposable
     {
-        IRepositoryBase<T> Repository<T>() where T : EntityBase;
+        IRepositoryBase<T, K> Repository<T, K>() where T : EntityBase<K>;
 
-        Task<int> Save(CancellationToken cancellationToken);
+        Task<int> SaveChangeAsync();
 
-        Task<int> SaveAndRemoveCache(CancellationToken cancellationToken, params string[] cacheKeys);
+        Task<int> SaveAndRemoveCache(params string[] cacheKeys);
 
         Task Rollback();
     }

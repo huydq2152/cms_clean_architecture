@@ -1,5 +1,4 @@
-﻿using CleanArchitectureDemo.Application.Interfaces;
-using CleanArchitectureDemo.Application.Interfaces.Common;
+﻿using CleanArchitectureDemo.Application.Interfaces.Common;
 
 namespace CleanArchitectureDemo.Infrastructure.Services
 {

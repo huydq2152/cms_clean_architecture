@@ -17,7 +17,7 @@ namespace CleanArchitectureDemo.Infrastructure.Common
             _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }
 
-        public IRepositoryBase<T> Repository<T>() where T : EntityBase
+        public IRepositoryBase<T, K> Repository<T, K>() where T : EntityBase<K>
         {
             if (_repositories == null)
                 _repositories = new Hashtable();
@@ -26,14 +26,15 @@ namespace CleanArchitectureDemo.Infrastructure.Common
 
             if (!_repositories.ContainsKey(type))
             {
-                var repositoryType = typeof(RepositoryBase<>);
+                var repositoryType = typeof(RepositoryBase<T, K>);
 
-                var repositoryInstance = Activator.CreateInstance(repositoryType.MakeGenericType(typeof(T)), _dbContext);
+                var repositoryInstance =
+                    Activator.CreateInstance(repositoryType.MakeGenericType(typeof(T)), _dbContext);
 
                 _repositories.Add(type, repositoryInstance);
             }
 
-            return (IRepositoryBase<T>) _repositories[type];
+            return (IRepositoryBase<T, K>)_repositories[type];
         }
 
         public Task Rollback()
@@ -42,12 +43,12 @@ namespace CleanArchitectureDemo.Infrastructure.Common
             return Task.CompletedTask;
         }
 
-        public async Task<int> Save(CancellationToken cancellationToken)
+        public async Task<int> SaveChangeAsync()
         {
-            return await _dbContext.SaveChangesAsync(cancellationToken);
+            return await _dbContext.SaveChangesAsync();
         }
 
-        public Task<int> SaveAndRemoveCache(CancellationToken cancellationToken, params string[] cacheKeys)
+        public Task<int> SaveAndRemoveCache(params string[] cacheKeys)
         {
             throw new NotImplementedException();
         }
@@ -68,6 +69,7 @@ namespace CleanArchitectureDemo.Infrastructure.Common
                     _dbContext.Dispose();
                 }
             }
+
             //dispose unmanaged resources
             _disposed = true;
         }

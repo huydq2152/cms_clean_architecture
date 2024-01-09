@@ -3,7 +3,7 @@ using CleanArchitectureDemo.Domain.Common.Interfaces;
 
 namespace CleanArchitectureDemo.Domain.Common;
 
-public class EntityBase : IEntityBase
+public class EntityBase<T> : IEntityBase<T>
 {
-    public int Id { get; set; }
+    public T Id { get; set; }
 }

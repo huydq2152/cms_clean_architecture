@@ -2,7 +2,7 @@
 
 namespace CleanArchitectureDemo.Domain.Common;
 
-public class FullAuditedEntityBase : EntityBase, IFullAuditedEntityBase
+public class FullAuditedEntityBase<T> : EntityBase<T>, IFullAuditedEntityBase
 {
     public int? CreatorUserId { get; set; }
     public DateTime CreationTime { get; set; }

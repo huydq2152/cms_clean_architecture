@@ -1,14 +1,15 @@
-﻿using CleanArchitectureDemo.Domain.Entities.Post;
+﻿using CleanArchitectureDemo.Application.Interfaces.Repositories;
+using CleanArchitectureDemo.Domain.Entities.Post;
 using CleanArchitectureDemo.Infrastructure.Common.Repositories;
 using CleanArchitectureDemo.Infrastructure.Persistence.Contexts;
-using CleanArchitectureDemo.Persistence.Repositories.Interface;
+using CleanArchitectureDemo.Infrastructure.Repositories.Interface;
 using Microsoft.EntityFrameworkCore;
 
-namespace CleanArchitectureDemo.Persistence.Repositories;
+namespace CleanArchitectureDemo.Infrastructure.Repositories;
 
-public class PostCategoryRepository : RepositoryBase<PostCategory>, IPostCategoryRepository
+public class PostCategoryRepository : RepositoryBase<PostCategory, int>, IPostCategoryRepository
 {
-    public PostCategoryRepository(ApplicationDbContext dbContext) : base(dbContext)
+    public PostCategoryRepository(ApplicationDbContext dbContext, IUnitOfWork unitOfWork) : base(dbContext, unitOfWork)
     {
     }
 

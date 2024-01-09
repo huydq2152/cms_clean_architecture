@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using CleanArchitectureDemo.Domain.Entities.Identity;
 using CleanArchitectureDemo.Domain.Entities.Post;
-using CleanArchitectureDemo.Persistence.Interceptors;
+using CleanArchitectureDemo.Infrastructure.Persistence.Interceptors;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 

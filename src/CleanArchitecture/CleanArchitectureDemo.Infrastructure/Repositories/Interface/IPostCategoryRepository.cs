@@ -1,9 +1,9 @@
 ﻿using CleanArchitectureDemo.Application.Interfaces.Repositories;
 using CleanArchitectureDemo.Domain.Entities.Post;
 
-namespace CleanArchitectureDemo.Persistence.Repositories.Interface;
+namespace CleanArchitectureDemo.Infrastructure.Repositories.Interface;
 
-public interface IPostCategoryRepository : IRepositoryBase<PostCategory>
+public interface IPostCategoryRepository : IRepositoryBase<PostCategory, int>
 {
     Task<PostCategory> GetPostCategoryByIdAsync(int id);
 
