@@ -1,4 +1,4 @@
-﻿namespace CleanArchitectureDemo.Shared
+﻿namespace Shared
 {
     public class PaginatedApiResult<T> : ApiResult<T>
     {

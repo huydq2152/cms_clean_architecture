@@ -1,10 +1,12 @@
-﻿using CleanArchitectureDemo.Application.Interfaces.Common;
-using CleanArchitectureDemo.Application.Interfaces.Repositories;
+﻿using CleanArchitectureDemo.Application.Interfaces.Repositories;
+using CleanArchitectureDemo.Application.Interfaces.Services.Common;
 using CleanArchitectureDemo.Domain.Entities.Identity;
 using CleanArchitectureDemo.Infrastructure.Common;
 using CleanArchitectureDemo.Infrastructure.Common.Repositories;
 using CleanArchitectureDemo.Infrastructure.Persistence.Contexts;
 using CleanArchitectureDemo.Infrastructure.Services;
+using CleanArchitectureDemo.Infrastructure.Services.Common;
+using Contracts.Common.Interfaces;
 using Infrastructure.Common;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

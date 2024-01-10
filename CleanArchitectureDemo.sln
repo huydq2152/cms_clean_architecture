@@ -15,8 +15,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts", "src\BuildingBl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "src\BuildingBlocks\Infrastructure\Infrastructure.csproj", "{B97962C4-91B2-4E0F-AB3F-36383219B401}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "src\BuildingBlocks\Shared\Shared.csproj", "{4E974032-D2AD-4EAC-93AD-C07BFD261BBE}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanArchitectureDemo.Application", "src\CleanArchitecture\CleanArchitectureDemo.Application\CleanArchitectureDemo.Application.csproj", "{B576CE83-45E2-43AE-9896-84F7D7E83752}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanArchitectureDemo.Domain", "src\CleanArchitecture\CleanArchitectureDemo.Domain\CleanArchitectureDemo.Domain.csproj", "{353325F6-2544-4F13-81EB-A000B0F091D7}"
@@ -24,6 +22,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanArchitectureDemo.Infrastructure", "src\CleanArchitecture\CleanArchitectureDemo.Infrastructure\CleanArchitectureDemo.Infrastructure.csproj", "{55331D92-8431-48D1-94F5-17422707007C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanArchitectureDemo.WebAPI", "src\CleanArchitecture\CleanArchitectureDemo.WebAPI\CleanArchitectureDemo.WebAPI.csproj", "{ADFD326B-B051-4F70-83E4-9F1AB0A46085}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "src\BuildingBlocks\Shared\Shared.csproj", "{5EDD9795-45FE-49F8-89ED-50B44DC14817}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,10 +43,6 @@ Global
 		{B97962C4-91B2-4E0F-AB3F-36383219B401}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B97962C4-91B2-4E0F-AB3F-36383219B401}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B97962C4-91B2-4E0F-AB3F-36383219B401}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4E974032-D2AD-4EAC-93AD-C07BFD261BBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4E974032-D2AD-4EAC-93AD-C07BFD261BBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4E974032-D2AD-4EAC-93AD-C07BFD261BBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4E974032-D2AD-4EAC-93AD-C07BFD261BBE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B576CE83-45E2-43AE-9896-84F7D7E83752}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B576CE83-45E2-43AE-9896-84F7D7E83752}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B576CE83-45E2-43AE-9896-84F7D7E83752}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -63,6 +59,10 @@ Global
 		{ADFD326B-B051-4F70-83E4-9F1AB0A46085}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ADFD326B-B051-4F70-83E4-9F1AB0A46085}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ADFD326B-B051-4F70-83E4-9F1AB0A46085}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5EDD9795-45FE-49F8-89ED-50B44DC14817}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EDD9795-45FE-49F8-89ED-50B44DC14817}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5EDD9795-45FE-49F8-89ED-50B44DC14817}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5EDD9795-45FE-49F8-89ED-50B44DC14817}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -73,11 +73,11 @@ Global
 		{C74F82C6-00C8-4409-B026-E03F90CDF33D} = {34172E12-974D-4BDB-B353-6A6E21E82430}
 		{6E778E78-68A6-4462-8335-8E85F0B40BC8} = {34172E12-974D-4BDB-B353-6A6E21E82430}
 		{B97962C4-91B2-4E0F-AB3F-36383219B401} = {34172E12-974D-4BDB-B353-6A6E21E82430}
-		{4E974032-D2AD-4EAC-93AD-C07BFD261BBE} = {34172E12-974D-4BDB-B353-6A6E21E82430}
 		{B576CE83-45E2-43AE-9896-84F7D7E83752} = {74039110-04DC-47F8-BE26-206E280FA444}
 		{353325F6-2544-4F13-81EB-A000B0F091D7} = {74039110-04DC-47F8-BE26-206E280FA444}
 		{55331D92-8431-48D1-94F5-17422707007C} = {74039110-04DC-47F8-BE26-206E280FA444}
 		{ADFD326B-B051-4F70-83E4-9F1AB0A46085} = {74039110-04DC-47F8-BE26-206E280FA444}
+		{5EDD9795-45FE-49F8-89ED-50B44DC14817} = {34172E12-974D-4BDB-B353-6A6E21E82430}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EE98FB89-042B-4868-A412-16E4D6F02D43}

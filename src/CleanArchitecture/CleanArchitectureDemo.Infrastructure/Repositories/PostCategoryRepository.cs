@@ -1,8 +1,9 @@
 ﻿using CleanArchitectureDemo.Application.Interfaces.Repositories;
+using CleanArchitectureDemo.Application.Interfaces.Repositories.Posts;
 using CleanArchitectureDemo.Domain.Entities.Post;
 using CleanArchitectureDemo.Infrastructure.Common.Repositories;
 using CleanArchitectureDemo.Infrastructure.Persistence.Contexts;
-using CleanArchitectureDemo.Infrastructure.Repositories.Interface;
+using Contracts.Common.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace CleanArchitectureDemo.Infrastructure.Repositories;

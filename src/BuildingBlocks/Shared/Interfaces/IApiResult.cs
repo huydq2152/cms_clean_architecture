@@ -1,4 +1,4 @@
-﻿namespace CleanArchitectureDemo.Shared.Interfaces
+﻿namespace Shared.Interfaces
 {
     public interface IApiResult<T>
     {

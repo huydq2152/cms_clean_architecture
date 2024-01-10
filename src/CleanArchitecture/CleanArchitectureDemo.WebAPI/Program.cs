@@ -1,6 +1,7 @@
 using CleanArchitectureDemo.Application.Extensions;
 using CleanArchitectureDemo.Infrastructure.Extensions;
 using CleanArchitectureDemo.Infrastructure.Persistence.Contexts;
+using CleanArchitectureDemo.WebAPI.Extensions;
 using Logging;
 using Serilog;
 
@@ -11,6 +12,7 @@ Log.Information($"Start {builder.Environment.ApplicationName} up");
 
 try
 {
+    builder.Host.AddAppConfigurations();
     // Add services to the container.
     builder.Services.AddApplicationLayer();
     builder.Services.AddInfrastructureLayer(builder.Configuration);
@@ -37,8 +39,8 @@ try
         await applicationContextSeed.SeedAsync();
     }
 
-    // app.UseHttpsRedirection();
-    // app.UseAuthorization();
+    app.UseHttpsRedirection();
+    app.UseAuthorization();
     app.MapDefaultControllerRoute();
 
     app.Run();

@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using CleanArchitectureDemo.Application.Interfaces.Repositories;
-using CleanArchitectureDemo.Domain.Common;
 using CleanArchitectureDemo.Infrastructure.Common.Repositories;
 using CleanArchitectureDemo.Infrastructure.Persistence.Contexts;
+using Contracts.Common.Interfaces;
+using Contracts.Domains;
 
 namespace CleanArchitectureDemo.Infrastructure.Common
 {

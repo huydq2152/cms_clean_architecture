@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using CleanArchitectureDemo.Shared;
 
 namespace CleanArchitectureDemo.Application.Extensions
 {

@@ -1,7 +1,8 @@
 ﻿using System.Linq.Expressions;
 using CleanArchitectureDemo.Application.Interfaces.Repositories;
-using CleanArchitectureDemo.Domain.Common;
 using CleanArchitectureDemo.Infrastructure.Persistence.Contexts;
+using Contracts.Common.Interfaces;
+using Contracts.Domains;
 using Microsoft.EntityFrameworkCore;
 
 namespace CleanArchitectureDemo.Infrastructure.Common.Repositories

@@ -1,4 +1,4 @@
-﻿using CleanArchitectureDemo.Domain.Common;
+﻿using Contracts.Domains;
 
 namespace CleanArchitectureDemo.Domain.Entities.Post;
 

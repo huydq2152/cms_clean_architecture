@@ -1,6 +1,6 @@
-﻿using CleanArchitectureDemo.Shared.Interfaces;
+﻿using Shared.Interfaces;
 
-namespace CleanArchitectureDemo.Shared
+namespace Shared
 {
     public class ApiResult<T> : IApiResult<T>
     {

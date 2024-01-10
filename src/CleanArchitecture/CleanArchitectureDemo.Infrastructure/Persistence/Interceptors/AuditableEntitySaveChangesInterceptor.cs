@@ -1,13 +1,13 @@
-﻿using CleanArchitectureDemo.Application.Interfaces.Common;
-using CleanArchitectureDemo.Application.Interfaces.User;
-using CleanArchitectureDemo.Domain.Common;
+﻿using CleanArchitectureDemo.Application.Interfaces.Services.Common;
+using CleanArchitectureDemo.Application.Interfaces.Services.User;
+using Contracts.Domains.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace CleanArchitectureDemo.Infrastructure.Persistence.Interceptors;
 
-public class AuditableEntitySaveChangesInterceptor<K> : SaveChangesInterceptor
+public class AuditableEntitySaveChangesInterceptor : SaveChangesInterceptor
 {
     private readonly ICurrentUserService _currentUserService;
     private readonly IDateTimeService _dateTimeService;
@@ -22,7 +22,7 @@ public class AuditableEntitySaveChangesInterceptor<K> : SaveChangesInterceptor
 
     public override InterceptionResult<int> SavingChanges(DbContextEventData eventData, InterceptionResult<int> result)
     {
-        UpdateEntities<K>(eventData.Context);
+        UpdateEntities(eventData.Context);
 
         return base.SavingChanges(eventData, result);
     }
@@ -30,16 +30,16 @@ public class AuditableEntitySaveChangesInterceptor<K> : SaveChangesInterceptor
     public override ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData,
         InterceptionResult<int> result, CancellationToken cancellationToken = default)
     {
-        UpdateEntities<K>(eventData.Context);
+        UpdateEntities(eventData.Context);
 
         return base.SavingChangesAsync(eventData, result, cancellationToken);
     }
 
-    private void UpdateEntities<K>(DbContext? context)
+    private void UpdateEntities(DbContext? context)
     {
         if (context == null) return;
 
-        foreach (var entry in context.ChangeTracker.Entries<FullAuditedEntityBase<K>>())
+        foreach (var entry in context.ChangeTracker.Entries<IFullAuditedEntityBase>())
         {
             if (entry.State == EntityState.Added)
             {

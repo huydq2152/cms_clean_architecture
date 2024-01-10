@@ -18,15 +18,7 @@
     <ProjectReference Include="..\..\BuildingBlocks\Contracts\Contracts.csproj" />
     <ProjectReference Include="..\..\BuildingBlocks\Infrastructure\Infrastructure.csproj" />
     <ProjectReference Include="..\..\BuildingBlocks\Logging\Logging.csproj" />
-    <ProjectReference Include="..\..\BuildingBlocks\Shared\Shared.csproj" />
     <ProjectReference Include="..\CleanArchitectureDemo.Domain\CleanArchitectureDemo.Domain.csproj" />
-    <ProjectReference Include="..\CleanArchitectureDemo.Shared\CleanArchitectureDemo.Shared.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="CleanArchitectureDemo.Shared">
-      <HintPath>..\CleanArchitectureDemo.WebAPI\bin\Debug\net7.0\CleanArchitectureDemo.Shared.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>
