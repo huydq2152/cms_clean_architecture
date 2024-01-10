@@ -2,6 +2,7 @@
 using CleanArchitectureDemo.Application.Dtos.Posts;
 using CleanArchitectureDemo.Application.Interfaces.Repositories.Posts;
 using CleanArchitectureDemo.Application.Interfaces.Services.Posts;
+using Infrastructure.Common.Models;
 using Microsoft.AspNetCore.Http;
 
 namespace CleanArchitectureDemo.Infrastructure.Services.Posts;
@@ -24,10 +25,17 @@ public class PostCategoryService : IPostCategoryService
         return Results.Ok(result);
     }
 
-    public async Task<IResult> GetPostCategoriesAsync()
+    public async Task<IResult> GetAllPostCategoriesAsync()
     {
-        var postCategories = await _postCategoryRepository.GetPostCategoriesAsync();
+        var postCategories = await _postCategoryRepository.GetAllPostCategoriesAsync();
         var result = _mapper.Map<List<PostCategoryDto>>(postCategories);
+        return Results.Ok(result);
+    }
+
+    public async Task<IResult> GetAllPostCategoryPagedAsync(PostCategoryPagingQueryInput query)
+    {
+        var postCategories = await _postCategoryRepository.GetAllPostCategoryPagedAsync(query);
+        var result = _mapper.Map<PagedList<PostCategoryDto>>(postCategories);
         return Results.Ok(result);
     }
 }
