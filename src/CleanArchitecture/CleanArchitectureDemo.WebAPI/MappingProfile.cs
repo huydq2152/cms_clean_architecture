@@ -9,5 +9,7 @@ public class MappingProfile: Profile
     public MappingProfile()
     {
         CreateMap<PostCategory, PostCategoryDto>().ReverseMap();
+        CreateMap<PostCategory, CreatePostCategoryDto>().ReverseMap();
+        CreateMap<PostCategory, UpdatePostCategoryDto>().ReverseMap();
     }
 }

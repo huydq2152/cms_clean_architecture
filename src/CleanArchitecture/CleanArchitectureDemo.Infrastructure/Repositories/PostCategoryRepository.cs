@@ -33,4 +33,19 @@ public class PostCategoryRepository : RepositoryBase<PostCategory, int>, IPostCa
         var result = await PagedList<PostCategory>.ToPagedList(objQuery, query.PageNumber, query.PageSize);
         return result;
     }
+
+    public async Task CreatePostCategoryAsync(PostCategory postCategory)
+    {
+        await CreateAsync(postCategory);
+    }
+
+    public async Task UpdatePostCategoryAsync(PostCategory postCategory)
+    {
+        await UpdateAsync(postCategory);
+    }
+
+    public async Task DeletePostCategoryAsync(PostCategory postCategory)
+    {
+        await DeleteAsync(postCategory);
+    }
 }

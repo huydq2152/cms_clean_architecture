@@ -2,6 +2,7 @@
 using CleanArchitectureDemo.Application.Dtos.Posts;
 using CleanArchitectureDemo.Application.Interfaces.Repositories.Posts;
 using CleanArchitectureDemo.Application.Interfaces.Services.Posts;
+using CleanArchitectureDemo.Domain.Entities.Post;
 
 namespace CleanArchitectureDemo.Infrastructure.Services.Posts;
 
@@ -35,5 +36,24 @@ public class PostCategoryService : IPostCategoryService
         var postCategories = await _postCategoryRepository.GetAllPostCategoryPagedAsync(query);
         var result = _mapper.Map<IEnumerable<PostCategoryDto>>(postCategories);
         return result;
+    }
+
+    public async Task CreatePostCategoryAsync(CreatePostCategoryDto postCategory)
+    {
+        var postCategoryEntity = _mapper.Map<PostCategory>(postCategory);
+        await _postCategoryRepository.CreatePostCategoryAsync(postCategoryEntity);
+    }
+
+    public async Task UpdatePostCategoryAsync(UpdatePostCategoryDto postCategory)
+    {
+        var postCategoryEntity = _mapper.Map<PostCategory>(postCategory);
+        await _postCategoryRepository.UpdatePostCategoryAsync(postCategoryEntity);
+    }
+
+    public async Task DeletePostCategoryAsync(int id)
+    {
+        var postCategory = await _postCategoryRepository.GetPostCategoryByIdAsync(id);
+        if (postCategory == null) throw new Exception("Post category not found");
+        await _postCategoryRepository.DeletePostCategoryAsync(postCategory);
     }
 }

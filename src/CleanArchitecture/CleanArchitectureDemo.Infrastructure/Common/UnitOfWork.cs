@@ -38,10 +38,9 @@ namespace CleanArchitectureDemo.Infrastructure.Common
             return (IRepositoryBase<T, K>)_repositories[type];
         }
 
-        public Task Rollback()
+        public int SaveChange()
         {
-            _dbContext.ChangeTracker.Entries().ToList().ForEach(x => x.Reload());
-            return Task.CompletedTask;
+            return _dbContext.SaveChanges();
         }
 
         public async Task<int> SaveChangeAsync()
@@ -52,6 +51,12 @@ namespace CleanArchitectureDemo.Infrastructure.Common
         public Task<int> SaveAndRemoveCache(params string[] cacheKeys)
         {
             throw new NotImplementedException();
+        }
+
+        public Task Rollback()
+        {
+            _dbContext.ChangeTracker.Entries().ToList().ForEach(x => x.Reload());
+            return Task.CompletedTask;
         }
 
         public void Dispose()

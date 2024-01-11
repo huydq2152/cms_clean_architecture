@@ -12,8 +12,10 @@ namespace Contracts.Common.Interfaces
             params Expression<Func<T, object>>[] includeProperties);
         Task<T> GetByIdAsync(K id);
         Task<T> GetByIdAsync(K id, params Expression<Func<T, object>>[] includeProperties);
-        void Create(T entity);
+        K Create(T entity);
         Task<K> CreateAsync(T entity);
+        K CreateAndGetId(T entity);
+        Task<K> CreateAndGetIdAsync(T entity);
         IList<K> CreateList(IEnumerable<T> entities);
         Task<IList<K>> CreateListAsync(IEnumerable<T> entities);
         void Update(T entity);

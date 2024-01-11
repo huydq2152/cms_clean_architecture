@@ -1,5 +1,4 @@
 ﻿using System.Linq.Expressions;
-using CleanArchitectureDemo.Application.Interfaces.Repositories;
 using CleanArchitectureDemo.Infrastructure.Persistence.Contexts;
 using Contracts.Common.Interfaces;
 using Contracts.Domains;
@@ -48,9 +47,11 @@ namespace CleanArchitectureDemo.Infrastructure.Common.Repositories
         public async Task<T> GetByIdAsync(K id, params Expression<Func<T, object>>[] includeProperties) =>
             await GetByCondition(o => o.Id.Equals(id), trackChanges: false, includeProperties).FirstOrDefaultAsync();
 
-        public void Create(T entity)
+        public K Create(T entity)
         {
-            _dbContext.Set<T>().AddAsync(entity);
+            _dbContext.Set<T>().Add(entity);
+            SaveChange();
+            return entity.Id;
         }
 
         public async Task<K> CreateAsync(T entity)
@@ -58,6 +59,20 @@ namespace CleanArchitectureDemo.Infrastructure.Common.Repositories
             await _dbContext.Set<T>().AddAsync(entity);
             await SaveChangeAsync();
             return entity.Id;
+        }
+
+        public K CreateAndGetId(T entity)
+        {
+            _dbContext.Set<T>().Add(entity);
+            _dbContext.SaveChanges();
+            return (K)_dbContext.Entry(entity).Property("Id").CurrentValue;
+        }
+
+        public async Task<K> CreateAndGetIdAsync(T entity)
+        {
+            await _dbContext.Set<T>().AddAsync(entity);
+            await _dbContext.SaveChangesAsync();
+            return (K)_dbContext.Entry(entity).Property("Id").CurrentValue;
         }
 
         public IList<K> CreateList(IEnumerable<T> entities)
@@ -123,7 +138,12 @@ namespace CleanArchitectureDemo.Infrastructure.Common.Repositories
             await SaveChangeAsync();
         }
 
-        public Task<int> SaveChangeAsync()
+        private int SaveChange()
+        {
+            return _unitOfWork.SaveChange();
+        }
+
+        private Task<int> SaveChangeAsync()
         {
             return _unitOfWork.SaveChangeAsync();
         }
