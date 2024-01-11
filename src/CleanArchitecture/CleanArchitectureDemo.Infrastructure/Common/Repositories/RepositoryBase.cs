@@ -18,35 +18,35 @@ namespace CleanArchitectureDemo.Infrastructure.Common.Repositories
             _unitOfWork = unitOfWork;
         }
 
-        public IQueryable<T> FindAll(bool trackChanges = false) =>
+        public IQueryable<T> GetAll(bool trackChanges = false) =>
             !trackChanges ? _dbContext.Set<T>().AsNoTracking() : _dbContext.Set<T>();
 
-        public IQueryable<T> FindAll(bool trackChanges = false, params Expression<Func<T, object>>[] includeProperties)
+        public IQueryable<T> GetAll(bool trackChanges = false, params Expression<Func<T, object>>[] includeProperties)
         {
-            var items = FindAll(trackChanges);
+            var items = GetAll(trackChanges);
             items = includeProperties.Aggregate(items,
                 (current, includeProperties) => current.Include(includeProperties));
             return items;
         }
 
-        public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression, bool trackChanges = false) =>
+        public IQueryable<T> GetByCondition(Expression<Func<T, bool>> expression, bool trackChanges = false) =>
             !trackChanges
                 ? _dbContext.Set<T>().Where(expression).AsNoTracking()
                 : _dbContext.Set<T>().Where(expression);
 
-        public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression, bool trackChanges = false,
+        public IQueryable<T> GetByCondition(Expression<Func<T, bool>> expression, bool trackChanges = false,
             params Expression<Func<T, object>>[] includeProperties)
         {
-            var items = FindByCondition(expression, trackChanges);
+            var items = GetByCondition(expression, trackChanges);
             items = includeProperties.Aggregate(items,
                 (current, includeProperties) => current.Include(includeProperties));
             return items;
         }
 
-        public async Task<T> GetByIdAsync(K id) => await FindByCondition(o => o.Id.Equals(id)).FirstOrDefaultAsync();
+        public async Task<T> GetByIdAsync(K id) => await GetByCondition(o => o.Id.Equals(id)).FirstOrDefaultAsync();
 
         public async Task<T> GetByIdAsync(K id, params Expression<Func<T, object>>[] includeProperties) =>
-            await FindByCondition(o => o.Id.Equals(id), trackChanges: false, includeProperties).FirstOrDefaultAsync();
+            await GetByCondition(o => o.Id.Equals(id), trackChanges: false, includeProperties).FirstOrDefaultAsync();
 
         public void Create(T entity)
         {

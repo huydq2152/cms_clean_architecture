@@ -17,25 +17,19 @@ public class PostCategoryRepository : RepositoryBase<PostCategory, int>, IPostCa
 
     public async Task<PostCategory> GetPostCategoryByIdAsync(int id)
     {
-        var result = await FindByCondition(o => o.Id.Equals(id)).FirstOrDefaultAsync();
+        var result = await GetByCondition(o => o.Id.Equals(id)).FirstOrDefaultAsync();
         return result;
-    }
-
-    public async Task<IEnumerable<PostCategory>> GetAllPostCategoriesAsync(bool trackChanges = false, bool isDeleted = false)
-    {
-        throw new NotImplementedException();
     }
 
     public async Task<IEnumerable<PostCategory>> GetAllPostCategoriesAsync()
     {
-        var result = await FindAll(false, o => o.IsDeleted.Equals(false)).ToListAsync();
+        var result = await GetByCondition(o => !o.IsDeleted).ToListAsync();
         return result;
     }
 
     public async Task<PagedList<PostCategory>> GetAllPostCategoryPagedAsync(PostCategoryPagingQueryInput query)
     {
-        var objQuery =  FindAll(false, o => o.IsDeleted.Equals(false))
-            .OrderBy(o => o.Code);
+        var objQuery = GetByCondition(o => !o.IsDeleted).OrderBy(o => o.Code);
         var result = await PagedList<PostCategory>.ToPagedList(objQuery, query.PageNumber, query.PageSize);
         return result;
     }

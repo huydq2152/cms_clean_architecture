@@ -16,11 +16,7 @@ try
     // Add services to the container.
     builder.Services.AddApplicationLayer();
     builder.Services.AddInfrastructureLayer(builder.Configuration);
-    builder.Services.AddInfrastructureServices();
-    
-    builder.Services.AddControllers();
-    builder.Services.AddEndpointsApiExplorer();
-    builder.Services.AddSwaggerGen();
+    builder.Services.AddWebApiLayer();
     
     var app = builder.Build();
 

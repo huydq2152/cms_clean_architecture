@@ -2,8 +2,6 @@
 using CleanArchitectureDemo.Application.Dtos.Posts;
 using CleanArchitectureDemo.Application.Interfaces.Repositories.Posts;
 using CleanArchitectureDemo.Application.Interfaces.Services.Posts;
-using Infrastructure.Common.Models;
-using Microsoft.AspNetCore.Http;
 
 namespace CleanArchitectureDemo.Infrastructure.Services.Posts;
 
@@ -18,24 +16,24 @@ public class PostCategoryService : IPostCategoryService
         _mapper = mapper;
     }
 
-    public async Task<IResult> GetPostCategoryByIdAsync(int id)
+    public async Task<PostCategoryDto> GetPostCategoryByIdAsync(int id)
     {
         var postCategory = await _postCategoryRepository.GetPostCategoryByIdAsync(id);
         var result = _mapper.Map<PostCategoryDto>(postCategory);
-        return Results.Ok(result);
+        return result;
     }
 
-    public async Task<IResult> GetAllPostCategoriesAsync()
+    public async Task<IEnumerable<PostCategoryDto>> GetAllPostCategoriesAsync()
     {
         var postCategories = await _postCategoryRepository.GetAllPostCategoriesAsync();
-        var result = _mapper.Map<List<PostCategoryDto>>(postCategories);
-        return Results.Ok(result);
+        var result = _mapper.Map<IEnumerable<PostCategoryDto>>(postCategories);
+        return result;
     }
 
-    public async Task<IResult> GetAllPostCategoryPagedAsync(PostCategoryPagingQueryInput query)
+    public async Task<IEnumerable<PostCategoryDto>> GetAllPostCategoryPagedAsync(PostCategoryPagingQueryInput query)
     {
         var postCategories = await _postCategoryRepository.GetAllPostCategoryPagedAsync(query);
-        var result = _mapper.Map<PagedList<PostCategoryDto>>(postCategories);
-        return Results.Ok(result);
+        var result = _mapper.Map<IEnumerable<PostCategoryDto>>(postCategories);
+        return result;
     }
 }
