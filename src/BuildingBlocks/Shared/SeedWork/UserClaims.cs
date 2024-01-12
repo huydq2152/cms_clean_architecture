@@ -1,4 +1,4 @@
-﻿namespace CleanArchitectureDemo.Domain.SeedWork;
+﻿namespace Shared.SeedWork;
 
 public class UserClaims
 {

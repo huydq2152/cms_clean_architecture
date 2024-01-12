@@ -1,4 +1,4 @@
-﻿namespace CleanArchitectureDemo.Application.Interfaces.Services.Common
+﻿namespace Contracts.Services
 {
     public interface IDateTimeService
     {

@@ -29,7 +29,6 @@ public static class ServiceExtensions
         });
 
         services.AddInfrastructureServices();
-        services.AddAutoMapper(cfg => cfg.AddProfile(new MappingProfile()));
 
         return services;
     }
@@ -39,5 +38,4 @@ public static class ServiceExtensions
         services.AddScoped<IPostCategoryRepository, PostCategoryRepository>()
             .AddScoped<IPostCategoryService, PostCategoryService>();
     }
-    
 }

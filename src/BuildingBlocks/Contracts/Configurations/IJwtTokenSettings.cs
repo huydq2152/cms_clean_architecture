@@ -1,6 +1,6 @@
-﻿namespace CleanArchitectureDemo.Domain.ConfigOptions;
+﻿namespace Contracts.Configurations;
 
-public class JwtTokenSettings
+public interface IJwtTokenSettings
 {
     public string Key { get; set; }
     public string Issuer { get; set; }

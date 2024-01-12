@@ -61,7 +61,8 @@ public class ApplicationContextSeed
         var adminRole = new AppRole()
         {
             Name = "Admin",
-            DisplayName = "Admin"
+            NormalizedName = "ADMIN",
+            DisplayName = "Quản trị viên"
         };
 
         if (_roleManager.Roles.All(r => r.Name != adminRole.Name))
@@ -72,12 +73,19 @@ public class ApplicationContextSeed
         // Default users
         var admin = new AppUser()
         {
-            FirstName = "Huy",
-            LastName = "Dang", 
-            IsActive = true, 
-            UserName = "admin", 
-            Email = "admin@gmail.com"
+            FirstName = "Dang",
+            LastName = "Huy",
+            Email = "admin@gmail.com",
+            NormalizedEmail = "ADMIN@GMAIL.COM",
+            UserName = "admin",
+            NormalizedUserName = "ADMIN",
+            IsActive = true,
+            SecurityStamp = Guid.NewGuid().ToString(),
+            LockoutEnabled = false,
+            CreationTime = DateTime.Now
         };
+        var passwordHasher = new PasswordHasher<AppUser>();
+        admin.PasswordHash = passwordHasher.HashPassword(admin, "123qwe");
 
         if (_userManager.Users.All(u => u.UserName != admin.UserName))
         {

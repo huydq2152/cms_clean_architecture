@@ -1,4 +1,4 @@
-﻿namespace CleanArchitectureDemo.Domain.Exceptions;
+﻿namespace Contracts.Exceptions;
 
 public class EntityNotFoundException : ApplicationException
 {

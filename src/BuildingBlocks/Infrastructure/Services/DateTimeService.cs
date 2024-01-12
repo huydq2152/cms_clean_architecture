@@ -1,6 +1,6 @@
-﻿using CleanArchitectureDemo.Application.Interfaces.Services.Common;
+﻿using Contracts.Services;
 
-namespace CleanArchitectureDemo.Infrastructure.Services.Common
+namespace Infrastructure.Services
 {
     public class DateTimeService : IDateTimeService
     {

@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 
 using System.Reflection;
+using CleanArchitectureDemo.Application.Dtos.Posts;
+using CleanArchitectureDemo.Domain.Entities.Post;
 
 namespace CleanArchitectureDemo.Application.Common.Mappings
 {
@@ -9,6 +11,9 @@ namespace CleanArchitectureDemo.Application.Common.Mappings
         public MappingProfile()
         {
             ApplyMappingsFromAssembly(Assembly.GetExecutingAssembly());
+            CreateMap<PostCategory, PostCategoryDto>().ReverseMap();
+            CreateMap<PostCategory, CreatePostCategoryDto>().ReverseMap();
+            CreateMap<PostCategory, UpdatePostCategoryDto>().ReverseMap();
         }
 
         private void ApplyMappingsFromAssembly(Assembly assembly)

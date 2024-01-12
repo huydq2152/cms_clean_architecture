@@ -1,6 +1,6 @@
-﻿using CleanArchitectureDemo.Application.Interfaces.Services.Common;
-using CleanArchitectureDemo.Application.Interfaces.Services.User;
+﻿using CleanArchitectureDemo.Application.Interfaces.Services.User;
 using Contracts.Domains.Interfaces;
+using Contracts.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
