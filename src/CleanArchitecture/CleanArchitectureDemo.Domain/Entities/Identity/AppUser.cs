@@ -16,6 +16,12 @@ public class AppUser: IdentityUser<int>
    public string LastName { get; set; }
    
    public bool IsActive { get; set; }
-   public string RefreshToken { get; set; }
-   public string RefreshTokenExpireTime { get; set; }
+   public string? RefreshToken { get; set; }
+   public DateTime? RefreshTokenExpiryTime { get; set; }
+   public DateTime? Dob { get; set; }
+   
+   public string GetFullName()
+   {
+      return FirstName + " " + LastName;
+   }
 }

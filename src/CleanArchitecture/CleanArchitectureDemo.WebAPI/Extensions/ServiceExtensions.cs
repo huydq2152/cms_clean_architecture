@@ -39,4 +39,5 @@ public static class ServiceExtensions
         services.AddScoped<IPostCategoryRepository, PostCategoryRepository>()
             .AddScoped<IPostCategoryService, PostCategoryService>();
     }
+    
 }

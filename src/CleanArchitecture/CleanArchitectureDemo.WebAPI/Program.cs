@@ -1,4 +1,3 @@
-using CleanArchitectureDemo.Application.Extensions;
 using CleanArchitectureDemo.Infrastructure.Extensions;
 using CleanArchitectureDemo.Infrastructure.Persistence.Contexts;
 using CleanArchitectureDemo.WebAPI.Extensions;
@@ -14,7 +13,6 @@ try
 {
     builder.Host.AddAppConfigurations();
     // Add services to the container.
-    builder.Services.AddApplicationLayer();
     builder.Services.AddInfrastructureLayer(builder.Configuration);
     builder.Services.AddWebApiLayer();
     
