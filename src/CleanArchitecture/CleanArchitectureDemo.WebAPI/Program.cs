@@ -37,6 +37,7 @@ try
     }
 
     app.UseHttpsRedirection();
+    app.UseAuthentication(); 
     app.UseAuthorization();
     app.MapDefaultControllerRoute();
 

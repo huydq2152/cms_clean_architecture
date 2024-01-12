@@ -29,6 +29,12 @@ namespace CleanArchitectureDemo.Infrastructure.Persistence.Contexts
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+            foreach (var entityType in modelBuilder.Model.GetEntityTypes ()) {
+                var tableName = entityType.GetTableName ();
+                if (tableName != null && tableName.StartsWith ("AspNet")) {
+                    entityType.SetTableName (tableName[6..]);
+                }
+            }
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
