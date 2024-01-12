@@ -25,7 +25,12 @@ try
     if (app.Environment.IsDevelopment())
     {
         app.UseSwagger();
-        app.UseSwaggerUI();
+        app.UseSwaggerUI(options =>
+        {
+            options.SwaggerEndpoint("AdminAPI/swagger.json", "Amin API");
+            options.DisplayOperationId();
+            options.DisplayRequestDuration();
+        });
         app.UseDeveloperExceptionPage();
     }
     
