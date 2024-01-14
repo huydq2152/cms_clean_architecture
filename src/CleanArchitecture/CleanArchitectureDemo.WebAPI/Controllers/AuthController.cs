@@ -1,11 +1,12 @@
-﻿using System.Security.Claims;
+﻿using System.Reflection;
+using System.Security.Claims;
 using CleanArchitectureDemo.Application.Interfaces.Services.Auth;
 using CleanArchitectureDemo.Domain.Entities.Identity;
 using Infrastructure.Common.Models.Auth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.JsonWebTokens;
-using Shared.SeedWork;
+using Shared.SeedWork.Auth;
 
 namespace CleanArchitectureDemo.WebAPI.Controllers;
 
@@ -14,14 +15,18 @@ public class AuthController : ApiControllerBase
     private readonly UserManager<AppUser> _userManager;
     private readonly SignInManager<AppUser> _signInManager;
     private readonly ITokenService _tokenService;
+    private readonly RoleManager<AppRole> _roleManager;
+    private readonly IClaimService _claimService;
 
     public AuthController(UserManager<AppUser> userManager,
         SignInManager<AppUser> signInManager,
-        ITokenService tokenService)
+        ITokenService tokenService, RoleManager<AppRole> roleManager, IClaimService claimService)
     {
         _userManager = userManager;
         _signInManager = signInManager;
         _tokenService = tokenService;
+        _roleManager = roleManager;
+        _claimService = claimService;
     }
 
     [HttpPost]
@@ -70,5 +75,36 @@ public class AuthController : ApiControllerBase
             Token = accessToken,
             RefreshToken = refreshToken
         });
+    }
+
+    private async Task<List<string>> GetPermissionsByUserIdAsync(string userId)
+    {
+        var user = await _userManager.FindByIdAsync(userId);
+        var roles = await _userManager.GetRolesAsync(user);
+        var permissions = new List<string>();
+
+        var allPermissions = new List<RoleClaims>();
+        if (roles.Contains(Roles.Admin))
+        {
+            var types = typeof(Permissions).GetTypeInfo().DeclaredNestedTypes;
+            foreach (var type in types)
+            {
+                _claimService.GetPermissions(allPermissions, type);
+            }
+
+            permissions.AddRange(allPermissions.Select(x => x.Value));
+        }
+        else
+        {
+            foreach (var roleName in roles)
+            {
+                var role = await _roleManager.FindByNameAsync(roleName);
+                var claims = await _roleManager.GetClaimsAsync(role);
+                var roleClaimValues = claims.Select(x => x.Value).ToList();
+                permissions.AddRange(roleClaimValues);
+            }
+        }
+
+        return permissions.Distinct().ToList();
     }
 }

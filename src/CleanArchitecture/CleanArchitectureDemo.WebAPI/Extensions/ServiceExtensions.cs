@@ -3,7 +3,9 @@ using CleanArchitectureDemo.Application.Interfaces.Repositories.Posts;
 using CleanArchitectureDemo.Application.Interfaces.Services.Posts;
 using CleanArchitectureDemo.Infrastructure.Repositories;
 using CleanArchitectureDemo.Infrastructure.Services.Posts;
+using CleanArchitectureDemo.WebAPI.Filter;
 using Microsoft.OpenApi.Models;
+using Shared.SeedWork;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace CleanArchitectureDemo.WebAPI.Extensions;

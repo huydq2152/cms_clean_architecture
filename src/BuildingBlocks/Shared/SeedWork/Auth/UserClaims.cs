@@ -1,4 +1,4 @@
-﻿namespace Shared.SeedWork;
+﻿namespace Shared.SeedWork.Auth;
 
 public class UserClaims
 {

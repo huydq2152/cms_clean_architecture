@@ -69,13 +69,15 @@ namespace CleanArchitectureDemo.Infrastructure.Extensions
                 options.User.RequireUniqueEmail = false;
             });
         }
-        
-        private static void AddAuthenticationAndAuthorization(this IServiceCollection services, IConfiguration configuration)
+
+        private static void AddAuthenticationAndAuthorization(this IServiceCollection services,
+            IConfiguration configuration)
         {
             services.Configure<JwtTokenSettings>(configuration.GetSection("JwtTokenSettings"));
             services.AddScoped<SignInManager<AppUser>, SignInManager<AppUser>>();
             services.AddScoped<UserManager<AppUser>, UserManager<AppUser>>();
             services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IClaimService, ClaimService>();
             services.AddScoped<RoleManager<AppRole>, RoleManager<AppRole>>();
         }
     }
