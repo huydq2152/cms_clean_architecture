@@ -1,7 +1,8 @@
 using CleanArchitectureDemo.Infrastructure.Extensions;
-using CleanArchitectureDemo.Infrastructure.Persistence.Contexts;
 using CleanArchitectureDemo.WebAPI.Extensions;
 using Logging;
+using Persistence.Contexts;
+using Persistence.Extensions;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,7 +14,8 @@ try
 {
     builder.Host.AddAppConfigurations();
     // Add services to the container.
-    builder.Services.AddInfrastructureLayer(builder.Configuration);
+    builder.Services.AddInfrastructureLayer();
+    builder.Services.AddPersistenceLayer(builder.Configuration);
     builder.Services.AddWebApiLayer();
     
     var app = builder.Build();

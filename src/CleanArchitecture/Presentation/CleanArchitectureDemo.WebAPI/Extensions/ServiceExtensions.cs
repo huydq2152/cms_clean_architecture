@@ -1,11 +1,5 @@
-﻿using System.Reflection;
-using CleanArchitectureDemo.Application.Interfaces.Repositories.Posts;
-using CleanArchitectureDemo.Application.Interfaces.Services.Posts;
-using CleanArchitectureDemo.Infrastructure.Repositories;
-using CleanArchitectureDemo.Infrastructure.Services.Posts;
-using CleanArchitectureDemo.WebAPI.Filter;
+﻿using CleanArchitectureDemo.WebAPI.Filter;
 using Microsoft.OpenApi.Models;
-using Shared.SeedWork;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace CleanArchitectureDemo.WebAPI.Extensions;
@@ -30,14 +24,6 @@ public static class ServiceExtensions
             options.ParameterFilter<SwaggerNullableParameterFilter>();
         });
 
-        services.AddInfrastructureServices();
-
         return services;
-    }
-
-    private static void AddInfrastructureServices(this IServiceCollection services)
-    {
-        services.AddScoped<IPostCategoryRepository, PostCategoryRepository>()
-            .AddScoped<IPostCategoryService, PostCategoryService>();
     }
 }

@@ -1,11 +1,11 @@
 ﻿using System.Reflection;
 using CleanArchitectureDemo.Domain.Entities.Identity;
 using CleanArchitectureDemo.Domain.Entities.Post;
-using CleanArchitectureDemo.Infrastructure.Persistence.Interceptors;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Persistence.Interceptors;
 
-namespace CleanArchitectureDemo.Infrastructure.Persistence.Contexts
+namespace Persistence.Contexts
 {
     public class ApplicationDbContext : IdentityDbContext<AppUser, AppRole, int>
     {

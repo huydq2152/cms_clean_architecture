@@ -1,11 +1,10 @@
 ﻿using System.Collections;
-using CleanArchitectureDemo.Application.Interfaces.Repositories;
-using CleanArchitectureDemo.Infrastructure.Common.Repositories;
-using CleanArchitectureDemo.Infrastructure.Persistence.Contexts;
 using Contracts.Common.Interfaces;
 using Contracts.Domains;
+using Persistence.Common.Repositories;
+using Persistence.Contexts;
 
-namespace CleanArchitectureDemo.Infrastructure.Common
+namespace Persistence.Common
 {
     public class UnitOfWork : IUnitOfWork
     {

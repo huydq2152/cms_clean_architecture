@@ -1,10 +1,9 @@
-﻿using System.Reflection;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using Shared;
 
-namespace CleanArchitectureDemo.Infrastructure.Persistence.Contexts;
+namespace Persistence.Contexts;
 
 public class ApplicationContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
 {

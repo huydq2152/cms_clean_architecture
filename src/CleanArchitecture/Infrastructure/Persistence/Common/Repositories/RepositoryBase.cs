@@ -1,10 +1,10 @@
 ﻿using System.Linq.Expressions;
-using CleanArchitectureDemo.Infrastructure.Persistence.Contexts;
 using Contracts.Common.Interfaces;
 using Contracts.Domains;
 using Microsoft.EntityFrameworkCore;
+using Persistence.Contexts;
 
-namespace CleanArchitectureDemo.Infrastructure.Common.Repositories
+namespace Persistence.Common.Repositories
 {
     public class RepositoryBase<T, K> : IRepositoryBase<T, K> where T : EntityBase<K>
     {

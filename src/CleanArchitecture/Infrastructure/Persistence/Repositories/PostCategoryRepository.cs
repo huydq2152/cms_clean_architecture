@@ -1,13 +1,13 @@
 ﻿using CleanArchitectureDemo.Application.Dtos.Posts;
 using CleanArchitectureDemo.Application.Interfaces.Repositories.Posts;
 using CleanArchitectureDemo.Domain.Entities.Post;
-using CleanArchitectureDemo.Infrastructure.Common.Repositories;
-using CleanArchitectureDemo.Infrastructure.Persistence.Contexts;
 using Contracts.Common.Interfaces;
 using Infrastructure.Common.Models;
 using Microsoft.EntityFrameworkCore;
+using Persistence.Common.Repositories;
+using Persistence.Contexts;
 
-namespace CleanArchitectureDemo.Infrastructure.Repositories;
+namespace Persistence.Repositories;
 
 public class PostCategoryRepository : RepositoryBase<PostCategory, int>, IPostCategoryRepository
 {

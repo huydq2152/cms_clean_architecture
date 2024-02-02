@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
-namespace CleanArchitectureDemo.Infrastructure.Persistence.Contexts;
+namespace Persistence.Contexts;
 
 public class ApplicationContextSeed
 {

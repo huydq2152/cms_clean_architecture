@@ -2,6 +2,8 @@
 using System.Security.Claims;
 using CleanArchitectureDemo.Application.Interfaces.Services.Auth;
 using CleanArchitectureDemo.Domain.Entities.Identity;
+using Contracts.Common.Interfaces;
+using Infrastructure.Common;
 using Infrastructure.Common.Models.Auth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -17,16 +19,19 @@ public class AuthController : ApiControllerBase
     private readonly ITokenService _tokenService;
     private readonly RoleManager<AppRole> _roleManager;
     private readonly IClaimService _claimService;
+    private readonly ISerializeService _serializeService;
 
     public AuthController(UserManager<AppUser> userManager,
         SignInManager<AppUser> signInManager,
-        ITokenService tokenService, RoleManager<AppRole> roleManager, IClaimService claimService)
+        ITokenService tokenService, RoleManager<AppRole> roleManager, IClaimService claimService,
+        ISerializeService serializeService)
     {
         _userManager = userManager;
         _signInManager = signInManager;
         _tokenService = tokenService;
         _roleManager = roleManager;
         _claimService = claimService;
+        _serializeService = serializeService;
     }
 
     [HttpPost]
@@ -52,6 +57,7 @@ public class AuthController : ApiControllerBase
 
         //Authorization
         var roles = await _userManager.GetRolesAsync(user);
+        var permissions = await this.GetPermissionsByUserIdAsync(user.Id.ToString());
         var claims = new[]
         {
             new Claim(JwtRegisteredClaimNames.Email, user.Email),
@@ -60,7 +66,7 @@ public class AuthController : ApiControllerBase
             new Claim(ClaimTypes.Name, user.UserName),
             new Claim(UserClaims.FirstName, user.FirstName),
             new Claim(UserClaims.Roles, string.Join(";", roles)),
-            //new Claim(UserClaims.Permissions, JsonSerializer.Serialize(permissions)),
+            new Claim(UserClaims.Permissions, _serializeService.Serialize(permissions)),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
         var accessToken = _tokenService.GenerateAccessToken(claims);
