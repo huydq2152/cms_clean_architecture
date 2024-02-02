@@ -1,4 +1,5 @@
-﻿using Contracts.Domains;
+﻿using Contracts.Common.Interfaces.Repositories;
+using Contracts.Domains;
 
 namespace Contracts.Common.Interfaces
 {

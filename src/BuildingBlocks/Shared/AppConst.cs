@@ -2,5 +2,5 @@
 
 public class AppConst
 {
-    public const string WebApiProjectName = "CleanArchitectureDemo.WebApi";
+    public const string WebApiProjectName = "CleanArchitecture.WebApi";
 }
