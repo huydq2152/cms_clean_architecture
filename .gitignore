@@ -358,6 +358,3 @@ tempkey.jwk
 # documentation
 docs/TODO/*
 docs/bg/*
-
-
-Infrastructure/CleanArchitecture.Persistence/Migrations
