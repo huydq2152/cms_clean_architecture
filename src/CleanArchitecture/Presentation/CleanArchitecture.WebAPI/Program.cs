@@ -35,6 +35,11 @@ try
         });
         app.UseDeveloperExceptionPage();
     }
+    // else
+    // {
+    //     app.UseExceptionHandler("/Home/Error");
+    //     app.UseHsts();
+    // }
     
     using (var scope = app.Services.CreateScope())
     {

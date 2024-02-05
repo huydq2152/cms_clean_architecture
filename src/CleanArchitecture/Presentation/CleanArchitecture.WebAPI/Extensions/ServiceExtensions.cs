@@ -15,7 +15,7 @@ public static class ServiceExtensions
         {
             options.CustomOperationIds(description =>
                 description.TryGetMethodInfo(out var methodInfo) ? methodInfo.Name : null);
-            options.SwaggerDoc("Admin API", new OpenApiInfo
+            options.SwaggerDoc("AdminAPI", new OpenApiInfo
             {
                 Title = "Admin API",
                 Version = "v1",
