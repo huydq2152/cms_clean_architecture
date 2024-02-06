@@ -3,6 +3,7 @@ using CleanArchitecture.Domain.Entities.Identity;
 using CleanArchitecture.Persistence.Common;
 using CleanArchitecture.Persistence.Common.Repositories;
 using CleanArchitecture.Persistence.Contexts;
+using CleanArchitecture.Persistence.Contexts.Seed;
 using CleanArchitecture.Persistence.Interceptors;
 using CleanArchitecture.Persistence.Repositories;
 using Contracts.Common.Interfaces;

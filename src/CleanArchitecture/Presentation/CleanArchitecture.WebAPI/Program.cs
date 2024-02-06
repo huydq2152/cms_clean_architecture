@@ -1,6 +1,7 @@
 using CleanArchitecture.Application.Extensions;
 using CleanArchitecture.Infrastructure.Extensions;
 using CleanArchitecture.Persistence.Contexts;
+using CleanArchitecture.Persistence.Contexts.Seed;
 using CleanArchitecture.Persistence.Extensions;
 using CleanArchitecture.WebAPI.Extensions;
 using Logging;

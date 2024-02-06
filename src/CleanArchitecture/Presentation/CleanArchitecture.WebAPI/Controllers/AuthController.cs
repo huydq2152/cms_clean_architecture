@@ -91,7 +91,7 @@ public class AuthController : ApiControllerBase
         var permissions = new List<string>();
 
         var allPermissions = new List<RoleClaims>();
-        if (roles.Contains(Roles.Admin))
+        if (roles.Contains(StaticRoles.AdminRoleName))
         {
             var types = typeof(Permissions).GetTypeInfo().DeclaredNestedTypes;
             foreach (var type in types)
