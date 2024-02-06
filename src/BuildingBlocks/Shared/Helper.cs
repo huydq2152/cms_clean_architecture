@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using Shared.Extensions;
 using shortid;
 using shortid.Configuration;
 
@@ -8,6 +9,55 @@ public static class Helper
 {
     public static class StringHelper
     {
+        public static class DateTimeHelper
+        {
+            #region QuarterRange
+
+            public static (DateTime startDate, DateTime endDate) GetQuarterRange(int quarter, int year)
+            {
+                var targetDate = new DateTime(year, quarter * 3, 1);
+                var result = GetQuarterRange(targetDate);
+                return (result.startDate, result.endDate);
+            }
+
+            private static (DateTime startDate, DateTime endDate) GetQuarterRange(DateTime input)
+            {
+                var inputMonth = input.Month;
+                var inputYear = input.Year;
+
+                var startDate = new DateTime();
+                var endDate = new DateTime();
+
+                if (inputMonth.IsBetween(1, 3))
+                {
+                    startDate = new DateTime(inputYear, 1, 1);
+                    endDate = startDate.AddMonths(3).AddMinutes(-1);
+                }
+
+                if (inputMonth.IsBetween(4, 6))
+                {
+                    startDate = new DateTime(inputYear, 4, 1);
+                    endDate = startDate.AddMonths(3).AddMinutes(-1);
+                }
+
+                if (inputMonth.IsBetween(7, 9))
+                {
+                    startDate = new DateTime(inputYear, 7, 1);
+                    endDate = startDate.AddMonths(3).AddMinutes(-1);
+                }
+
+                if (inputMonth.IsBetween(10, 12))
+                {
+                    startDate = new DateTime(inputYear, 10, 1);
+                    endDate = startDate.AddMonths(3).AddMinutes(-1);
+                }
+
+                return (startDate, endDate);
+            }
+
+            #endregion
+        }
+
         public static string RemoveVietnameseTone(string text)
         {
             var result = RemoveSymbol(text.ToLower());
@@ -20,18 +70,19 @@ public static class Helper
             result = Regex.Replace(result, "đ", "d");
             return result;
         }
-        
+
         public static string RemoveSymbol(string input)
         {
-            return Regex.Replace(input, @"[^a-zA-Z0-9]", string.Empty);;
+            return Regex.Replace(input, @"[^a-zA-Z0-9]", string.Empty);
+            ;
         }
-        
+
         public static string Identity()
         {
-            return "A" + Guid.NewGuid().ToString().Replace("-","").ToUpper();
+            return "A" + Guid.NewGuid().ToString().Replace("-", "").ToUpper();
         }
-        
-        public static string ShortIdentity(int length=8, bool useSpecialChar = false, bool useNumber = true)
+
+        public static string ShortIdentity(int length = 8, bool useSpecialChar = false, bool useNumber = true)
         {
             if (length < 8)
                 length = 8;
@@ -42,7 +93,7 @@ public static class Helper
                 UseNumbers = true
             }).ToUpper();
         }
-        
+
         public static string CodeFormat(string formatInput, string suffixCode)
         {
             var res = formatInput;
@@ -52,7 +103,7 @@ public static class Helper
             res = prefix + suffixCode;
             return res;
         }
-        
+
         public static string ShortCodeFromString(string input)
         {
             var res = "";
@@ -80,7 +131,7 @@ public static class Helper
                 return "";
             }
         }
-        
+
         public static string UpperFirstChar(string input)
         {
             if (string.IsNullOrEmpty(input)) return input;
@@ -91,10 +142,10 @@ public static class Helper
 
         public static string CharByIndex(int index)
         {
-            char[] arrayTitle = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'};
+            char[] arrayTitle = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J' };
             return arrayTitle[index].ToString();
         }
-        
+
         public static string NewLineByWord(string input, string seperator, int rangeSize)
         {
             if (string.IsNullOrEmpty(input) || string.IsNullOrWhiteSpace(input)) return input;
@@ -117,8 +168,8 @@ public static class Helper
 
             return string.Join(seperator, tempWords);
         }
-        
-        public static string ShortTextByWord(string input, int rangeSize=15)
+
+        public static string ShortTextByWord(string input, int rangeSize = 15)
         {
             if (string.IsNullOrEmpty(input) || string.IsNullOrWhiteSpace(input)) return input;
             var words = input.Split(' ').ToList();
