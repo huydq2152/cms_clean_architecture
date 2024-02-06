@@ -1,7 +1,9 @@
 ﻿using CleanArchitecture.Domain.Entities.Identity;
+using CleanArchitecture.Domain.Entities.Post;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using Shared;
 
 namespace CleanArchitecture.Persistence.Contexts;
 
@@ -91,6 +93,34 @@ public class ApplicationContextSeed
         {
             await _userManager.CreateAsync(admin, "123qwe");
             await _userManager.AddToRolesAsync(admin, new[] { adminRole.Name });
+        }
+        
+        // Default post categories
+        var postCategories = new List<PostCategory>
+        {
+            new()
+            {
+                Code = Helper.StringHelper.ShortIdentity(),
+                Name = "Technology",
+                CreationTime = DateTime.Now
+            },
+            new()
+            {
+                Code = Helper.StringHelper.ShortIdentity(),
+                Name = "Health",
+                CreationTime = DateTime.Now
+            },
+            new()
+            {
+                Code = Helper.StringHelper.ShortIdentity(),
+                Name = "Education",
+                CreationTime = DateTime.Now
+            }
+        };
+        
+        if(!_dbContext.PostCategories.Any())
+        {
+            await _dbContext.PostCategories.AddRangeAsync(postCategories);
         }
     }
 }

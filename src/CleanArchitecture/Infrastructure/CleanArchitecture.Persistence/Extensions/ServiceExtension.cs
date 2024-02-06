@@ -3,6 +3,7 @@ using CleanArchitecture.Domain.Entities.Identity;
 using CleanArchitecture.Persistence.Common;
 using CleanArchitecture.Persistence.Common.Repositories;
 using CleanArchitecture.Persistence.Contexts;
+using CleanArchitecture.Persistence.Interceptors;
 using CleanArchitecture.Persistence.Repositories;
 using Contracts.Common.Interfaces;
 using Contracts.Common.Interfaces.Repositories;
@@ -34,9 +35,15 @@ public static class ServiceExtension
 
     private static void AddDbContext(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
-                builder => builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
+        var connectionString = configuration.GetConnectionString("DefaultConnection");
+        if (string.IsNullOrEmpty(connectionString))
+            throw new ArgumentNullException("Connection string 'DefaultConnection' not found.");
+        services.AddDbContext<ApplicationDbContext>((serviceProvider, options) =>
+        {
+            options.AddInterceptors(serviceProvider.GetServices<AuditableEntitySaveChangesInterceptor>());
+            options.UseSqlServer(connectionString,
+                builder => builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName));
+        });
     }
 
     private static void AddIdentity(this IServiceCollection services)

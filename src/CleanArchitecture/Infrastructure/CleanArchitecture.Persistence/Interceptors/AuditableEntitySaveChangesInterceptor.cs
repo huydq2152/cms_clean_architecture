@@ -38,20 +38,47 @@ public class AuditableEntitySaveChangesInterceptor : SaveChangesInterceptor
     private void UpdateEntities(DbContext? context)
     {
         if (context == null) return;
+        var modified = context.ChangeTracker.Entries().Where(o =>
+            o.State == EntityState.Added || 
+            o.State == EntityState.Modified || 
+            o.State == EntityState.Deleted ||
+            o.HasChangedOwnedEntities());
 
-        foreach (var entry in context.ChangeTracker.Entries<IFullAuditedEntityBase>())
+        foreach (var item in modified)
         {
-            if (entry.State == EntityState.Added)
+            switch (item.State)
             {
-                entry.Entity.CreatorUserId = _currentUserService.UserId;
-                entry.Entity.CreationTime = _dateTimeService.Now;
-            }
+                case EntityState.Added:
+                    if (item.Entity is ICreationAudited addedEntity)
+                    {
+                        addedEntity.CreationTime = _dateTimeService.Now;
+                        addedEntity.CreatorUserId = _currentUserService.UserId;
+                        item.State = EntityState.Added;
+                    }
 
-            if (entry.State == EntityState.Added || entry.State == EntityState.Modified ||
-                entry.HasChangedOwnedEntities())
-            {
-                entry.Entity.LastModifiedUserId = _currentUserService.UserId;
-                entry.Entity.LastModificationTime = _dateTimeService.Now;
+                    break;
+
+                case EntityState.Modified:
+                    context.Entry(item.Entity).Property("Id").IsModified = false;
+                    if (item.Entity is IModificationAudited modifiedEntity)
+                    {
+                        modifiedEntity.LastModificationTime = _dateTimeService.Now;
+                        modifiedEntity.LastModifiedUserId = _currentUserService.UserId;
+                        item.State = EntityState.Modified;
+                    }
+
+                    break;
+
+                case EntityState.Deleted:
+                    if (item.Entity is IDeletionAudited deletedEntity)
+                    {
+                        deletedEntity.DeletionTime = _dateTimeService.Now;
+                        deletedEntity.DeleterUserId = _currentUserService.UserId;
+                        deletedEntity.IsDeleted = true;
+                        item.State = EntityState.Deleted;
+                    }
+
+                    break;
             }
         }
     }

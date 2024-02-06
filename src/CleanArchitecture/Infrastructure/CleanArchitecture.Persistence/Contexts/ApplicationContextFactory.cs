@@ -11,13 +11,17 @@ public class ApplicationContextFactory : IDesignTimeDbContextFactory<Application
     {
         var connectionString = ReadDefaultConnectionStringFromAppSettings();
         var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
+        
+        if(connectionString == null)
+            throw new ArgumentNullException("Connection string 'DefaultConnection' not found.");
+        
         optionsBuilder.UseSqlServer(connectionString,
             builder => builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName));
         optionsBuilder.EnableSensitiveDataLogging();
         return new ApplicationDbContext(optionsBuilder.Options);
     }
 
-    private static string ReadDefaultConnectionStringFromAppSettings()
+    private string? ReadDefaultConnectionStringFromAppSettings()
     {
         var envName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
         var configuration = new ConfigurationBuilder()

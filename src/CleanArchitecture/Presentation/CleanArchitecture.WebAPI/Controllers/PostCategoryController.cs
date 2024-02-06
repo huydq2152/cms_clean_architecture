@@ -1,6 +1,5 @@
 ﻿using CleanArchitecture.Application.Dtos.Posts;
 using CleanArchitecture.Application.Interfaces.Services.Posts;
-using CleanArchitecture.WebAPI.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 using Shared;
