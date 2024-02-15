@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MetaData = Shared.SeedWork.MetaData;
 
-namespace Infrastructure.Common.Models;
+namespace Infrastructure.Common.Models.Paging;
 
 public class PagedList<T>: List<T>
 {

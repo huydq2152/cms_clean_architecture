@@ -1,6 +1,8 @@
 ﻿using System.Reflection;
 using AutoMapper;
+using CleanArchitecture.Application.Dtos.Auth;
 using CleanArchitecture.Application.Dtos.Posts;
+using CleanArchitecture.Domain.Entities.Identity;
 using CleanArchitecture.Domain.Entities.Post;
 
 namespace CleanArchitecture.Application.Common.Mappings
@@ -10,9 +12,21 @@ namespace CleanArchitecture.Application.Common.Mappings
         public MappingProfile()
         {
             ApplyMappingsFromAssembly(Assembly.GetExecutingAssembly());
+            
+            #region Auth
+
+            CreateMap<AppRole, RoleDto>();
+
+            #endregion
+            
+            #region Post
+
             CreateMap<PostCategory, PostCategoryDto>().ReverseMap();
             CreateMap<PostCategory, CreatePostCategoryDto>().ReverseMap();
             CreateMap<PostCategory, UpdatePostCategoryDto>().ReverseMap();
+
+            #endregion
+            
         }
 
         private void ApplyMappingsFromAssembly(Assembly assembly)

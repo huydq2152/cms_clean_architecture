@@ -15,7 +15,7 @@ try
 {
     builder.Host.AddAppConfigurations();
     // Add services to the container.
-    builder.Services.AddApplicationLayer(builder.Configuration);
+    builder.Services.AddApplicationLayer();
     builder.Services.AddInfrastructureLayer();
     builder.Services.AddPersistenceLayer(builder.Configuration);
     builder.Services.AddWebApiLayer();

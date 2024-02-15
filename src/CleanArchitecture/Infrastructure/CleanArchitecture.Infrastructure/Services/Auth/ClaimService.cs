@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Reflection;
 using System.Security.Claims;
+using CleanArchitecture.Application.Dtos.Auth;
 using CleanArchitecture.Application.Interfaces.Services.Auth;
 using CleanArchitecture.Domain.Entities.Identity;
 using Infrastructure.Common.Models.Auth;
@@ -10,7 +11,7 @@ namespace CleanArchitecture.Infrastructure.Services.Auth;
 
 public class ClaimService: IClaimService
 {
-    public void GetPermissions(List<RoleClaims> allPermissions, Type policy)
+    public void GetPermissions(List<RoleClaimsDto> allPermissions, Type policy)
     {
         FieldInfo[] fields = policy.GetFields(BindingFlags.Static | BindingFlags.Public);
         foreach (FieldInfo fi in fields)
@@ -23,7 +24,7 @@ public class ClaimService: IClaimService
                 var description = (DescriptionAttribute)attribute[0];
                 displayName = description.Description;
             }
-            allPermissions.Add(new RoleClaims { Value = fi.GetValue(null).ToString(), Type = "Permissions", DisplayName = displayName });
+            allPermissions.Add(new RoleClaimsDto { Value = fi.GetValue(null).ToString(), Type = "Permissions", DisplayName = displayName });
         }
     }
 

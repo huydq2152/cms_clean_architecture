@@ -2,7 +2,7 @@
 
 namespace Shared.SeedWork.Auth;
 
-public class Permissions
+public static class StaticPermissions
 {
     public static class Dashboard
     {
@@ -31,21 +31,5 @@ public class Permissions
         [Description("Tạo danh mục bài viết")] public const string Create = "Permissions.PostCategories.Create";
         [Description("Sửa danh mục bài viết")] public const string Edit = "Permissions.PostCategories.Edit";
         [Description("Xóa danh mục bài viết")] public const string Delete = "Permissions.UsPostCategoriesers.Delete";
-    }
-
-    public static class Posts
-    {
-        [Description("Xem bài viết")] public const string View = "Permissions.Posts.View";
-        [Description("Tạo bài viết")] public const string Create = "Permissions.Posts.Create";
-        [Description("Sửa bài viết")] public const string Edit = "Permissions.Posts.Edit";
-        [Description("Xóa bài viết")] public const string Delete = "Permissions.Posts.Delete";
-    }
-
-    public static class Series
-    {
-        [Description("Xem loạt bài")] public const string View = "Permissions.Series.View";
-        [Description("Tạo loạt bài")] public const string Create = "Permissions.Series.Create";
-        [Description("Sửa loạt bài")] public const string Edit = "Permissions.Series.Edit";
-        [Description("Xóa loạt bài")] public const string Delete = "Permissions.Series.Delete";
     }
 }

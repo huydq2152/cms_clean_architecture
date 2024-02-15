@@ -1,4 +1,6 @@
-﻿using CleanArchitecture.WebAPI.Filter;
+﻿using CleanArchitecture.WebAPI.Auth;
+using CleanArchitecture.WebAPI.Filter;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -8,6 +10,7 @@ public static class ServiceExtensions
 {
     public static IServiceCollection AddWebApiLayer(this IServiceCollection services)
     {
+        services.AddServices();
         services.AddControllers();
         services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
         services.AddEndpointsApiExplorer();
@@ -25,5 +28,11 @@ public static class ServiceExtensions
         });
 
         return services;
+    }
+    
+    private static void AddServices(this IServiceCollection services)
+    {
+        services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>()
+            .AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
     }
 }

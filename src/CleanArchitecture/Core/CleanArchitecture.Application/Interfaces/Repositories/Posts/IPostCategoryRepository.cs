@@ -2,6 +2,7 @@
 using CleanArchitecture.Domain.Entities.Post;
 using Contracts.Common.Interfaces.Repositories;
 using Infrastructure.Common.Models;
+using Infrastructure.Common.Models.Paging;
 
 namespace CleanArchitecture.Application.Interfaces.Repositories.Posts;
 

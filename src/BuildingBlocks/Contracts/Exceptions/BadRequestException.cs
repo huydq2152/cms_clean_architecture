@@ -1,4 +1,4 @@
-﻿namespace CleanArchitecture.Application.Common.Exceptions
+﻿namespace Contracts.Exceptions
 {
     public class BadRequestException : Exception
     {

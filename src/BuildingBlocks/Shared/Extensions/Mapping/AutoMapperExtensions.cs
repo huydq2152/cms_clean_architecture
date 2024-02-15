@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using AutoMapper;
 
-namespace Infrastructure.Mapping;
+namespace Shared.Extensions.Mapping;
 
 public static class AutoMapperExtensions
 {

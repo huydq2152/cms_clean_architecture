@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using System.Security.Claims;
+using CleanArchitecture.Application.Dtos.Auth;
 using CleanArchitecture.Application.Interfaces.Services.Auth;
 using CleanArchitecture.Domain.Entities.Identity;
 using Contracts.Common.Interfaces;
@@ -90,10 +91,10 @@ public class AuthController : ApiControllerBase
         var roles = await _userManager.GetRolesAsync(user);
         var permissions = new List<string>();
 
-        var allPermissions = new List<RoleClaims>();
+        var allPermissions = new List<RoleClaimsDto>();
         if (roles.Contains(StaticRoles.AdminRoleName))
         {
-            var types = typeof(Permissions).GetTypeInfo().DeclaredNestedTypes;
+            var types = typeof(StaticPermissions).GetTypeInfo().DeclaredNestedTypes;
             foreach (var type in types)
             {
                 _claimService.GetPermissions(allPermissions, type);

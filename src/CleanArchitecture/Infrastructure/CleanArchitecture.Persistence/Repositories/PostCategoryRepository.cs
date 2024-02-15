@@ -5,6 +5,7 @@ using CleanArchitecture.Persistence.Common.Repositories;
 using CleanArchitecture.Persistence.Contexts;
 using Contracts.Common.Interfaces;
 using Infrastructure.Common.Models;
+using Infrastructure.Common.Models.Paging;
 using Microsoft.EntityFrameworkCore;
 
 namespace CleanArchitecture.Persistence.Repositories;

@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace CleanArchitecture.Application.Common.Exceptions
+namespace Contracts.Exceptions
 {
     public class ApplicationException : Exception
     {
