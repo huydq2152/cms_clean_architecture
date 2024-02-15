@@ -1,4 +1,6 @@
-﻿namespace Shared
+﻿using Shared.SeedWork;
+
+namespace Shared
 {
     public class PaginatedApiResult<T> : ApiResult<T>
     {
@@ -7,7 +9,7 @@
             Data = data;
         }
 
-        public PaginatedApiResult(bool succeeded, List<T> data = default, List<string> messages = null, int count = 0, int pageNumber = 1, int pageSize = 10)
+        public PaginatedApiResult(bool succeeded, List<T> data = default, string messages = null, int count = 0, int pageNumber = 1, int pageSize = 10)
         {
             Data = data;
             CurrentPage = pageNumber;

@@ -3,6 +3,7 @@ using CleanArchitecture.Application.Interfaces.Services.Posts;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 using Shared;
+using Shared.SeedWork;
 
 namespace CleanArchitecture.WebAPI.Controllers;
 

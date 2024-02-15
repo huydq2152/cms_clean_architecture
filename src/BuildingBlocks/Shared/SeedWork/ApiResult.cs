@@ -1,16 +1,14 @@
 ﻿using Shared.Interfaces;
 
-namespace Shared
+namespace Shared.SeedWork
 {
     public class ApiResult<T> : IApiResult<T>
     {
-        public List<string> Messages { get; set; } = new List<string>();
+        public string Messages { get; set; } = string.Empty;
 
         public bool Succeeded { get; set; }
 
         public T Data { get; set; }
-
-        //public List<ValidationResult> ValidationErrors { get; set; }
 
         public Exception Exception { get; set; }
 
@@ -33,7 +31,7 @@ namespace Shared
             return new ApiResult<T> 
             {
                 Succeeded = true,
-                Messages = new List<string> { message }
+                Messages = message 
             };
         }
 
@@ -51,7 +49,7 @@ namespace Shared
             return new ApiResult<T>
             {
                 Succeeded = true,
-                Messages = new List<string> { message },
+                Messages = message,
                 Data = data
             };
         }
@@ -68,16 +66,7 @@ namespace Shared
             };
         }
 
-        public static ApiResult<T> Failure(string message)
-        {
-            return new ApiResult<T>
-            {
-                Succeeded = false,
-                Messages = new List<string> { message }
-            };
-        }
-
-        public static ApiResult<T> Failure(List<string> messages)
+        public static ApiResult<T> Failure(string messages)
         {
             return new ApiResult<T>
             {
@@ -95,17 +84,7 @@ namespace Shared
             };
         }
 
-        public static ApiResult<T> Failure(T data, string message)
-        {
-            return new ApiResult<T>
-            {
-                Succeeded = false,
-                Messages = new List<string> { message },
-                Data = data
-            };
-        }
-
-        public static ApiResult<T> Failure(T data, List<string> messages)
+        public static ApiResult<T> Failure(T data, string messages)
         {
             return new ApiResult<T>
             {
@@ -166,11 +145,6 @@ namespace Shared
             return Task.FromResult(Failure(message));
         }
 
-        public static Task<ApiResult<T>> FailureAsync(List<string> messages)
-        {
-            return Task.FromResult(Failure(messages));
-        }
-
         public static Task<ApiResult<T>> FailureAsync(T data)
         {
             return Task.FromResult(Failure(data));
@@ -179,11 +153,6 @@ namespace Shared
         public static Task<ApiResult<T>> FailureAsync(T data, string message)
         {
             return Task.FromResult(Failure(data, message));
-        }
-
-        public static Task<ApiResult<T>> FailureAsync(T data, List<string> messages)
-        {
-            return Task.FromResult(Failure(data, messages));
         }
 
         public static Task<ApiResult<T>> FailureAsync(Exception exception)
