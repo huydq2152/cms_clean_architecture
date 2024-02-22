@@ -29,10 +29,26 @@ public static class ServiceExtensions
 
         return services;
     }
-    
+
     private static void AddServices(this IServiceCollection services)
     {
         services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>()
             .AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
+    }
+
+    public static IServiceCollection AddCorsPolicy(this IServiceCollection services, IConfiguration configuration,
+        string corsPolicy)
+    {
+        var allowedOrigins = configuration["AllowedOrigins"];
+        if (string.IsNullOrEmpty(allowedOrigins))
+            throw new ArgumentNullException("AllowedOrigins is not configured");
+        services.AddCors(o => o.AddPolicy(corsPolicy, builder =>
+        {
+            builder.AllowAnyMethod()
+                .AllowAnyHeader()
+                .WithOrigins(allowedOrigins)
+                .AllowCredentials();
+        }));
+        return services;
     }
 }

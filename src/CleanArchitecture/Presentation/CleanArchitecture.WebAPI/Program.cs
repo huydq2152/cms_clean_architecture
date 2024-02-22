@@ -13,13 +13,16 @@ Log.Information($"Start {builder.Environment.ApplicationName} up");
 
 try
 {
+    var blogCorsPolicy = "BlogCorsPolicy";
+
     builder.Host.AddAppConfigurations();
     // Add services to the container.
     builder.Services.AddApplicationLayer();
     builder.Services.AddInfrastructureLayer();
     builder.Services.AddPersistenceLayer(builder.Configuration);
     builder.Services.AddWebApiLayer();
-    
+    builder.Services.AddCorsPolicy(builder.Configuration, blogCorsPolicy);
+
     var app = builder.Build();
 
     // Configure the HTTP request pipeline.
@@ -40,7 +43,7 @@ try
     //     app.UseExceptionHandler("/Home/Error");
     //     app.UseHsts();
     // }
-    
+
     using (var scope = app.Services.CreateScope())
     {
         var applicationContextSeed = scope.ServiceProvider.GetRequiredService<ApplicationContextSeed>();
@@ -49,8 +52,9 @@ try
     }
 
     app.UseMiddleware<ErrorWrappingMiddleware>();
+    app.UseCors(blogCorsPolicy);
     app.UseHttpsRedirection();
-    app.UseAuthentication(); 
+    app.UseAuthentication();
     app.UseAuthorization();
     app.MapDefaultControllerRoute();
 
