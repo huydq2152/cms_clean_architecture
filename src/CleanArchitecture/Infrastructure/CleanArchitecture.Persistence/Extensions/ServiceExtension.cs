@@ -74,13 +74,4 @@ public static class ServiceExtension
             options.User.RequireUniqueEmail = false;
         });
     }
-
-    private static void AddAuthenticationAndAuthorization(this IServiceCollection services,
-        IConfiguration configuration)
-    {
-        services.Configure<JwtTokenSettings>(configuration.GetSection("JwtTokenSettings"));
-        services.AddScoped<SignInManager<AppUser>, SignInManager<AppUser>>();
-        services.AddScoped<UserManager<AppUser>, UserManager<AppUser>>();
-        services.AddScoped<RoleManager<AppRole>, RoleManager<AppRole>>();
-    }
 }

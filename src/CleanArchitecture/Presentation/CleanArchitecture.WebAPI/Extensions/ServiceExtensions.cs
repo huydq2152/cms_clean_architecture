@@ -1,5 +1,6 @@
 ﻿using CleanArchitecture.WebAPI.Auth;
 using CleanArchitecture.WebAPI.Filter;
+using Infrastructure.Configurations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -8,7 +9,7 @@ namespace CleanArchitecture.WebAPI.Extensions;
 
 public static class ServiceExtensions
 {
-    public static IServiceCollection AddWebApiLayer(this IServiceCollection services)
+    public static IServiceCollection AddWebApiLayer(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddServices();
         services.AddControllers();
@@ -26,6 +27,7 @@ public static class ServiceExtensions
             });
             options.ParameterFilter<SwaggerNullableParameterFilter>();
         });
+        services.AddAuthenticationAndAuthorization(configuration);
 
         return services;
     }
@@ -50,5 +52,14 @@ public static class ServiceExtensions
                 .AllowCredentials();
         }));
         return services;
+    }
+    
+    private static void AddAuthenticationAndAuthorization(this IServiceCollection services,
+        IConfiguration configuration)
+    {
+        services.Configure<JwtTokenSettings>(configuration.GetSection("JwtTokenSettings"));
+        // services.AddScoped<SignInManager<AppUser>, SignInManager<AppUser>>();
+        // services.AddScoped<UserManager<AppUser>, UserManager<AppUser>>();
+        // services.AddScoped<RoleManager<AppRole>, RoleManager<AppRole>>();
     }
 }
