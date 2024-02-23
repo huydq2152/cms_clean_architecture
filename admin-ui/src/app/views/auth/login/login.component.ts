@@ -11,7 +11,9 @@ import {
   AuthenticatedResult,
   LoginRequest,
 } from 'src/app/api/admin-api.service.generated';
+import { UrlConstants } from 'src/app/shared/constants/url.constants';
 import { AlertService } from 'src/app/shared/services/alert.service';
+import { TokenStorageService } from 'src/app/shared/services/token-storage.service';
 
 @Component({
   selector: 'app-login',
@@ -25,7 +27,8 @@ export class LoginComponent {
     private fb: FormBuilder,
     private authApiClient: AdminApiAuthApiClient,
     private alertService: AlertService,
-    private router: Router
+    private router: Router,
+    private tokenService: TokenStorageService
   ) {
     this.loginFrom = this.fb.group({
       userName: new FormControl('', [Validators.required]),
@@ -41,11 +44,16 @@ export class LoginComponent {
     this.authApiClient.login(request).subscribe({
       next: (res: AuthenticatedResult) => {
         // Save token to local storage
+        if (res && res.token && res.refreshToken) {
+          this.tokenService.saveToken(res.token);
+          this.tokenService.saveRefreshToken(res.refreshToken);
+          this.tokenService.saveUser(res);
+        }
 
         // Redirect to dashboard
-        this.router.navigate(['/dashboard']);
+        this.router.navigate([UrlConstants.DASHBOARD]);
       },
-      error: (error) => {
+      error: () => {
         this.alertService.showError('Login failed!');
       },
     });

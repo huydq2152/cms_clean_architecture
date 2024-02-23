@@ -1,9 +1,10 @@
 import { INavData } from '@coreui/angular';
+import { UrlConstants } from 'src/app/shared/constants/url.constants';
 
 export const navItems: INavData[] = [
   {
     name: 'Trang chủ',
-    url: '/dashboard',
+    url: UrlConstants.DASHBOARD,
     iconComponent: { name: 'cil-speedometer' },
     badge: {
       color: 'info',
@@ -13,39 +14,39 @@ export const navItems: INavData[] = [
 
   {
     name: 'Nội dung',
-    url: '/content',
+    url: UrlConstants.CONTENT,
     iconComponent: { name: 'cil-puzzle' },
     children: [
       {
         name: 'Danh mục',
-        url: '/content/post-categories',
+        url: UrlConstants.POST_CATEGORIES,
       },
       {
         name: 'Bài viết',
-        url: '/content/posts',
+        url: UrlConstants.POSTS,
       },
       {
         name: 'Loạt bài',
-        url: '/content/series',
+        url: UrlConstants.SERIES,
       },
       {
         name: 'Nhuận bút',
-        url: '/content/royalty',
+        url: UrlConstants.ROYALTY,
       },
     ],
   },
   {
     name: 'Hệ thống',
-    url: '/system',
+    url: UrlConstants.SYSTEM,
     iconComponent: { name: 'cil-cursor' },
     children: [
       {
         name: 'Quyền',
-        url: '/system/roles',
+        url: UrlConstants.ROLES,
       },
       {
         name: 'Người dùng',
-        url: '/system/users',
+        url: UrlConstants.USERS,
       },
     ],
   },
