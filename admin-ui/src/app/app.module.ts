@@ -55,6 +55,7 @@ import { MessageService } from 'primeng/api';
 import { AlertService } from './shared/services/alert.service';
 import { HttpClientModule } from '@angular/common/http';
 import { TokenStorageService } from './shared/services/token-storage.service';
+import { AuthGuardService } from './shared/services/auth-guard.service';
 
 const APP_CONTAINERS = [
   DefaultFooterComponent,
@@ -109,6 +110,7 @@ const APP_CONTAINERS = [
     MessageService,
     AlertService,
     TokenStorageService,
+    AuthGuardService,
   ],
   bootstrap: [AppComponent],
 })

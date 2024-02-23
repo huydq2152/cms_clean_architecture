@@ -10,6 +10,9 @@ export const navItems: INavData[] = [
       color: 'info',
       text: 'NEW',
     },
+    attributes: {
+      policyName: 'Permissions.Dashboard.View',
+    },
   },
 
   {
@@ -20,18 +23,30 @@ export const navItems: INavData[] = [
       {
         name: 'Danh mục',
         url: UrlConstants.POST_CATEGORIES,
+        attributes: {
+          policyName: 'Permissions.PostCategories.View',
+        },
       },
       {
         name: 'Bài viết',
         url: UrlConstants.POSTS,
+        attributes: {
+          policyName: 'Permissions.Posts.View',
+        },
       },
       {
         name: 'Loạt bài',
         url: UrlConstants.SERIES,
+        attributes: {
+          policyName: 'Permissions.Series.View',
+        },
       },
       {
         name: 'Nhuận bút',
         url: UrlConstants.ROYALTY,
+        attributes: {
+          policyName: 'Permissions.Royalty.View',
+        },
       },
     ],
   },
@@ -43,10 +58,16 @@ export const navItems: INavData[] = [
       {
         name: 'Quyền',
         url: UrlConstants.ROLES,
+        attributes: {
+          policyName: 'Permissions.Roles.View',
+        },
       },
       {
         name: 'Người dùng',
         url: UrlConstants.USERS,
+        attributes: {
+          policyName: 'Permissions.Users.View',
+        },
       },
     ],
   },
