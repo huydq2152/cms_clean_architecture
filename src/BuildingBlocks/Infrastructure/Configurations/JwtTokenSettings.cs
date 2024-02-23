@@ -1,8 +1,6 @@
-﻿using Contracts.Configurations;
+﻿namespace Infrastructure.Configurations;
 
-namespace Infrastructure.Configurations;
-
-public class JwtTokenSettings: IJwtTokenSettings
+public class JwtTokenSettings
 {
     public string Key { get; set; }
     public string Issuer { get; set; }

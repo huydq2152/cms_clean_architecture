@@ -3,16 +3,15 @@ using System.Security.Claims;
 using CleanArchitecture.Application.Dtos.Auth;
 using CleanArchitecture.Application.Interfaces.Services.Auth;
 using CleanArchitecture.Domain.Entities.Identity;
-using Contracts.Common.Interfaces;
+using CleanArchitecture.WebAPI.Controllers.Common;
 using Contracts.Services;
-using Infrastructure.Common;
 using Infrastructure.Common.Models.Auth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Shared.SeedWork.Auth;
 
-namespace CleanArchitecture.WebAPI.Controllers;
+namespace CleanArchitecture.WebAPI.Controllers.Auth;
 
 public class AuthController : ApiControllerBase
 {

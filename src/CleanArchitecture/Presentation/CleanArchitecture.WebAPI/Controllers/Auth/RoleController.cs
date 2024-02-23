@@ -3,8 +3,8 @@ using AutoMapper;
 using CleanArchitecture.Application.Dtos.Auth;
 using CleanArchitecture.Application.Extensions.Auth;
 using CleanArchitecture.Domain.Entities.Identity;
+using CleanArchitecture.WebAPI.Controllers.Common;
 using CleanArchitecture.WebAPI.Filter;
-using Infrastructure.Common.Models;
 using Infrastructure.Common.Models.Paging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Shared.SeedWork.Auth;
 
-namespace CleanArchitecture.WebAPI.Controllers
+namespace CleanArchitecture.WebAPI.Controllers.Auth
 {
     public class RoleController : ApiControllerBase
     {
