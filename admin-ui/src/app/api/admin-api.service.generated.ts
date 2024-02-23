@@ -657,7 +657,7 @@ export class AdminApiRoleApiClient {
      * @param pageSize (optional) 
      * @return Success
      */
-    getRolesAllPaging(keyword?: string | null | undefined, pageIndex?: number | undefined, pageSize?: number | undefined): Observable<RoleDto[]> {
+    getRolesAllPaging(keyword?: string | null | undefined, pageIndex?: number | undefined, pageSize?: number | undefined): Observable<RoleDtoPagedResult> {
         let url_ = this.baseUrl + "/api/role/paging?";
         if (keyword !== undefined && keyword !== null)
             url_ += "keyword=" + encodeURIComponent("" + keyword) + "&";
@@ -686,14 +686,14 @@ export class AdminApiRoleApiClient {
                 try {
                     return this.processGetRolesAllPaging(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<RoleDto[]>;
+                    return _observableThrow(e) as any as Observable<RoleDtoPagedResult>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<RoleDto[]>;
+                return _observableThrow(response_) as any as Observable<RoleDtoPagedResult>;
         }));
     }
 
-    protected processGetRolesAllPaging(response: HttpResponseBase): Observable<RoleDto[]> {
+    protected processGetRolesAllPaging(response: HttpResponseBase): Observable<RoleDtoPagedResult> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -704,14 +704,7 @@ export class AdminApiRoleApiClient {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (Array.isArray(resultData200)) {
-                result200 = [] as any;
-                for (let item of resultData200)
-                    result200!.push(RoleDto.fromJS(item));
-            }
-            else {
-                result200 = <any>null;
-            }
+            result200 = RoleDtoPagedResult.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -3268,6 +3261,82 @@ export interface IRoleDto {
     id?: number;
     name?: string | undefined;
     displayName?: string | undefined;
+}
+
+export class RoleDtoPagedResult implements IRoleDtoPagedResult {
+    currentPage?: number;
+    pageCount?: number;
+    pageSize?: number;
+    rowCount?: number;
+    readonly hasPrevious?: boolean;
+    readonly hasNext?: boolean;
+    readonly firstRowOnPage?: number;
+    readonly lastRowOnPage?: number;
+    results?: RoleDto[] | undefined;
+
+    constructor(data?: IRoleDtoPagedResult) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.currentPage = _data["currentPage"];
+            this.pageCount = _data["pageCount"];
+            this.pageSize = _data["pageSize"];
+            this.rowCount = _data["rowCount"];
+            (<any>this).hasPrevious = _data["hasPrevious"];
+            (<any>this).hasNext = _data["hasNext"];
+            (<any>this).firstRowOnPage = _data["firstRowOnPage"];
+            (<any>this).lastRowOnPage = _data["lastRowOnPage"];
+            if (Array.isArray(_data["results"])) {
+                this.results = [] as any;
+                for (let item of _data["results"])
+                    this.results!.push(RoleDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): RoleDtoPagedResult {
+        data = typeof data === 'object' ? data : {};
+        let result = new RoleDtoPagedResult();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["currentPage"] = this.currentPage;
+        data["pageCount"] = this.pageCount;
+        data["pageSize"] = this.pageSize;
+        data["rowCount"] = this.rowCount;
+        data["hasPrevious"] = this.hasPrevious;
+        data["hasNext"] = this.hasNext;
+        data["firstRowOnPage"] = this.firstRowOnPage;
+        data["lastRowOnPage"] = this.lastRowOnPage;
+        if (Array.isArray(this.results)) {
+            data["results"] = [];
+            for (let item of this.results)
+                data["results"].push(item.toJSON());
+        }
+        return data;
+    }
+}
+
+export interface IRoleDtoPagedResult {
+    currentPage?: number;
+    pageCount?: number;
+    pageSize?: number;
+    rowCount?: number;
+    hasPrevious?: boolean;
+    hasNext?: boolean;
+    firstRowOnPage?: number;
+    lastRowOnPage?: number;
+    results?: RoleDto[] | undefined;
 }
 
 export class RuntimeFieldHandle implements IRuntimeFieldHandle {

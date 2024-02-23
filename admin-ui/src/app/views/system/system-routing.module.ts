@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { UserComponent } from './user/user.component';
+import { RoleComponent } from './roles/role.component';
 import { AuthGuardService } from 'src/app/shared/services/auth-guard.service';
 
 const routes: Routes = [
@@ -15,6 +16,15 @@ const routes: Routes = [
     data: {
       title: 'Users',
       requiredPolicy: 'Permissions.Users.View',
+    },
+    canActivate: [AuthGuardService],
+  },
+  {
+    path: 'roles',
+    component: RoleComponent,
+    data: {
+      title: 'Roles',
+      requiredPolicy: 'Permissions.Roles.View',
     },
     canActivate: [AuthGuardService],
   },
