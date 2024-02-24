@@ -7,4 +7,4 @@ import { ValidationMessageComponent } from './validation-message/validation-mess
   declarations: [ValidationMessageComponent],
   exports: [ValidationMessageComponent],
 })
-export class TeduSharedModule {}
+export class BlogSharedModule {}

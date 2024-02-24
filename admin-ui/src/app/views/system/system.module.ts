@@ -15,6 +15,9 @@ import { SharedModule } from 'primeng/api';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
+import { RolesDetailComponent } from './roles/role-detail.component';
+import { BlogSharedModule } from 'src/app/shared/modules/shared.module';
+import { KeyFilterModule } from 'primeng/keyfilter';
 @NgModule({
   imports: [
     SystemRoutingModule,
@@ -29,7 +32,10 @@ import { InputTextModule } from 'primeng/inputtext';
     ButtonModule,
     InputTextModule,
     SharedModule,
+    KeyFilterModule,
+    SharedModule,
+    BlogSharedModule,
   ],
-  declarations: [UserComponent, RoleComponent],
+  declarations: [UserComponent, RoleComponent, RolesDetailComponent],
 })
 export class SystemModule {}
