@@ -359,3 +359,5 @@ tempkey.jwk
 # documentation
 docs/TODO/*
 docs/bg/*
+
+workspace.xml
