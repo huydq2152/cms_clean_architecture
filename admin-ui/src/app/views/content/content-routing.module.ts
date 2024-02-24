@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PostComponent } from './post/post.component';
 import { PostCategoryComponent } from './post-category/post-category.component';
+import { AuthGuardService } from '../../shared/services/auth-guard.service';
 
 const routes: Routes = [
   {
@@ -14,14 +15,18 @@ const routes: Routes = [
     component: PostComponent,
     data: {
       title: 'posts',
+      requiredPolicy: 'Permissions.Posts.View',
     },
+    canActivate: [AuthGuardService],
   },
   {
     path: 'post-categories',
     component: PostCategoryComponent,
     data: {
       title: 'post categories',
+      requiredPolicy: 'Permissions.PostCategories.View',
     },
+    canActivate: [AuthGuardService],
   },
 ];
 

@@ -3,8 +3,8 @@ using AutoMapper;
 using CleanArchitecture.Application.Dtos.Auth;
 using CleanArchitecture.Application.Extensions.Auth;
 using CleanArchitecture.Domain.Entities.Identity;
+using CleanArchitecture.WebAPI.Controllers.Common;
 using CleanArchitecture.WebAPI.Filter;
-using Infrastructure.Common.Models;
 using Infrastructure.Common.Models.Paging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Shared.SeedWork.Auth;
 
-namespace CleanArchitecture.WebAPI.Controllers
+namespace CleanArchitecture.WebAPI.Controllers.Auth
 {
     public class RoleController : ApiControllerBase
     {
@@ -84,20 +84,16 @@ namespace CleanArchitecture.WebAPI.Controllers
         [HttpGet]
         [Route("paging")]
         [Authorize(StaticPermissions.Roles.View)]
-        public async Task<ActionResult<PagedList<RoleDto>>> GetRolesAllPaging(string? keyword, int pageIndex = 1,
+        public async Task<ActionResult<PagedResult<RoleDto>>> GetRolesAllPaging(string keyword, int pageIndex = 1,
             int pageSize = 10)
         {
             var query = _roleManager.Roles;
             if (!string.IsNullOrEmpty(keyword))
                 query = query.Where(x => x.Name.Contains(keyword)
                                          || x.DisplayName.Contains(keyword));
+            var objQuery = _mapper.ProjectTo<RoleDto>(query);
 
-            var totalRow = query.Count();
-            query = query.Skip((pageIndex - 1) * pageSize)
-                .Take(pageSize);
-
-            var data = await _mapper.ProjectTo<RoleDto>(query).ToListAsync();
-            var paginationSet = new PagedList<RoleDto>(data, totalRow, pageIndex, pageSize);
+            var paginationSet = await PagedResult<RoleDto>.ToPagedList(objQuery, pageIndex, pageSize);
 
             return Ok(paginationSet);
         }

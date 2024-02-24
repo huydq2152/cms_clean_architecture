@@ -1,11 +1,11 @@
 ﻿using CleanArchitecture.Application.Dtos.Posts;
 using CleanArchitecture.Application.Interfaces.Services.Posts;
+using CleanArchitecture.WebAPI.Controllers.Common;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
-using Shared;
 using Shared.SeedWork;
 
-namespace CleanArchitecture.WebAPI.Controllers;
+namespace CleanArchitecture.WebAPI.Controllers.Posts;
 
 public class PostCategoryController : ApiControllerBase
 {

@@ -4,9 +4,7 @@ using CleanArchitecture.Application.Interfaces.Services.User;
 using CleanArchitecture.Infrastructure.Services.Auth;
 using CleanArchitecture.Infrastructure.Services.Posts;
 using CleanArchitecture.Infrastructure.Services.User;
-using Contracts.Common.Interfaces;
 using Contracts.Services;
-using Infrastructure.Common;
 using Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
 

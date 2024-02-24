@@ -30,6 +30,14 @@ public static class StaticPermissions
         [Description("Xem danh mục bài viết")] public const string View = "Permissions.PostCategories.View";
         [Description("Tạo danh mục bài viết")] public const string Create = "Permissions.PostCategories.Create";
         [Description("Sửa danh mục bài viết")] public const string Edit = "Permissions.PostCategories.Edit";
-        [Description("Xóa danh mục bài viết")] public const string Delete = "Permissions.UsPostCategoriesers.Delete";
+        [Description("Xóa danh mục bài viết")] public const string Delete = "Permissions.PostCategories.Delete";
+    }
+    
+    public static class Posts
+    {
+        [Description("Xem bài viết")] public const string View = "Permissions.Posts.View";
+        [Description("Tạo bài viết")] public const string Create = "Permissions.Posts.Create";
+        [Description("Sửa bài viết")] public const string Edit = "Permissions.Posts.Edit";
+        [Description("Xóa bài viết")] public const string Delete = "Permissions.Posts.Delete";
     }
 }

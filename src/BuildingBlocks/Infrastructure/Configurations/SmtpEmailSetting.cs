@@ -1,8 +1,6 @@
-﻿using Contracts.Configurations;
+﻿namespace Infrastructure.Configurations;
 
-namespace Infrastructure.Configurations;
-
-public class SmtpEmailSetting: ISmtpEmailSetting
+public class SmtpEmailSetting
 {
     public string DisplayName { get; set; }
     public bool EnableVerification { get; set; }

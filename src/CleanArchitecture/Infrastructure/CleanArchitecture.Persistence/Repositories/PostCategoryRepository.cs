@@ -28,10 +28,10 @@ public class PostCategoryRepository : RepositoryBase<PostCategory, int>, IPostCa
         return result;
     }
 
-    public async Task<PagedList<PostCategory>> GetAllPostCategoryPagedAsync(PostCategoryPagingQueryInput query)
+    public async Task<PagedResult<PostCategory>> GetAllPostCategoryPagedAsync(PostCategoryPagingQueryInput query)
     {
         var objQuery = GetByCondition(o => !o.IsDeleted).OrderBy(o => o.Code);
-        var result = await PagedList<PostCategory>.ToPagedList(objQuery, query.PageNumber, query.PageSize);
+        var result = await PagedResult<PostCategory>.ToPagedList(objQuery, query.PageNumber, query.PageSize);
         return result;
     }
 

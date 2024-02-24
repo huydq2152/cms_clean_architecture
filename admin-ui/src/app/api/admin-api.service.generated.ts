@@ -657,7 +657,7 @@ export class AdminApiRoleApiClient {
      * @param pageSize (optional) 
      * @return Success
      */
-    getRolesAllPaging(keyword?: string | null | undefined, pageIndex?: number | undefined, pageSize?: number | undefined): Observable<RoleDto[]> {
+    getRolesAllPaging(keyword?: string | null | undefined, pageIndex?: number | undefined, pageSize?: number | undefined): Observable<RoleDtoPagedResult> {
         let url_ = this.baseUrl + "/api/role/paging?";
         if (keyword !== undefined && keyword !== null)
             url_ += "keyword=" + encodeURIComponent("" + keyword) + "&";
@@ -686,14 +686,14 @@ export class AdminApiRoleApiClient {
                 try {
                     return this.processGetRolesAllPaging(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<RoleDto[]>;
+                    return _observableThrow(e) as any as Observable<RoleDtoPagedResult>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<RoleDto[]>;
+                return _observableThrow(response_) as any as Observable<RoleDtoPagedResult>;
         }));
     }
 
-    protected processGetRolesAllPaging(response: HttpResponseBase): Observable<RoleDto[]> {
+    protected processGetRolesAllPaging(response: HttpResponseBase): Observable<RoleDtoPagedResult> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -704,14 +704,7 @@ export class AdminApiRoleApiClient {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (Array.isArray(resultData200)) {
-                result200 = [] as any;
-                for (let item of resultData200)
-                    result200!.push(RoleDto.fromJS(item));
-            }
-            else {
-                result200 = <any>null;
-            }
+            result200 = RoleDtoPagedResult.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -868,6 +861,121 @@ export class AdminApiRoleApiClient {
     }
 
     protected processSavePermission(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+}
+
+@Injectable()
+export class AdminApiTokenApiClient {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(ADMIN_API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    refresh(body?: TokenRequest | undefined): Observable<AuthenticatedResult> {
+        let url_ = this.baseUrl + "/api/admin/token/refresh";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processRefresh(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processRefresh(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<AuthenticatedResult>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<AuthenticatedResult>;
+        }));
+    }
+
+    protected processRefresh(response: HttpResponseBase): Observable<AuthenticatedResult> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = AuthenticatedResult.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @return Success
+     */
+    revoke(): Observable<void> {
+        let url_ = this.baseUrl + "/api/admin/token/revoke";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processRevoke(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processRevoke(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processRevoke(response: HttpResponseBase): Observable<void> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -3155,6 +3263,82 @@ export interface IRoleDto {
     displayName?: string | undefined;
 }
 
+export class RoleDtoPagedResult implements IRoleDtoPagedResult {
+    currentPage?: number;
+    pageCount?: number;
+    pageSize?: number;
+    rowCount?: number;
+    readonly hasPrevious?: boolean;
+    readonly hasNext?: boolean;
+    readonly firstRowOnPage?: number;
+    readonly lastRowOnPage?: number;
+    results?: RoleDto[] | undefined;
+
+    constructor(data?: IRoleDtoPagedResult) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.currentPage = _data["currentPage"];
+            this.pageCount = _data["pageCount"];
+            this.pageSize = _data["pageSize"];
+            this.rowCount = _data["rowCount"];
+            (<any>this).hasPrevious = _data["hasPrevious"];
+            (<any>this).hasNext = _data["hasNext"];
+            (<any>this).firstRowOnPage = _data["firstRowOnPage"];
+            (<any>this).lastRowOnPage = _data["lastRowOnPage"];
+            if (Array.isArray(_data["results"])) {
+                this.results = [] as any;
+                for (let item of _data["results"])
+                    this.results!.push(RoleDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): RoleDtoPagedResult {
+        data = typeof data === 'object' ? data : {};
+        let result = new RoleDtoPagedResult();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["currentPage"] = this.currentPage;
+        data["pageCount"] = this.pageCount;
+        data["pageSize"] = this.pageSize;
+        data["rowCount"] = this.rowCount;
+        data["hasPrevious"] = this.hasPrevious;
+        data["hasNext"] = this.hasNext;
+        data["firstRowOnPage"] = this.firstRowOnPage;
+        data["lastRowOnPage"] = this.lastRowOnPage;
+        if (Array.isArray(this.results)) {
+            data["results"] = [];
+            for (let item of this.results)
+                data["results"].push(item.toJSON());
+        }
+        return data;
+    }
+}
+
+export interface IRoleDtoPagedResult {
+    currentPage?: number;
+    pageCount?: number;
+    pageSize?: number;
+    rowCount?: number;
+    hasPrevious?: boolean;
+    hasNext?: boolean;
+    firstRowOnPage?: number;
+    lastRowOnPage?: number;
+    results?: RoleDto[] | undefined;
+}
+
 export class RuntimeFieldHandle implements IRuntimeFieldHandle {
     value?: IntPtr;
 
@@ -3307,6 +3491,46 @@ export class StructLayoutAttribute implements IStructLayoutAttribute {
 export interface IStructLayoutAttribute {
     typeId?: any | undefined;
     value?: LayoutKind;
+}
+
+export class TokenRequest implements ITokenRequest {
+    accessToken?: string | undefined;
+    refreshToken?: string | undefined;
+
+    constructor(data?: ITokenRequest) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.accessToken = _data["accessToken"];
+            this.refreshToken = _data["refreshToken"];
+        }
+    }
+
+    static fromJS(data: any): TokenRequest {
+        data = typeof data === 'object' ? data : {};
+        let result = new TokenRequest();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["accessToken"] = this.accessToken;
+        data["refreshToken"] = this.refreshToken;
+        return data;
+    }
+}
+
+export interface ITokenRequest {
+    accessToken?: string | undefined;
+    refreshToken?: string | undefined;
 }
 
 export class Type implements IType {

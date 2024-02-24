@@ -1,6 +1,10 @@
-﻿using CleanArchitecture.WebAPI.Auth;
+﻿using System.Text;
+using CleanArchitecture.WebAPI.Auth;
 using CleanArchitecture.WebAPI.Filter;
+using Infrastructure.Configurations;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -8,7 +12,7 @@ namespace CleanArchitecture.WebAPI.Extensions;
 
 public static class ServiceExtensions
 {
-    public static IServiceCollection AddWebApiLayer(this IServiceCollection services)
+    public static void AddWebApiLayer(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddServices();
         services.AddControllers();
@@ -26,8 +30,7 @@ public static class ServiceExtensions
             });
             options.ParameterFilter<SwaggerNullableParameterFilter>();
         });
-
-        return services;
+        services.AddAuthenticationAndAuthorization(configuration);
     }
 
     private static void AddServices(this IServiceCollection services)
@@ -36,7 +39,7 @@ public static class ServiceExtensions
             .AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
     }
 
-    public static IServiceCollection AddCorsPolicy(this IServiceCollection services, IConfiguration configuration,
+    public static void AddCorsPolicy(this IServiceCollection services, IConfiguration configuration,
         string corsPolicy)
     {
         var allowedOrigins = configuration["AllowedOrigins"];
@@ -49,6 +52,32 @@ public static class ServiceExtensions
                 .WithOrigins(allowedOrigins)
                 .AllowCredentials();
         }));
-        return services;
+    }
+    
+    private static void AddAuthenticationAndAuthorization(this IServiceCollection services,
+        IConfiguration configuration)
+    {
+        var jwtTokenSettingsSection = configuration.GetSection("JwtTokenSettings");
+        
+        services.Configure<JwtTokenSettings>(jwtTokenSettingsSection);
+        
+        services.AddAuthentication(o =>
+        {
+            o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        }).AddJwtBearer(cfg =>
+        {
+            cfg.RequireHttpsMetadata = false;
+            cfg.SaveToken = true;
+            
+            var jwtTokenSettings = jwtTokenSettingsSection.Get<JwtTokenSettings>();
+            
+            cfg.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidIssuer = jwtTokenSettings.Issuer,
+                ValidAudience = jwtTokenSettings.Issuer,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtTokenSettings.Key))
+            };
+        });
     }
 }

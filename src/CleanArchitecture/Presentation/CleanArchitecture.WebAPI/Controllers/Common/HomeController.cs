@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace CleanArchitecture.WebAPI.Controllers;
+namespace CleanArchitecture.WebAPI.Controllers.Common;
 
 public class HomeController: ControllerBase
 {
