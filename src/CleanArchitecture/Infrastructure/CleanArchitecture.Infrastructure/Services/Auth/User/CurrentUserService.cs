@@ -1,8 +1,8 @@
 ﻿using System.Security.Claims;
-using CleanArchitecture.Application.Interfaces.Services.User;
+using CleanArchitecture.Application.Interfaces.Services.Auth.User;
 using Microsoft.AspNetCore.Http;
 
-namespace CleanArchitecture.Infrastructure.Services.User;
+namespace CleanArchitecture.Infrastructure.Services.Auth.User;
 
 public class CurrentUserService : ICurrentUserService
 {

@@ -1,4 +1,5 @@
 ﻿using CleanArchitecture.Application.Dtos.Auth;
+using CleanArchitecture.Application.Dtos.Auth.Roles;
 using CleanArchitecture.Application.Interfaces.Services.Auth;
 using CleanArchitecture.WebAPI.Controllers.Common;
 using CleanArchitecture.WebAPI.Filter;
@@ -48,18 +49,18 @@ namespace CleanArchitecture.WebAPI.Controllers.Auth
         [HttpPost]
         [ValidateModel]
         [Authorize(StaticPermissions.Roles.View)]
-        public async Task<IActionResult> CreateRole([FromBody] CreateRoleDto dto)
+        public async Task<IActionResult> CreateRole([FromBody] CreateRoleDto input)
         {
-            await _roleService.CreateRoleAsync(dto);
+            await _roleService.CreateRoleAsync(input);
             return new OkResult();
         }
 
         [HttpPut]
         [ValidateModel]
         [Authorize(StaticPermissions.Roles.Edit)]
-        public async Task<IActionResult> UpdateRole([FromBody] UpdateRoleDto dto)
+        public async Task<IActionResult> UpdateRole([FromBody] UpdateRoleDto input)
         {
-            await _roleService.UpdateRoleAsync(dto);
+            await _roleService.UpdateRoleAsync(input);
             return Ok();
         }
 
@@ -81,9 +82,9 @@ namespace CleanArchitecture.WebAPI.Controllers.Auth
 
         [HttpPut("permissions")]
         [Authorize(StaticPermissions.Roles.Edit)]
-        public async Task<IActionResult> SavePermission([FromBody] PermissionDto model)
+        public async Task<IActionResult> SavePermission([FromBody] PermissionDto input)
         {
-            await _roleService.SaveRolePermissionsAsync(model);
+            await _roleService.SaveRolePermissionsAsync(input);
 
             return Ok();
         }

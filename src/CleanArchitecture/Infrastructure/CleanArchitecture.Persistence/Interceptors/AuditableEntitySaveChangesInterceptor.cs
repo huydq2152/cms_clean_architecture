@@ -1,4 +1,4 @@
-﻿using CleanArchitecture.Application.Interfaces.Services.User;
+﻿using CleanArchitecture.Application.Interfaces.Services.Auth.User;
 using Contracts.Domains.Interfaces;
 using Contracts.Services;
 using Microsoft.EntityFrameworkCore;

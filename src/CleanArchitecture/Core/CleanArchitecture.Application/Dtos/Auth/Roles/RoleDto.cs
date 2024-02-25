@@ -1,6 +1,6 @@
 ﻿using Contracts.Dtos;
 
-namespace CleanArchitecture.Application.Dtos.Auth
+namespace CleanArchitecture.Application.Dtos.Auth.Roles
 {
     public class RoleDto: FullAuditedEntityBaseDto<int>
     {

@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Common.Models.Auth;
+﻿namespace CleanArchitecture.Application.Dtos.Auth;
 
 public class LoginRequest
 {

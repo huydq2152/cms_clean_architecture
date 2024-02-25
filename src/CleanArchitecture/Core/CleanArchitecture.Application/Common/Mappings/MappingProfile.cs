@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using AutoMapper;
 using CleanArchitecture.Application.Dtos.Auth;
+using CleanArchitecture.Application.Dtos.Auth.Roles;
 using CleanArchitecture.Application.Dtos.Posts;
 using CleanArchitecture.Domain.Entities.Identity;
 using CleanArchitecture.Domain.Entities.Post;

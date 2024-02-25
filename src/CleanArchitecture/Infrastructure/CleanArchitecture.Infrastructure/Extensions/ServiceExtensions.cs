@@ -1,9 +1,9 @@
 ﻿using CleanArchitecture.Application.Interfaces.Services.Auth;
+using CleanArchitecture.Application.Interfaces.Services.Auth.User;
 using CleanArchitecture.Application.Interfaces.Services.Posts;
-using CleanArchitecture.Application.Interfaces.Services.User;
 using CleanArchitecture.Infrastructure.Services.Auth;
+using CleanArchitecture.Infrastructure.Services.Auth.User;
 using CleanArchitecture.Infrastructure.Services.Posts;
-using CleanArchitecture.Infrastructure.Services.User;
 using Contracts.Services;
 using Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;

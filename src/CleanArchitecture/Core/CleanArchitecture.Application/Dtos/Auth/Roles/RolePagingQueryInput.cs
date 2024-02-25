@@ -1,6 +1,6 @@
 ﻿using Shared.SeedWork;
 
-namespace CleanArchitecture.Application.Dtos.Auth;
+namespace CleanArchitecture.Application.Dtos.Auth.Roles;
 
 public class RolePagingQueryInput: PagingRequestParameters
 {

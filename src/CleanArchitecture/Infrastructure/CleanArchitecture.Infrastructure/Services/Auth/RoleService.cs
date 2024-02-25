@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 using AutoMapper;
-using CleanArchitecture.Application.Dtos.Auth;
+using CleanArchitecture.Application.Dtos.Auth.Roles;
 using CleanArchitecture.Application.Extensions.Auth;
 using CleanArchitecture.Application.Interfaces.Services.Auth;
 using CleanArchitecture.Domain.Entities.Identity;
@@ -42,30 +42,33 @@ public class RoleService : IRoleService
     {
         var query = _roleManager.Roles;
         if (!string.IsNullOrEmpty(input.Keyword))
+        {
             query = query.Where(x => x.Name.Contains(input.Keyword)
                                      || x.DisplayName.Contains(input.Keyword));
+        }
+
         var objQuery = _mapper.ProjectTo<RoleDto>(query);
 
         var result = await PagedResult<RoleDto>.ToPagedList(objQuery, input.PageIndex, input.PageSize);
         return result;
     }
 
-    public async Task CreateRoleAsync(CreateRoleDto role)
+    public async Task CreateRoleAsync(CreateRoleDto input)
     {
         await _roleManager.CreateAsync(new AppRole()
         {
-            Name = role.Name,
-            DisplayName = role.DisplayName,
+            Name = input.Name,
+            DisplayName = input.DisplayName,
         });
     }
 
-    public async Task UpdateRoleAsync(UpdateRoleDto updateDto)
+    public async Task UpdateRoleAsync(UpdateRoleDto input)
     {
-        var role = await _roleManager.FindByIdAsync(updateDto.Id.ToString());
+        var role = await _roleManager.FindByIdAsync(input.Id.ToString());
         if (role == null)
             throw new Exception("Role not found");
-        role.Name = updateDto.Name;
-        role.DisplayName = updateDto.DisplayName;
+        role.Name = input.Name;
+        role.DisplayName = input.DisplayName;
 
         await _roleManager.UpdateAsync(role);
     }
