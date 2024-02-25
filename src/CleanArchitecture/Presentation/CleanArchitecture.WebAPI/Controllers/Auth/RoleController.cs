@@ -41,7 +41,7 @@ namespace CleanArchitecture.WebAPI.Controllers.Auth
         [HttpPut("{id}")]
         [ValidateModel]
         [Authorize(StaticPermissions.Roles.Edit)]
-        public async Task<IActionResult> UpdateRole(Guid id, [FromBody] CreateUpdateRoleRequest request)
+        public async Task<IActionResult> UpdateRole(int id, [FromBody] CreateUpdateRoleRequest request)
         {
             var role = await _roleManager.FindByIdAsync(id.ToString());
             if (role == null)
@@ -56,7 +56,7 @@ namespace CleanArchitecture.WebAPI.Controllers.Auth
 
         [HttpDelete]
         [Authorize(StaticPermissions.Roles.Delete)]
-        public async Task<IActionResult> DeleteRoles([FromQuery] Guid[] ids)
+        public async Task<IActionResult> DeleteRoles([FromQuery] int[] ids)
         {
             foreach (var id in ids)
             {
@@ -72,7 +72,7 @@ namespace CleanArchitecture.WebAPI.Controllers.Auth
 
         [HttpGet("{id}")]
         [Authorize(StaticPermissions.Roles.View)]
-        public async Task<ActionResult<RoleDto>> GetRoleById(Guid id)
+        public async Task<ActionResult<RoleDto>> GetRoleById(int id)
         {
             var role = await _roleManager.FindByIdAsync(id.ToString());
             if (role == null)
@@ -108,7 +108,7 @@ namespace CleanArchitecture.WebAPI.Controllers.Auth
 
         [HttpGet("{roleId}/permissions")]
         [Authorize(StaticPermissions.Roles.View)]
-        public async Task<ActionResult<PermissionDto>> GetAllRolePermissions(string roleId)
+        public async Task<ActionResult<PermissionDto>> GetAllRolePermissions(int roleId)
         {
             var model = new PermissionDto();
             var allPermissions = new List<RoleClaimsDto>();
@@ -118,7 +118,7 @@ namespace CleanArchitecture.WebAPI.Controllers.Auth
                 allPermissions.GetPermissions(type);
             }
 
-            var role = await _roleManager.FindByIdAsync(roleId);
+            var role = await _roleManager.FindByIdAsync(roleId.ToString());
             if (role == null)
                 return NotFound();
             model.RoleId = roleId;
@@ -142,7 +142,7 @@ namespace CleanArchitecture.WebAPI.Controllers.Auth
         [Authorize(StaticPermissions.Roles.Edit)]
         public async Task<IActionResult> SavePermission([FromBody] PermissionDto model)
         {
-            var role = await _roleManager.FindByIdAsync(model.RoleId);
+            var role = await _roleManager.FindByIdAsync(model.RoleId.ToString());
             if (role == null)
                 return NotFound();
 
