@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PostComponent } from './post/post.component';
-import { PostCategoryComponent } from './post-category/post-category.component';
+import { PostComponent } from './posts/post/post.component';
+import { PostCategoryComponent } from './post-categories/post-category/post-category.component';
 import { AuthGuardService } from '../../shared/services/auth-guard.service';
 
 const routes: Routes = [

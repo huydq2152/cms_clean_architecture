@@ -4,8 +4,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { SystemRoutingModule } from './system-routing.module';
 
-import { UserComponent } from './user/user.component';
-import { RoleComponent } from './roles/role.component';
+import { UserComponent } from './users/user/user.component';
+import { RoleComponent } from './roles/role/role.component';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { BlockUIModule } from 'primeng/blockui';
 import { PaginatorModule } from 'primeng/paginator';
@@ -15,9 +15,10 @@ import { SharedModule } from 'primeng/api';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
-import { RolesDetailComponent } from './roles/role-detail.component';
+import { RolesDetailComponent } from './roles/role-detail/role-detail.component';
 import { BlogSharedModule } from 'src/app/shared/modules/shared.module';
 import { KeyFilterModule } from 'primeng/keyfilter';
+import { PermissionGrantComponent } from './roles/permmision-grant/permission-grant.component';
 @NgModule({
   imports: [
     SystemRoutingModule,
@@ -36,6 +37,11 @@ import { KeyFilterModule } from 'primeng/keyfilter';
     SharedModule,
     BlogSharedModule,
   ],
-  declarations: [UserComponent, RoleComponent, RolesDetailComponent],
+  declarations: [
+    UserComponent,
+    RoleComponent,
+    RolesDetailComponent,
+    PermissionGrantComponent,
+  ],
 })
 export class SystemModule {}
