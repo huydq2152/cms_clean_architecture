@@ -551,21 +551,29 @@ export class AdminApiRoleApiClient {
     }
 
     /**
-     * @param body (optional) 
+     * @param keyword (optional) 
+     * @param pageIndex (optional) 
+     * @param pageSize (optional) 
      * @return Success
      */
-    getRolesAllPaging(body?: RolePagingQueryInput | undefined): Observable<RoleDtoPagedResult> {
-        let url_ = this.baseUrl + "/api/role/paging";
+    getRolesAllPaging(keyword?: string | null | undefined, pageIndex?: number | undefined, pageSize?: number | undefined): Observable<RoleDtoPagedResult> {
+        let url_ = this.baseUrl + "/api/role/paging?";
+        if (keyword !== undefined && keyword !== null)
+            url_ += "Keyword=" + encodeURIComponent("" + keyword) + "&";
+        if (pageIndex === null)
+            throw new Error("The parameter 'pageIndex' cannot be null.");
+        else if (pageIndex !== undefined)
+            url_ += "PageIndex=" + encodeURIComponent("" + pageIndex) + "&";
+        if (pageSize === null)
+            throw new Error("The parameter 'pageSize' cannot be null.");
+        else if (pageSize !== undefined)
+            url_ += "PageSize=" + encodeURIComponent("" + pageSize) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
-        const content_ = JSON.stringify(body);
-
         let options_ : any = {
-            body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Content-Type": "application/json",
                 "Accept": "text/plain"
             })
         };
@@ -3386,50 +3394,6 @@ export interface IRoleDtoPagedResult {
     firstRowOnPage?: number;
     lastRowOnPage?: number;
     results?: RoleDto[] | undefined;
-}
-
-export class RolePagingQueryInput implements IRolePagingQueryInput {
-    pageIndex?: number;
-    pageSize?: number;
-    keyword?: string | undefined;
-
-    constructor(data?: IRolePagingQueryInput) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.pageIndex = _data["pageIndex"];
-            this.pageSize = _data["pageSize"];
-            this.keyword = _data["keyword"];
-        }
-    }
-
-    static fromJS(data: any): RolePagingQueryInput {
-        data = typeof data === 'object' ? data : {};
-        let result = new RolePagingQueryInput();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["pageIndex"] = this.pageIndex;
-        data["pageSize"] = this.pageSize;
-        data["keyword"] = this.keyword;
-        return data;
-    }
-}
-
-export interface IRolePagingQueryInput {
-    pageIndex?: number;
-    pageSize?: number;
-    keyword?: string | undefined;
 }
 
 export class RuntimeFieldHandle implements IRuntimeFieldHandle {

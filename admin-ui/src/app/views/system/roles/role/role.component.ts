@@ -4,7 +4,6 @@ import {
   AdminApiRoleApiClient,
   RoleDto,
   RoleDtoPagedResult,
-  RolePagingQueryInput,
 } from 'src/app/api/admin-api.service.generated';
 import { DialogService, DynamicDialogComponent } from 'primeng/dynamicdialog';
 import { AlertService } from 'src/app/shared/services/alert.service';
@@ -51,13 +50,7 @@ export class RoleComponent implements OnInit, OnDestroy {
     this.toggleBlockUI(true);
 
     this.roleService
-      .getRolesAllPaging(
-        new RolePagingQueryInput({
-          keyword: this.keyword,
-          pageIndex: this.pageIndex,
-          pageSize: this.pageSize,
-        })
-      )
+      .getRolesAllPaging(this.keyword, this.pageIndex, this.pageSize)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({
         next: (response: RoleDtoPagedResult) => {
