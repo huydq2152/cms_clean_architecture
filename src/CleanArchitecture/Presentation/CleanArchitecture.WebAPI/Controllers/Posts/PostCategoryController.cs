@@ -48,11 +48,11 @@ public class PostCategoryController : ApiControllerBase
 
     [HttpGet("paged")]
     public async Task<ApiResult<IEnumerable<PostCategoryDto>>> GetAllPostCategoryPagedAsync(
-        [FromQuery] PostCategoryPagingQueryInput query)
+        [FromQuery] PostCategoryPagingQueryInput input)
     {
         try
         {
-            var postCategories = await _postCategoryService.GetAllPostCategoryPagedAsync(query);
+            var postCategories = await _postCategoryService.GetAllPostCategoryPagedAsync(input);
             return await ApiResult<IEnumerable<PostCategoryDto>>.SuccessAsync(postCategories);
         }
         catch (Exception e)

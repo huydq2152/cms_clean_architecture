@@ -16,6 +16,9 @@ namespace CleanArchitecture.Application.Common.Mappings
             #region Auth
 
             CreateMap<AppRole, RoleDto>();
+            CreateMap<AppRole, RoleDto>().ReverseMap();
+            CreateMap<AppRole, CreateRoleDto>().ReverseMap();
+            CreateMap<AppRole, UpdateRoleDto>().ReverseMap();
 
             #endregion
             

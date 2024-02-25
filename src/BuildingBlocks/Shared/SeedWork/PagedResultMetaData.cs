@@ -2,7 +2,7 @@ namespace Shared.SeedWork;
 
 public class PagedResultMetaData
 {
-    public int CurrentPage { get; set; }
+    public int PageIndex { get; set; }
 
     public int PageCount
     {
@@ -22,11 +22,11 @@ public class PagedResultMetaData
 
     public int RowCount { get; set; }
 
-    public bool HasPrevious => CurrentPage > 1;
+    public bool HasPrevious => PageIndex > 1;
 
-    public bool HasNext => CurrentPage < PageCount;
+    public bool HasNext => PageIndex < PageCount;
 
-    public int FirstRowOnPage => RowCount > 0 ? (CurrentPage - 1) * PageSize + 1 : 0;
+    public int FirstRowOnPage => RowCount > 0 ? (PageIndex - 1) * PageSize + 1 : 0;
 
-    public int LastRowOnPage => (int)Math.Min(CurrentPage * PageSize, RowCount);
+    public int LastRowOnPage => (int)Math.Min(PageIndex * PageSize, RowCount);
 }

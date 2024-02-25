@@ -31,7 +31,7 @@ public class PostCategoryRepository : RepositoryBase<PostCategory, int>, IPostCa
     public async Task<PagedResult<PostCategory>> GetAllPostCategoryPagedAsync(PostCategoryPagingQueryInput query)
     {
         var objQuery = GetByCondition(o => !o.IsDeleted).OrderBy(o => o.Code);
-        var result = await PagedResult<PostCategory>.ToPagedList(objQuery, query.PageNumber, query.PageSize);
+        var result = await PagedResult<PostCategory>.ToPagedList(objQuery, query.PageIndex, query.PageSize);
         return result;
     }
 

@@ -9,10 +9,10 @@ namespace Shared
             Data = data;
         }
 
-        public PaginatedApiResult(bool succeeded, List<T> data = default, string messages = null, int count = 0, int pageNumber = 1, int pageSize = 10)
+        public PaginatedApiResult(bool succeeded, List<T> data = default, string messages = null, int count = 0, int pageIndex = 1, int pageSize = 10)
         {
             Data = data;
-            CurrentPage = pageNumber;
+            PageIndex = pageIndex;
             Succeeded = succeeded;
             Messages = messages;
             PageSize = pageSize;
@@ -21,17 +21,17 @@ namespace Shared
         }
 
         public new List<T> Data { get; set; }
-        public int CurrentPage { get; set; }
+        public int PageIndex { get; set; }
         public int TotalPages { get; set; }
         public int TotalCount { get; set; }
         public int PageSize { get; set; }
 
-        public bool HasPreviousPage => CurrentPage > 1;
-        public bool HasNextPage => CurrentPage < TotalPages;
+        public bool HasPreviousPage => PageIndex > 1;
+        public bool HasNextPage => PageIndex < TotalPages;
 
-        public static PaginatedApiResult<T> Create(List<T> data, int count, int pageNumber, int pageSize)
+        public static PaginatedApiResult<T> Create(List<T> data, int count, int pageIndex, int pageSize)
         {
-            return new PaginatedApiResult<T>(true, data, null, count, pageNumber, pageSize);
+            return new PaginatedApiResult<T>(true, data, null, count, pageIndex, pageSize);
         }
     }
 }

@@ -10,6 +10,7 @@ import { Subject, takeUntil } from 'rxjs';
 import {
   AdminApiRoleApiClient,
   RoleDto,
+  UpdateRoleDto,
 } from 'src/app/api/admin-api.service.generated';
 import { UtilityService } from 'src/app/shared/services/utility.service';
 
@@ -102,7 +103,9 @@ export class RolesDetailComponent implements OnInit, OnDestroy {
         });
     } else {
       this.roleService
-        .updateRole(this.config.data.id, this.form.value)
+        .updateRole(
+          new UpdateRoleDto({ ...this.form.value, id: this.config.data.id })
+        )
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(() => {
           this.toggleBlockUI(false);

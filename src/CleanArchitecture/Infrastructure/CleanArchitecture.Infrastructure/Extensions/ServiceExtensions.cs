@@ -22,12 +22,14 @@ namespace CleanArchitecture.Infrastructure.Extensions
             services
                 .AddTransient<IDateTimeService, DateTimeService>()
                 .AddTransient<ISerializeService, SerializeService>()
-                
+
                 .AddScoped<ITokenService, TokenService>()
                 .AddScoped<IClaimService, ClaimService>()
-                
-                .AddTransient<IPostCategoryService, PostCategoryService>()
-                .AddTransient<ICurrentUserService, CurrentUserService>();
+
+                .AddTransient<ICurrentUserService, CurrentUserService>()
+                .AddTransient<IRoleService, RoleService>()
+                .AddTransient<IPostCategoryService, PostCategoryService>();
+
         }
     }
 }
