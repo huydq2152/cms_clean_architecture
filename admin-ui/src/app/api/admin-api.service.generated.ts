@@ -494,7 +494,7 @@ export class AdminApiRoleApiClient {
      * @param ids (optional) 
      * @return Success
      */
-    deleteRoles(ids?: string[] | undefined): Observable<void> {
+    deleteRoles(ids?: number[] | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/role?";
         if (ids === null)
             throw new Error("The parameter 'ids' cannot be null.");
@@ -546,7 +546,7 @@ export class AdminApiRoleApiClient {
      * @param body (optional) 
      * @return Success
      */
-    updateRole(id: string, body?: CreateUpdateRoleRequest | undefined): Observable<void> {
+    updateRole(id: number, body?: CreateUpdateRoleRequest | undefined): Observable<void> {
         let url_ = this.baseUrl + "/api/role/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -600,7 +600,7 @@ export class AdminApiRoleApiClient {
     /**
      * @return Success
      */
-    getRoleById(id: string): Observable<RoleDto> {
+    getRoleById(id: number): Observable<RoleDto> {
         let url_ = this.baseUrl + "/api/role/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -776,7 +776,7 @@ export class AdminApiRoleApiClient {
     /**
      * @return Success
      */
-    getAllRolePermissions(roleId: string | null): Observable<PermissionDto> {
+    getAllRolePermissions(roleId: number): Observable<PermissionDto> {
         let url_ = this.baseUrl + "/api/role/{roleId}/permissions";
         if (roleId === undefined || roleId === null)
             throw new Error("The parameter 'roleId' must be defined.");
@@ -2829,7 +2829,7 @@ export interface IParameterInfo {
 }
 
 export class PermissionDto implements IPermissionDto {
-    roleId?: string | undefined;
+    roleId?: number;
     roleClaims?: RoleClaimsDto[] | undefined;
 
     constructor(data?: IPermissionDto) {
@@ -2872,7 +2872,7 @@ export class PermissionDto implements IPermissionDto {
 }
 
 export interface IPermissionDto {
-    roleId?: string | undefined;
+    roleId?: number;
     roleClaims?: RoleClaimsDto[] | undefined;
 }
 

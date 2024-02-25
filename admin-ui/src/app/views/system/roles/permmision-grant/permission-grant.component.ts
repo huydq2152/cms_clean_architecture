@@ -49,7 +49,7 @@ export class PermissionGrantComponent implements OnInit, OnDestroy {
     this.closeBtnName = 'Hủy';
   }
 
-  loadDetail(roleId: string) {
+  loadDetail(roleId: number) {
     this.toggleBlockUI(true);
     this.roleService
       .getAllRolePermissions(roleId)
