@@ -2,6 +2,7 @@
 using CleanArchitecture.Application.Interfaces.Services.Posts;
 using CleanArchitecture.WebAPI.Controllers.Common;
 using CleanArchitecture.WebAPI.Filter;
+using Infrastructure.Common.Models.Paging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shared.SeedWork.Auth;
@@ -35,7 +36,7 @@ public class PostCategoryController : ApiControllerBase
 
     [HttpGet("paging")]
     [Authorize(StaticPermissions.PostCategories.View)]
-    public async Task<ActionResult<IEnumerable<PostCategoryDto>>> GetAllPostCategoryPagedAsync(
+    public async Task<ActionResult<PagedResult<PostCategoryDto>>> GetAllPostCategoryPagedAsync(
         [FromQuery] PostCategoryPagingQueryInput input)
     {
         var result = await _postCategoryService.GetAllPostCategoryPagedAsync(input);

@@ -207,12 +207,15 @@ export class AdminApiPostCategoryApiClient {
     }
 
     /**
+     * @param keyword (optional) 
      * @param pageIndex (optional) 
      * @param pageSize (optional) 
      * @return Success
      */
-    getAllPostCategoryPaged(pageIndex?: number | undefined, pageSize?: number | undefined): Observable<PostCategoryDto[]> {
+    getAllPostCategoryPaged(keyword?: string | null | undefined, pageIndex?: number | undefined, pageSize?: number | undefined): Observable<PostCategoryDtoPagedResult> {
         let url_ = this.baseUrl + "/api/postcategory/paging?";
+        if (keyword !== undefined && keyword !== null)
+            url_ += "Keyword=" + encodeURIComponent("" + keyword) + "&";
         if (pageIndex === null)
             throw new Error("The parameter 'pageIndex' cannot be null.");
         else if (pageIndex !== undefined)
@@ -238,14 +241,14 @@ export class AdminApiPostCategoryApiClient {
                 try {
                     return this.processGetAllPostCategoryPaged(response_ as any);
                 } catch (e) {
-                    return _observableThrow(e) as any as Observable<PostCategoryDto[]>;
+                    return _observableThrow(e) as any as Observable<PostCategoryDtoPagedResult>;
                 }
             } else
-                return _observableThrow(response_) as any as Observable<PostCategoryDto[]>;
+                return _observableThrow(response_) as any as Observable<PostCategoryDtoPagedResult>;
         }));
     }
 
-    protected processGetAllPostCategoryPaged(response: HttpResponseBase): Observable<PostCategoryDto[]> {
+    protected processGetAllPostCategoryPaged(response: HttpResponseBase): Observable<PostCategoryDtoPagedResult> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -256,14 +259,7 @@ export class AdminApiPostCategoryApiClient {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (Array.isArray(resultData200)) {
-                result200 = [] as any;
-                for (let item of resultData200)
-                    result200!.push(PostCategoryDto.fromJS(item));
-            }
-            else {
-                result200 = <any>null;
-            }
+            result200 = PostCategoryDtoPagedResult.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -2122,6 +2118,82 @@ export interface IPostCategoryDto {
     isDeleted?: boolean;
     code?: string | undefined;
     name?: string | undefined;
+}
+
+export class PostCategoryDtoPagedResult implements IPostCategoryDtoPagedResult {
+    pageIndex?: number;
+    pageCount?: number;
+    pageSize?: number;
+    rowCount?: number;
+    readonly hasPrevious?: boolean;
+    readonly hasNext?: boolean;
+    readonly firstRowOnPage?: number;
+    readonly lastRowOnPage?: number;
+    results?: PostCategoryDto[] | undefined;
+
+    constructor(data?: IPostCategoryDtoPagedResult) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.pageIndex = _data["pageIndex"];
+            this.pageCount = _data["pageCount"];
+            this.pageSize = _data["pageSize"];
+            this.rowCount = _data["rowCount"];
+            (<any>this).hasPrevious = _data["hasPrevious"];
+            (<any>this).hasNext = _data["hasNext"];
+            (<any>this).firstRowOnPage = _data["firstRowOnPage"];
+            (<any>this).lastRowOnPage = _data["lastRowOnPage"];
+            if (Array.isArray(_data["results"])) {
+                this.results = [] as any;
+                for (let item of _data["results"])
+                    this.results!.push(PostCategoryDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PostCategoryDtoPagedResult {
+        data = typeof data === 'object' ? data : {};
+        let result = new PostCategoryDtoPagedResult();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["pageIndex"] = this.pageIndex;
+        data["pageCount"] = this.pageCount;
+        data["pageSize"] = this.pageSize;
+        data["rowCount"] = this.rowCount;
+        data["hasPrevious"] = this.hasPrevious;
+        data["hasNext"] = this.hasNext;
+        data["firstRowOnPage"] = this.firstRowOnPage;
+        data["lastRowOnPage"] = this.lastRowOnPage;
+        if (Array.isArray(this.results)) {
+            data["results"] = [];
+            for (let item of this.results)
+                data["results"].push(item.toJSON());
+        }
+        return data;
+    }
+}
+
+export interface IPostCategoryDtoPagedResult {
+    pageIndex?: number;
+    pageCount?: number;
+    pageSize?: number;
+    rowCount?: number;
+    hasPrevious?: boolean;
+    hasNext?: boolean;
+    firstRowOnPage?: number;
+    lastRowOnPage?: number;
+    results?: PostCategoryDto[] | undefined;
 }
 
 export class RoleClaimsDto implements IRoleClaimsDto {

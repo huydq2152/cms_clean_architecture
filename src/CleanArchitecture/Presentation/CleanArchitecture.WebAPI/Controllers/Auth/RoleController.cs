@@ -22,28 +22,27 @@ namespace CleanArchitecture.WebAPI.Controllers.Auth
         [Authorize(StaticPermissions.Roles.View)]
         public async Task<ActionResult<RoleDto>> GetRoleByIdAsync(int id)
         {
-            var role = await _roleService.GetRoleByIdAsync(id);
+            var result = await _roleService.GetRoleByIdAsync(id);
 
-            return Ok(role);
+            return Ok(result);
         }
 
         [HttpGet("all")]
         [Authorize(StaticPermissions.Roles.View)]
         public async Task<ActionResult<IEnumerable<RoleDto>>> GetAllRolesAsync()
         {
-            var roles = await _roleService.GetAllRolesAsync();
-            return Ok(roles);
+            var result = await _roleService.GetAllRolesAsync();
+            return Ok(result);
         }
 
         [HttpGet]
         [Route("paging")]
         [Authorize(StaticPermissions.Roles.View)]
-        public async Task<ActionResult<PagedResult<RoleDto>>> GetAllRolesPagedAsync(
-            [FromQuery] RolePagingQueryInput input)
+        public async Task<ActionResult<PagedResult<RoleDto>>> GetAllRolesPagedAsync([FromQuery] RolePagingQueryInput input)
         {
-            var roles = await _roleService.GetAllRolesPagedAsync(input);
+            var result = await _roleService.GetAllRolesPagedAsync(input);
 
-            return Ok(roles);
+            return Ok(result);
         }
 
         [HttpPost]
