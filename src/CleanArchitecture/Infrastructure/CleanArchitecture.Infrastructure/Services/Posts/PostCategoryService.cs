@@ -33,7 +33,8 @@ public class PostCategoryService : IPostCategoryService
 
     public async Task<IEnumerable<PostCategoryDto>> GetAllPostCategoryPagedAsync(PostCategoryPagingQueryInput input)
     {
-        var postCategories = await _postCategoryRepository.GetAllPostCategoryPagedAsync(input);
+        var postCategoriesPagedResult = await _postCategoryRepository.GetAllPostCategoryPagedAsync(input);
+        var postCategories = postCategoriesPagedResult.Results;
         var result = _mapper.Map<IEnumerable<PostCategoryDto>>(postCategories);
         return result;
     }
