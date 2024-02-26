@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Shared.SeedWork;
+using Shared.SeedWork.Paging;
 
 namespace Infrastructure.Common.Models.Paging;
 

@@ -2,6 +2,7 @@
 using CleanArchitecture.Application.Dtos.Auth.Users;
 using CleanArchitecture.Application.Interfaces.Services.Auth.User;
 using CleanArchitecture.Domain.Entities.Identity;
+using Contracts.Exceptions;
 using Infrastructure.Common.Models.Paging;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -24,7 +25,7 @@ public class UserService : IUserService
         var user = await _userManager.FindByIdAsync(id.ToString());
         if (user == null)
         {
-            throw new Exception("User not found");
+            throw new NotFoundException("User", id);
         }
 
         var result = _mapper.Map<AppUser, UserDto>(user);
@@ -58,14 +59,14 @@ public class UserService : IUserService
 
     public async Task CreateUserAsync(CreateUserDto input)
     {
-        if ((await _userManager.FindByNameAsync(input.UserName)) != null)
+        if (await _userManager.FindByNameAsync(input.UserName) != null)
         {
-            throw new Exception("Username already exists");
+            throw new BadRequestException("Username already exists");
         }
 
-        if ((await _userManager.FindByEmailAsync(input.Email)) != null)
+        if (await _userManager.FindByEmailAsync(input.Email) != null)
         {
-            throw new Exception("Email already exists");
+            throw new BadRequestException("Email already exists");
         }
 
         var user = _mapper.Map<CreateUserDto, AppUser>(input);
@@ -74,10 +75,15 @@ public class UserService : IUserService
 
     public async Task UpdateUserAsync(UpdateUserDto input)
     {
+        if (input.Id == null)
+        {
+            throw new BadRequestException("Id is required");
+        }
+
         var user = await _userManager.FindByIdAsync(input.Id.ToString());
         if (user == null)
         {
-            throw new Exception("User not found");
+            throw new NotFoundException("User", input.Id);
         }
 
         _mapper.Map(input, user);
@@ -91,7 +97,7 @@ public class UserService : IUserService
             var user = await _userManager.FindByIdAsync(id.ToString());
             if (user == null)
             {
-                throw new Exception("User not found");
+                throw new NotFoundException("User", id);
             }
 
             await _userManager.DeleteAsync(user);
@@ -103,7 +109,7 @@ public class UserService : IUserService
         var user = await _userManager.FindByIdAsync(currentUserId.ToString());
         if (user == null)
         {
-            throw new Exception("User not found");
+            throw new NotFoundException("User", currentUserId);
         }
 
         await _userManager.ChangePasswordAsync(user, input.OldPassword, input.NewPassword);
@@ -114,7 +120,7 @@ public class UserService : IUserService
         var user = await _userManager.FindByIdAsync(input.CurrentUserId.ToString());
         if (user == null)
         {
-            throw new Exception("User not found");
+            throw new NotFoundException("User", input.CurrentUserId);
         }
 
         user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, input.NewPassword);
@@ -123,10 +129,10 @@ public class UserService : IUserService
 
     public async Task ChangeEmailAsync(ChangeEmailRequest input)
     {
-        var user = await _userManager.FindByIdAsync(input.CurrentUserId.ToString());    
+        var user = await _userManager.FindByIdAsync(input.CurrentUserId.ToString());
         if (user == null)
         {
-            throw new Exception("User not found");
+            throw new NotFoundException("User", input.CurrentUserId);
         }
 
         var token = await _userManager.GenerateChangeEmailTokenAsync(user, input.Email);
@@ -138,7 +144,7 @@ public class UserService : IUserService
         var user = await _userManager.FindByIdAsync(input.CurrentUserId.ToString());
         if (user == null)
         {
-            throw new Exception("User not found");
+            throw new NotFoundException("User", input.CurrentUserId);
         }
 
         var currentRoles = await _userManager.GetRolesAsync(user);

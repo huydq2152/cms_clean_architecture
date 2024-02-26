@@ -18,6 +18,7 @@ public class ErrorWrappingMiddleware
     public async Task Invoke(HttpContext context)
     {
         var errorMsg = string.Empty;
+        var exception = new Exception();
         try
         {
             await _next.Invoke(context);
@@ -26,6 +27,7 @@ public class ErrorWrappingMiddleware
         {
             _logger.Error(ex, ex.Message);
             errorMsg = ex.Message;
+            exception = ex;
             context.Response.StatusCode = 500;
         }
 
@@ -34,9 +36,8 @@ public class ErrorWrappingMiddleware
         {
             context.Response.ContentType = "application/json";
 
-            var response = new ApiResult<bool>()
+            var response = new ApiErrorResult
             {
-                Succeeded = false,
                 Messages = "Unauthorized",
             };
 
@@ -52,10 +53,10 @@ public class ErrorWrappingMiddleware
         {
             context.Response.ContentType = "application/json";
 
-            var response = new ApiResult<bool>()
+            var response = new ApiErrorResult
             {
-                Succeeded = false,
                 Messages = errorMsg,
+                Exception = exception
             };
 
             var json = JsonSerializer.Serialize(response);

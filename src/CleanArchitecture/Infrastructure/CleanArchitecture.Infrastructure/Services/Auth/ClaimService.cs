@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace CleanArchitecture.Infrastructure.Services.Auth;
 
-public class ClaimService: IClaimService
+public class ClaimService : IClaimService
 {
     public void GetPermissions(List<RoleClaimsDto> allPermissions, Type policy)
     {
@@ -24,7 +24,9 @@ public class ClaimService: IClaimService
                 var description = (DescriptionAttribute)attribute[0];
                 displayName = description.Description;
             }
-            allPermissions.Add(new RoleClaimsDto { Value = fi.GetValue(null).ToString(), Type = "Permissions", DisplayName = displayName });
+
+            allPermissions.Add(new RoleClaimsDto
+                { Value = fi.GetValue(null).ToString(), Type = "Permissions", DisplayName = displayName });
         }
     }
 

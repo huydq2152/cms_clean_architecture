@@ -4,6 +4,7 @@ using CleanArchitecture.Application.Dtos.Auth.Roles;
 using CleanArchitecture.Application.Extensions.Auth;
 using CleanArchitecture.Application.Interfaces.Services.Auth;
 using CleanArchitecture.Domain.Entities.Identity;
+using Contracts.Exceptions;
 using Infrastructure.Common.Models.Paging;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -26,7 +27,9 @@ public class RoleService : IRoleService
     {
         var role = await _roleManager.FindByIdAsync(id.ToString());
         if (role == null)
-            throw new Exception("Role not found");
+        {
+            throw new NotFoundException("Role", id);
+        }
 
         var result = _mapper.Map<AppRole, RoleDto>(role);
         return result;
@@ -64,9 +67,17 @@ public class RoleService : IRoleService
 
     public async Task UpdateRoleAsync(UpdateRoleDto input)
     {
+        if (input.Id == null)
+        {
+            throw new BadRequestException("Id is required");
+        }
+
         var role = await _roleManager.FindByIdAsync(input.Id.ToString());
         if (role == null)
-            throw new Exception("Role not found");
+        {
+            throw new NotFoundException("Role", input.Id);
+        }
+
         role.Name = input.Name;
         role.DisplayName = input.DisplayName;
 
@@ -79,7 +90,10 @@ public class RoleService : IRoleService
         {
             var role = await _roleManager.FindByIdAsync(id.ToString());
             if (role == null)
-                throw new Exception("Role not found");
+            {
+                throw new NotFoundException("Role", id);
+            }
+
             await _roleManager.DeleteAsync(role);
         }
     }
@@ -96,7 +110,10 @@ public class RoleService : IRoleService
 
         var role = await _roleManager.FindByIdAsync(roleId.ToString());
         if (role == null)
-            throw new Exception("Role not found");
+        {
+            throw new NotFoundException("Role", roleId);
+        }
+
         result.RoleId = roleId;
         var claims = await _roleManager.GetClaimsAsync(role);
         var allClaimValues = allPermissions.Select(a => a.Value).ToList();
@@ -118,7 +135,9 @@ public class RoleService : IRoleService
     {
         var role = await _roleManager.FindByIdAsync(permissionDto.RoleId.ToString());
         if (role == null)
-            throw new Exception("Role not found");
+        {
+            throw new NotFoundException("Role", permissionDto.RoleId);
+        }
 
         var claims = await _roleManager.GetClaimsAsync(role);
         foreach (var claim in claims)

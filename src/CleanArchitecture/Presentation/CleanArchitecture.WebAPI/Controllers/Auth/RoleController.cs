@@ -38,7 +38,8 @@ namespace CleanArchitecture.WebAPI.Controllers.Auth
         [HttpGet]
         [Route("paging")]
         [Authorize(StaticPermissions.Roles.View)]
-        public async Task<ActionResult<PagedResult<RoleDto>>> GetAllRolesPagedAsync([FromQuery] RolePagingQueryInput input)
+        public async Task<ActionResult<PagedResult<RoleDto>>> GetAllRolesPagedAsync(
+            [FromQuery] RolePagingQueryInput input)
         {
             var roles = await _roleService.GetAllRolesPagedAsync(input);
 

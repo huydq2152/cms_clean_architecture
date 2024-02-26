@@ -42,7 +42,7 @@ public class UserController : ApiControllerBase
     public async Task<ActionResult<PagedResult<UserDto>>> GetAllUsersPagedAsync([FromQuery] UserPagingQueryInput input)
     {
         var result = await _userService.GetAllUsersPagedAsync(input);
-        return Ok(result);  
+        return Ok(result);
     }
 
     [HttpPost]
@@ -72,7 +72,7 @@ public class UserController : ApiControllerBase
     }
 
     [HttpPost]
-    [Route("change-password-current-user")] 
+    [Route("change-password-current-user")]
     [ValidateModel]
     [Authorize(StaticPermissions.Users.Edit)]
     public async Task<IActionResult> ChangeMyPassWordAsync([FromBody] ChangeMyPasswordRequest input)
