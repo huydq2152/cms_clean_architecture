@@ -59,7 +59,8 @@ public static class ServiceExtensions
 
     private static void AddServices(this IServiceCollection services)
     {
-        services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>()
+        services.AddScoped<ValidateModelAttribute>()
+            .AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>()
             .AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
     }
 
