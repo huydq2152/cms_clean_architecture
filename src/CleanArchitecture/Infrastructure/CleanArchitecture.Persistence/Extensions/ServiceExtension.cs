@@ -20,15 +20,16 @@ public static class ServiceExtension
 {
     public static void AddPersistenceLayer(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddRepositories();
+        services.AddServices();
         services.AddDbContext(configuration);
         services.AddIdentity();
     }
 
-    private static void AddRepositories(this IServiceCollection services)
+    private static void AddServices(this IServiceCollection services)
     {
         services
             .AddScoped<ApplicationContextSeed>()
+            .AddScoped<AuditableEntitySaveChangesInterceptor>()
             .AddTransient(typeof(IUnitOfWork), typeof(UnitOfWork))
             .AddTransient(typeof(IRepositoryBase<,>), typeof(RepositoryBase<,>))
             .AddTransient<IPostCategoryRepository, PostCategoryRepository>();

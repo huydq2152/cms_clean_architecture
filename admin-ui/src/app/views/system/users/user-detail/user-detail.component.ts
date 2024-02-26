@@ -171,6 +171,7 @@ export class UserDetailComponent implements OnInit, OnDestroy {
           new UpdateUserDto({
             ...this.form.value,
             id: this.config.data?.id,
+            dob: new Date(this.form.value.dob),
           })
         )
         .pipe(takeUntil(this.ngUnsubscribe))

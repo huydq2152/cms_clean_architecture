@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
 using CleanArchitecture.Application.Interfaces.Services.Auth.User;
 using Microsoft.AspNetCore.Http;
+using Shared.SeedWork.Auth;
 
 namespace CleanArchitecture.Infrastructure.Services.Auth.User;
 
@@ -13,7 +14,12 @@ public class CurrentUserService : ICurrentUserService
         _httpContextAccessor = httpContextAccessor;
     }
 
-    public int? UserId => _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier) != null
-        ? Convert.ToInt32(_httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier))
-        : null;
+    public int? UserId
+    {
+        get
+        {
+            var userId = _httpContextAccessor.HttpContext?.User?.FindFirstValue(UserClaims.Id);
+            return userId != null ? Convert.ToInt32(userId) : null;
+        }
+    }
 }
