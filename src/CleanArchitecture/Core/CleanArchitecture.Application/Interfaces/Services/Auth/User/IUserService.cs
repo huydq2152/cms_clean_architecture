@@ -12,8 +12,9 @@ public interface IUserService
     Task CreateUserAsync(CreateUserDto input);
     Task UpdateUserAsync(UpdateUserDto input);
     Task DeleteUserAsync(int[] ids);
-    Task ChangeMyPassWord(ChangeMyPasswordRequest input, int currentUserId);
-    Task SetPassword(SetPasswordRequest input);
-    Task ChangeEmail(ChangeEmailRequest input);
-    Task AssignRolesToUser(AssignRolesToUserRequest input);
+    Task ChangeMyPassWordAsync(ChangeMyPasswordRequest input, int currentUserId);
+    Task SetPasswordAsync(SetPasswordRequest input);
+    Task ChangeEmailAsync(ChangeEmailRequest input);
+    Task AssignRolesToUserAsync(AssignRolesToUserRequest input);
+    Task<IList<string>> GetUserRolesAsync(int userId);
 }

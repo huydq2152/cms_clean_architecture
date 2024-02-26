@@ -98,7 +98,7 @@ public class UserService : IUserService
         }
     }
 
-    public async Task ChangeMyPassWord(ChangeMyPasswordRequest input, int currentUserId)
+    public async Task ChangeMyPassWordAsync(ChangeMyPasswordRequest input, int currentUserId)
     {
         var user = await _userManager.FindByIdAsync(currentUserId.ToString());
         if (user == null)
@@ -109,7 +109,7 @@ public class UserService : IUserService
         await _userManager.ChangePasswordAsync(user, input.OldPassword, input.NewPassword);
     }
 
-    public async Task SetPassword(SetPasswordRequest input)
+    public async Task SetPasswordAsync(SetPasswordRequest input)
     {
         var user = await _userManager.FindByIdAsync(input.CurrentUserId.ToString());
         if (user == null)
@@ -121,7 +121,7 @@ public class UserService : IUserService
         await _userManager.UpdateAsync(user);
     }
 
-    public async Task ChangeEmail(ChangeEmailRequest input)
+    public async Task ChangeEmailAsync(ChangeEmailRequest input)
     {
         var user = await _userManager.FindByIdAsync(input.CurrentUserId.ToString());    
         if (user == null)
@@ -133,7 +133,7 @@ public class UserService : IUserService
         await _userManager.ChangeEmailAsync(user, input.Email, token);
     }
 
-    public async Task AssignRolesToUser(AssignRolesToUserRequest input)
+    public async Task AssignRolesToUserAsync(AssignRolesToUserRequest input)
     {
         var user = await _userManager.FindByIdAsync(input.CurrentUserId.ToString());
         if (user == null)
@@ -144,5 +144,12 @@ public class UserService : IUserService
         var currentRoles = await _userManager.GetRolesAsync(user);
         await _userManager.RemoveFromRolesAsync(user, currentRoles);
         await _userManager.AddToRolesAsync(user, input.Roles);
+    }
+
+    public async Task<IList<string>> GetUserRolesAsync(int userId)
+    {
+        var user = await _userManager.FindByIdAsync(userId.ToString());
+        var result = await _userManager.GetRolesAsync(user);
+        return result;
     }
 }

@@ -1,18 +1,22 @@
 import { Component, OnInit, EventEmitter, OnDestroy } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
-
+import {
+  Validators,
+  FormControl,
+  FormGroup,
+  FormBuilder,
+} from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subject, takeUntil } from 'rxjs';
 import {
-  AdminApiRoleApiClient,
-  PermissionDto,
-  RoleClaimsDto,
+  AdminApiUserApiClient,
+  ChangeEmailRequest,
+  UserDto,
 } from 'src/app/api/admin-api.service.generated';
 
 @Component({
-  templateUrl: 'permission-grant.component.html',
+  templateUrl: 'change-email.component.html',
 })
-export class PermissionGrantComponent implements OnInit, OnDestroy {
+export class ChangeEmailComponent implements OnInit, OnDestroy {
   private ngUnsubscribe = new Subject<void>();
 
   // Default
@@ -22,15 +26,13 @@ export class PermissionGrantComponent implements OnInit, OnDestroy {
   public btnDisabled = false;
   public saveBtnName: string;
   public closeBtnName: string;
-  public permissions: RoleClaimsDto[] = [];
-  public selectedPermissions: RoleClaimsDto[] = [];
-  public id: string;
+  public email: string;
   formSavedEventEmitter: EventEmitter<any> = new EventEmitter();
 
   constructor(
     public ref: DynamicDialogRef,
     public config: DynamicDialogConfig,
-    private roleService: AdminApiRoleApiClient,
+    private userService: AdminApiUserApiClient,
     private fb: FormBuilder
   ) {}
 
@@ -49,14 +51,23 @@ export class PermissionGrantComponent implements OnInit, OnDestroy {
     this.closeBtnName = 'Hủy';
   }
 
-  loadDetail(roleId: number) {
+  // Validate
+  noSpecial: RegExp = /^[^<>*!_~]+$/;
+  validationMessages = {
+    email: [
+      { type: 'required', message: 'Bạn phải nhập email' },
+      { type: 'email', message: 'Email không đúng định dạng' },
+    ],
+  };
+
+  loadDetail(id: any) {
     this.toggleBlockUI(true);
-    this.roleService
-      .getAllRolePermissions(roleId)
+    this.userService
+      .getUserById(id)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({
-        next: (response: PermissionDto) => {
-          this.permissions = response.roleClaims;
+        next: (response: UserDto) => {
+          this.email = response.email;
           this.buildForm();
           this.toggleBlockUI(false);
         },
@@ -67,31 +78,18 @@ export class PermissionGrantComponent implements OnInit, OnDestroy {
   }
   saveChange() {
     this.toggleBlockUI(true);
+
     this.saveData();
   }
 
   private saveData() {
-    var roleClaims: RoleClaimsDto[] = [];
-    for (let index = 0; index < this.permissions.length; index++) {
-      const isGranted =
-        this.selectedPermissions.filter(
-          (x) => x.value == this.permissions[index].value
-        ).length > 0;
-
-      roleClaims.push(
-        new RoleClaimsDto({
-          type: this.permissions[index].type,
-          selected: isGranted,
-          value: this.permissions[index].value,
+    this.userService
+      .changeEmail(
+        new ChangeEmailRequest({
+          ...this.form.value,
+          currentUserId: this.config.data.id,
         })
-      );
-    }
-    var updateValues = new PermissionDto({
-      roleId: this.config.data.id,
-      roleClaims: roleClaims,
-    });
-    this.roleService
-      .saveRolePermissions(updateValues)
+      )
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(() => {
         this.toggleBlockUI(false);
@@ -100,21 +98,12 @@ export class PermissionGrantComponent implements OnInit, OnDestroy {
   }
 
   buildForm() {
-    this.form = this.fb.group({});
-    //Fill value
-    for (let index = 0; index < this.permissions.length; index++) {
-      const permission = this.permissions[index];
-      if (permission.selected) {
-        this.selectedPermissions.push(
-          new RoleClaimsDto({
-            selected: true,
-            displayName: permission.displayName,
-            type: permission.type,
-            value: permission.value,
-          })
-        );
-      }
-    }
+    this.form = this.fb.group({
+      email: new FormControl(
+        this.email || null,
+        Validators.compose([Validators.required, Validators.email])
+      ),
+    });
   }
 
   private toggleBlockUI(enabled: boolean) {

@@ -20,7 +20,7 @@ namespace CleanArchitecture.WebAPI.Controllers.Auth
 
         [HttpGet("{id}")]
         [Authorize(StaticPermissions.Roles.View)]
-        public async Task<ActionResult<RoleDto>> GetRoleById(int id)
+        public async Task<ActionResult<RoleDto>> GetRoleByIdAsync(int id)
         {
             var role = await _roleService.GetRoleByIdAsync(id);
 
@@ -29,7 +29,7 @@ namespace CleanArchitecture.WebAPI.Controllers.Auth
 
         [HttpGet("all")]
         [Authorize(StaticPermissions.Roles.View)]
-        public async Task<ActionResult<IEnumerable<RoleDto>>> GetAllRoles()
+        public async Task<ActionResult<IEnumerable<RoleDto>>> GetAllRolesAsync()
         {
             var roles = await _roleService.GetAllRolesAsync();
             return Ok(roles);
@@ -38,7 +38,7 @@ namespace CleanArchitecture.WebAPI.Controllers.Auth
         [HttpGet]
         [Route("paging")]
         [Authorize(StaticPermissions.Roles.View)]
-        public async Task<ActionResult<PagedResult<RoleDto>>> GetRolesAllPaging([FromQuery] RolePagingQueryInput input)
+        public async Task<ActionResult<PagedResult<RoleDto>>> GetAllRolesPagedAsync([FromQuery] RolePagingQueryInput input)
         {
             var roles = await _roleService.GetAllRolesPagedAsync(input);
 
@@ -48,7 +48,7 @@ namespace CleanArchitecture.WebAPI.Controllers.Auth
         [HttpPost]
         [ValidateModel]
         [Authorize(StaticPermissions.Roles.View)]
-        public async Task<IActionResult> CreateRole([FromBody] CreateRoleDto input)
+        public async Task<IActionResult> CreateRoleAsync([FromBody] CreateRoleDto input)
         {
             await _roleService.CreateRoleAsync(input);
             return Ok();
@@ -57,7 +57,7 @@ namespace CleanArchitecture.WebAPI.Controllers.Auth
         [HttpPut]
         [ValidateModel]
         [Authorize(StaticPermissions.Roles.Edit)]
-        public async Task<IActionResult> UpdateRole([FromBody] UpdateRoleDto input)
+        public async Task<IActionResult> UpdateRoleAsync([FromBody] UpdateRoleDto input)
         {
             await _roleService.UpdateRoleAsync(input);
             return Ok();
@@ -65,7 +65,7 @@ namespace CleanArchitecture.WebAPI.Controllers.Auth
 
         [HttpDelete]
         [Authorize(StaticPermissions.Roles.Delete)]
-        public async Task<IActionResult> DeleteRoles([FromQuery] int[] ids)
+        public async Task<IActionResult> DeleteRolesAsync([FromQuery] int[] ids)
         {
             await _roleService.DeleteRoleAsync(ids);
             return Ok();
@@ -73,7 +73,7 @@ namespace CleanArchitecture.WebAPI.Controllers.Auth
 
         [HttpGet("{roleId}/permissions")]
         [Authorize(StaticPermissions.Roles.View)]
-        public async Task<ActionResult<PermissionDto>> GetAllRolePermissions(int roleId)
+        public async Task<ActionResult<PermissionDto>> GetAllRolePermissionsAsync(int roleId)
         {
             var permissionDto = await _roleService.GetRolePermissionsAsync(roleId);
             return Ok(permissionDto);
@@ -81,7 +81,7 @@ namespace CleanArchitecture.WebAPI.Controllers.Auth
 
         [HttpPut("permissions")]
         [Authorize(StaticPermissions.Roles.Edit)]
-        public async Task<IActionResult> SavePermission([FromBody] PermissionDto input)
+        public async Task<IActionResult> SaveRolePermissionsAsync([FromBody] PermissionDto input)
         {
             await _roleService.SaveRolePermissionsAsync(input);
 

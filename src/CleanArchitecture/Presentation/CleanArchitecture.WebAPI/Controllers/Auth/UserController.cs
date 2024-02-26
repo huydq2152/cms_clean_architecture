@@ -21,15 +21,16 @@ public class UserController : ApiControllerBase
 
     [HttpGet("{id}")]
     [Authorize(StaticPermissions.Users.View)]
-    public async Task<ActionResult<UserDto>> GetUserById(int id)
+    public async Task<ActionResult<UserDto>> GetUserByIdAsync(int id)
     {
         var result = await _userService.GetUserByIdAsync(id);
+        result.Roles = await _userService.GetUserRolesAsync(id);
         return Ok(result);
     }
 
     [HttpGet("all")]
     [Authorize(StaticPermissions.Users.View)]
-    public async Task<ActionResult<IEnumerable<UserDto>>> GetAllUsers()
+    public async Task<ActionResult<IEnumerable<UserDto>>> GetAllUsersAsync()
     {
         var result = await _userService.GetAllUsersAsync();
         return Ok(result);
@@ -38,7 +39,7 @@ public class UserController : ApiControllerBase
     [HttpGet]
     [Route("paging")]
     [Authorize(StaticPermissions.Users.View)]
-    public async Task<ActionResult<PagedResult<UserDto>>> GetUsersAllPaging([FromQuery] UserPagingQueryInput input)
+    public async Task<ActionResult<PagedResult<UserDto>>> GetAllUsersPagedAsync([FromQuery] UserPagingQueryInput input)
     {
         var result = await _userService.GetAllUsersPagedAsync(input);
         return Ok(result);
@@ -47,7 +48,7 @@ public class UserController : ApiControllerBase
     [HttpPost]
     [ValidateModel]
     [Authorize(StaticPermissions.Users.Create)]
-    public async Task<IActionResult> CreateUser([FromBody] CreateUserDto input)
+    public async Task<IActionResult> CreateUserAsync([FromBody] CreateUserDto input)
     {
         await _userService.CreateUserAsync(input);
         return Ok();
@@ -56,7 +57,7 @@ public class UserController : ApiControllerBase
     [HttpPut]
     [ValidateModel]
     [Authorize(StaticPermissions.Users.Edit)]
-    public async Task<IActionResult> UpdateUser([FromBody] UpdateUserDto input)
+    public async Task<IActionResult> UpdateUserAsync([FromBody] UpdateUserDto input)
     {
         await _userService.UpdateUserAsync(input);
         return Ok();
@@ -64,7 +65,7 @@ public class UserController : ApiControllerBase
 
     [HttpDelete]
     [Authorize(StaticPermissions.Users.Delete)]
-    public async Task<IActionResult> DeleteUser([FromBody] int[] ids)
+    public async Task<IActionResult> DeleteUserAsync([FromBody] int[] ids)
     {
         await _userService.DeleteUserAsync(ids);
         return Ok();
@@ -74,9 +75,9 @@ public class UserController : ApiControllerBase
     [Route("change-password-current-user")] 
     [ValidateModel]
     [Authorize(StaticPermissions.Users.Edit)]
-    public async Task<IActionResult> ChangeMyPassWord([FromBody] ChangeMyPasswordRequest input)
+    public async Task<IActionResult> ChangeMyPassWordAsync([FromBody] ChangeMyPasswordRequest input)
     {
-        await _userService.ChangeMyPassWord(input, User.GetUserId());
+        await _userService.ChangeMyPassWordAsync(input, User.GetUserId());
         return Ok();
     }
 
@@ -84,9 +85,9 @@ public class UserController : ApiControllerBase
     [Route("set-password")]
     [ValidateModel]
     [Authorize(StaticPermissions.Users.Edit)]
-    public async Task<IActionResult> SetPassword([FromBody] SetPasswordRequest input)
+    public async Task<IActionResult> SetPasswordAsync([FromBody] SetPasswordRequest input)
     {
-        await _userService.SetPassword(input);
+        await _userService.SetPasswordAsync(input);
         return Ok();
     }
 
@@ -94,9 +95,9 @@ public class UserController : ApiControllerBase
     [Route("change-email")]
     [ValidateModel]
     [Authorize(StaticPermissions.Users.Edit)]
-    public async Task<IActionResult> ChangeEmail([FromBody] ChangeEmailRequest input)
+    public async Task<IActionResult> ChangeEmailAsync([FromBody] ChangeEmailRequest input)
     {
-        await _userService.ChangeEmail(input);
+        await _userService.ChangeEmailAsync(input);
         return Ok();
     }
 
@@ -104,9 +105,9 @@ public class UserController : ApiControllerBase
     [Route("assign-roles")]
     [ValidateModel]
     [Authorize(StaticPermissions.Users.Edit)]
-    public async Task<IActionResult> AssignRolesToUser([FromBody] AssignRolesToUserRequest input)
+    public async Task<IActionResult> AssignRolesToUserAsync([FromBody] AssignRolesToUserRequest input)
     {
-        await _userService.AssignRolesToUser(input);
+        await _userService.AssignRolesToUserAsync(input);
         return Ok();
     }
 }
