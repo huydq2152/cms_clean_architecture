@@ -50,10 +50,13 @@ public class PostCategoryService : IPostCategoryService
         await _postCategoryRepository.UpdatePostCategoryAsync(postCategoryEntity);
     }
 
-    public async Task DeletePostCategoryAsync(int id)
+    public async Task DeletePostCategoriesAsync(int[] ids)
     {
-        var postCategory = await _postCategoryRepository.GetPostCategoryByIdAsync(id);
-        if (postCategory == null) throw new Exception("Post category not found");
-        await _postCategoryRepository.DeletePostCategoryAsync(postCategory);
+        foreach (var id in ids)
+        {
+            var postCategory = await _postCategoryRepository.GetPostCategoryByIdAsync(id);
+            if (postCategory == null) throw new Exception("Post category not found");
+            await _postCategoryRepository.DeletePostCategoryAsync(postCategory);
+        }
     }
 }

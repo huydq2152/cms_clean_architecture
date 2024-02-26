@@ -67,7 +67,7 @@ public class UserController : ApiControllerBase
     [Authorize(StaticPermissions.Users.Delete)]
     public async Task<IActionResult> DeleteUserAsync([FromBody] int[] ids)
     {
-        await _userService.DeleteUserAsync(ids);
+        await _userService.DeleteUsersAsync(ids);
         return Ok();
     }
 

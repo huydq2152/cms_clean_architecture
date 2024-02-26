@@ -67,7 +67,7 @@ namespace CleanArchitecture.WebAPI.Controllers.Auth
         [Authorize(StaticPermissions.Roles.Delete)]
         public async Task<IActionResult> DeleteRolesAsync([FromQuery] int[] ids)
         {
-            await _roleService.DeleteRoleAsync(ids);
+            await _roleService.DeleteRolesAsync(ids);
             return Ok();
         }
 

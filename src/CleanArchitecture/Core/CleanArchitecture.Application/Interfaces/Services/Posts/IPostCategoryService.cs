@@ -9,5 +9,5 @@ public interface IPostCategoryService
     Task<IEnumerable<PostCategoryDto>> GetAllPostCategoryPagedAsync(PostCategoryPagingQueryInput input);
     Task CreatePostCategoryAsync(CreatePostCategoryDto postCategory);
     Task UpdatePostCategoryAsync(UpdatePostCategoryDto postCategory);
-    Task DeletePostCategoryAsync(int id);
+    Task DeletePostCategoriesAsync(int[] ids);
 }

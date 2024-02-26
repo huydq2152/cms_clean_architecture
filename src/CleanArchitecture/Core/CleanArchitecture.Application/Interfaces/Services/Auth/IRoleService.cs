@@ -10,7 +10,7 @@ public interface IRoleService
     Task<PagedResult<RoleDto>> GetAllRolesPagedAsync(RolePagingQueryInput input);
     Task CreateRoleAsync(CreateRoleDto input);
     Task UpdateRoleAsync(UpdateRoleDto input);
-    Task DeleteRoleAsync(int[] ids);
+    Task DeleteRolesAsync(int[] ids);
     Task<PermissionDto> GetRolePermissionsAsync(int roleId);
     Task SaveRolePermissionsAsync(PermissionDto input);
 }

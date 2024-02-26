@@ -73,7 +73,7 @@ public class RoleService : IRoleService
         await _roleManager.UpdateAsync(role);
     }
 
-    public async Task DeleteRoleAsync(int[] ids)
+    public async Task DeleteRolesAsync(int[] ids)
     {
         foreach (var id in ids)
         {

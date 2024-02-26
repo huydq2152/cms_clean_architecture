@@ -11,7 +11,7 @@ public interface IUserService
     Task<PagedResult<UserDto>> GetAllUsersPagedAsync(UserPagingQueryInput input);
     Task CreateUserAsync(CreateUserDto input);
     Task UpdateUserAsync(UpdateUserDto input);
-    Task DeleteUserAsync(int[] ids);
+    Task DeleteUsersAsync(int[] ids);
     Task ChangeMyPassWordAsync(ChangeMyPasswordRequest input, int currentUserId);
     Task SetPasswordAsync(SetPasswordRequest input);
     Task ChangeEmailAsync(ChangeEmailRequest input);

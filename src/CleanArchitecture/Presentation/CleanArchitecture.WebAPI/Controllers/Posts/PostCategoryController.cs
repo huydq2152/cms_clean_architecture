@@ -1,9 +1,10 @@
 ﻿using CleanArchitecture.Application.Dtos.Posts;
 using CleanArchitecture.Application.Interfaces.Services.Posts;
 using CleanArchitecture.WebAPI.Controllers.Common;
+using CleanArchitecture.WebAPI.Filter;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Serilog;
-using Shared.SeedWork;
+using Shared.SeedWork.Auth;
 
 namespace CleanArchitecture.WebAPI.Controllers.Posts;
 
@@ -17,93 +18,53 @@ public class PostCategoryController : ApiControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<ApiResult<PostCategoryDto>> GetPostCategoryByIdAsync(int id)
+    [Authorize(StaticPermissions.PostCategories.View)]
+    public async Task<ActionResult<PostCategoryDto>> GetPostCategoryByIdAsync(int id)
     {
-        try
-        {
-            var postCategory = await _postCategoryService.GetPostCategoryByIdAsync(id);
-            return await ApiResult<PostCategoryDto>.SuccessAsync(postCategory);
-        }
-        catch (Exception e)
-        {
-            Log.Error("Error in GetPostCategoryByIdAsync: {0}", e.Message);
-            return await ApiResult<PostCategoryDto>.FailureAsync(e.Message);
-        }
+        var result = await _postCategoryService.GetPostCategoryByIdAsync(id);
+        return Ok(result);
     }
 
-    [HttpGet]
-    public async Task<ApiResult<IEnumerable<PostCategoryDto>>> GetAllPostCategoriesAsync()
+    [HttpGet("all")]
+    [Authorize(StaticPermissions.PostCategories.View)]
+    public async Task<ActionResult<IEnumerable<PostCategoryDto>>> GetAllPostCategoriesAsync()
     {
-        try
-        {
-            var postCategories = await _postCategoryService.GetAllPostCategoriesAsync();
-            return await ApiResult<IEnumerable<PostCategoryDto>>.SuccessAsync(postCategories);
-        }
-        catch (Exception e)
-        {
-            Log.Error("Error in GetAllPostCategoriesAsync: {0}", e.Message);
-            return await ApiResult<IEnumerable<PostCategoryDto>>.FailureAsync(e.Message);
-        }
+        var result = await _postCategoryService.GetAllPostCategoriesAsync();
+        return Ok(result);
     }
 
-    [HttpGet("paged")]
-    public async Task<ApiResult<IEnumerable<PostCategoryDto>>> GetAllPostCategoryPagedAsync(
+    [HttpGet("paging")]
+    [Authorize(StaticPermissions.PostCategories.View)]
+    public async Task<ActionResult<IEnumerable<PostCategoryDto>>> GetAllPostCategoryPagedAsync(
         [FromQuery] PostCategoryPagingQueryInput input)
     {
-        try
-        {
-            var postCategories = await _postCategoryService.GetAllPostCategoryPagedAsync(input);
-            return await ApiResult<IEnumerable<PostCategoryDto>>.SuccessAsync(postCategories);
-        }
-        catch (Exception e)
-        {
-            Log.Error("Error in GetAllPostCategoryPagedAsync: {0}", e.Message);
-            return await ApiResult<IEnumerable<PostCategoryDto>>.FailureAsync(e.Message);
-        }
+        var result = await _postCategoryService.GetAllPostCategoryPagedAsync(input);
+        return Ok(result);
     }
 
     [HttpPost]
-    public async Task<ApiResult<int>> CreatePostCategoryAsync([FromBody] CreatePostCategoryDto postCategory)
+    [ValidateModel]
+    [Authorize(StaticPermissions.PostCategories.Create)]
+    public async Task<IActionResult> CreatePostCategoryAsync([FromBody] CreatePostCategoryDto input)
     {
-        try
-        {
-            await _postCategoryService.CreatePostCategoryAsync(postCategory);
-            return await ApiResult<int>.SuccessAsync("PostCategory created");
-        }
-        catch (Exception e)
-        {
-            Log.Error("Error in CreatePostCategoryAsync: {0}", e.Message);
-            return await ApiResult<int>.FailureAsync(e.Message);
-        }
+        await _postCategoryService.CreatePostCategoryAsync(input);
+        return Ok();
     }
 
     [HttpPut]
-    public async Task<ApiResult<int>> UpdatePostCategoryAsync([FromBody] UpdatePostCategoryDto postCategory)
+    [ValidateModel]
+    [Authorize(StaticPermissions.PostCategories.Edit)]
+    public async Task<IActionResult> UpdatePostCategoryAsync([FromBody] UpdatePostCategoryDto input)
     {
-        try
-        {
-            await _postCategoryService.UpdatePostCategoryAsync(postCategory);
-            return await ApiResult<int>.SuccessAsync("PostCategory updated");
-        }
-        catch (Exception e)
-        {
-            Log.Error("Error in UpdatePostCategoryAsync: {0}", e.Message);
-            return await ApiResult<int>.FailureAsync(e.Message);
-        }
+        await _postCategoryService.UpdatePostCategoryAsync(input);
+        return Ok();
     }
 
-    [HttpDelete("{id}")]
-    public async Task<ApiResult<int>> DeletePostCategoryAsync(int id)
+    [HttpDelete]
+    [Authorize(StaticPermissions.PostCategories.Delete)]
+    public async Task<IActionResult> DeletePostCategoryAsync([FromBody] int[] ids)
     {
-        try
-        {
-            await _postCategoryService.DeletePostCategoryAsync(id);
-            return await ApiResult<int>.SuccessAsync(id, "PostCategory deleted");
-        }
-        catch (Exception e)
-        {
-            Log.Error("Error in DeletePostCategoryAsync: {0}", e.Message);
-            return await ApiResult<int>.FailureAsync(e.Message);
-        }
+        await _postCategoryService.DeletePostCategoriesAsync(ids);
+        return Ok();
     }
 }

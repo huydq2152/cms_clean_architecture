@@ -84,7 +84,7 @@ public class UserService : IUserService
         await _userManager.UpdateAsync(user);
     }
 
-    public async Task DeleteUserAsync(int[] ids)
+    public async Task DeleteUsersAsync(int[] ids)
     {
         foreach (var id in ids)
         {
