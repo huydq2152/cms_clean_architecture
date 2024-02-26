@@ -12,10 +12,10 @@ namespace CleanArchitecture.Application.Extensions.Auth
             return (claim != null) ? claim.Value : string.Empty;
         }
 
-        public static Guid GetUserId(this ClaimsPrincipal claimsPrincipal)
+        public static int GetUserId(this ClaimsPrincipal claimsPrincipal)
         {
             var claim = ((ClaimsIdentity)claimsPrincipal.Identity).Claims.Single(x => x.Type == UserClaims.Id);
-            return Guid.Parse(claim.Value);
+            return int.Parse(claim.Value);
         }
     }
 }

@@ -56,7 +56,7 @@ public class UserService : IUserService
         return result;
     }
 
-    public async Task<IdentityResult> CreateUserAsync(CreateUserDto input)
+    public async Task CreateUserAsync(CreateUserDto input)
     {
         if ((await _userManager.FindByNameAsync(input.UserName)) != null)
         {
@@ -69,21 +69,19 @@ public class UserService : IUserService
         }
 
         var user = _mapper.Map<CreateUserDto, AppUser>(input);
-        var result = await _userManager.CreateAsync(user, input.Password);
-        return result;
+        await _userManager.CreateAsync(user, input.Password);
     }
 
-    public async Task<IdentityResult> UpdateUserAsync(UpdateUserDto input)
+    public async Task UpdateUserAsync(UpdateUserDto input)
     {
         var user = await _userManager.FindByIdAsync(input.Id.ToString());
         if (user == null)
         {
             throw new Exception("User not found");
         }
-        _mapper.Map(input, user);
-        var result = await _userManager.UpdateAsync(user);
 
-        return result;
+        _mapper.Map(input, user);
+        await _userManager.UpdateAsync(user);
     }
 
     public async Task DeleteUserAsync(int[] ids)
@@ -95,33 +93,56 @@ public class UserService : IUserService
             {
                 throw new Exception("User not found");
             }
+
             await _userManager.DeleteAsync(user);
         }
     }
 
-    public async Task<IdentityResult> ChangeMyPassWord(ChangeMyPasswordRequest input)
+    public async Task ChangeMyPassWord(ChangeMyPasswordRequest input, int currentUserId)
     {
-        var user = await _userManager.FindByIdAsync(User.GetUserId().ToString());
+        var user = await _userManager.FindByIdAsync(currentUserId.ToString());
         if (user == null)
         {
             throw new Exception("User not found");
         }
-        var result = await _userManager.ChangePasswordAsync(user, input.OldPassword, input.NewPassword);
-        return result;
+
+        await _userManager.ChangePasswordAsync(user, input.OldPassword, input.NewPassword);
     }
 
-    public async Task<IdentityResult> SetPassword(SetPasswordRequest input)
+    public async Task SetPassword(SetPasswordRequest input)
     {
-        throw new NotImplementedException();
+        var user = await _userManager.FindByIdAsync(input.CurrentUserId.ToString());
+        if (user == null)
+        {
+            throw new Exception("User not found");
+        }
+
+        user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, input.NewPassword);
+        await _userManager.UpdateAsync(user);
     }
 
-    public async Task<IdentityResult> ChangeEmail(ChangeEmailRequest input)
+    public async Task ChangeEmail(ChangeEmailRequest input)
     {
-        throw new NotImplementedException();
+        var user = await _userManager.FindByIdAsync(input.CurrentUserId.ToString());    
+        if (user == null)
+        {
+            throw new Exception("User not found");
+        }
+
+        var token = await _userManager.GenerateChangeEmailTokenAsync(user, input.Email);
+        await _userManager.ChangeEmailAsync(user, input.Email, token);
     }
 
-    public async Task<IdentityResult> AssignRolesToUser(AssignRolesToUserRequest input)
+    public async Task AssignRolesToUser(AssignRolesToUserRequest input)
     {
-        throw new NotImplementedException();
+        var user = await _userManager.FindByIdAsync(input.CurrentUserId.ToString());
+        if (user == null)
+        {
+            throw new Exception("User not found");
+        }
+
+        var currentRoles = await _userManager.GetRolesAsync(user);
+        await _userManager.RemoveFromRolesAsync(user, currentRoles);
+        await _userManager.AddToRolesAsync(user, input.Roles);
     }
 }

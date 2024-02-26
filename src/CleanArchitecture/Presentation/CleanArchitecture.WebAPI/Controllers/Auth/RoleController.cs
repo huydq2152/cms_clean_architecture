@@ -1,5 +1,4 @@
-﻿using CleanArchitecture.Application.Dtos.Auth;
-using CleanArchitecture.Application.Dtos.Auth.Roles;
+﻿using CleanArchitecture.Application.Dtos.Auth.Roles;
 using CleanArchitecture.Application.Interfaces.Services.Auth;
 using CleanArchitecture.WebAPI.Controllers.Common;
 using CleanArchitecture.WebAPI.Filter;
@@ -30,7 +29,7 @@ namespace CleanArchitecture.WebAPI.Controllers.Auth
 
         [HttpGet("all")]
         [Authorize(StaticPermissions.Roles.View)]
-        public async Task<ActionResult<List<RoleDto>>> GetAllRoles()
+        public async Task<ActionResult<IEnumerable<RoleDto>>> GetAllRoles()
         {
             var roles = await _roleService.GetAllRolesAsync();
             return Ok(roles);
@@ -52,7 +51,7 @@ namespace CleanArchitecture.WebAPI.Controllers.Auth
         public async Task<IActionResult> CreateRole([FromBody] CreateRoleDto input)
         {
             await _roleService.CreateRoleAsync(input);
-            return new OkResult();
+            return Ok();
         }
 
         [HttpPut]
