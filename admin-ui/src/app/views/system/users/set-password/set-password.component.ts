@@ -80,7 +80,7 @@ export class SetPasswordComponent implements OnInit, OnDestroy {
       .setPassword(
         new ChangeMyPasswordRequest({
           ...this.form.value,
-          currentUserId: this.config.data.userId,
+          currentUserId: this.config.data.id,
         })
       )
       .pipe(takeUntil(this.ngUnsubscribe))

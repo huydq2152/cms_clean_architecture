@@ -2,6 +2,7 @@
 using AutoMapper;
 using CleanArchitecture.Application.Dtos.Auth;
 using CleanArchitecture.Application.Dtos.Auth.Roles;
+using CleanArchitecture.Application.Dtos.Auth.Users;
 using CleanArchitecture.Application.Dtos.Posts;
 using CleanArchitecture.Domain.Entities.Identity;
 using CleanArchitecture.Domain.Entities.Post;
@@ -16,10 +17,13 @@ namespace CleanArchitecture.Application.Common.Mappings
             
             #region Auth
 
-            CreateMap<AppRole, RoleDto>();
             CreateMap<AppRole, RoleDto>().ReverseMap();
             CreateMap<AppRole, CreateRoleDto>().ReverseMap();
             CreateMap<AppRole, UpdateRoleDto>().ReverseMap();
+            
+            CreateMap<AppUser, UserDto>().ReverseMap();
+            CreateMap<AppUser, CreateUserDto>().ReverseMap();
+            CreateMap<AppUser, UpdateUserDto>().ReverseMap();
 
             #endregion
             

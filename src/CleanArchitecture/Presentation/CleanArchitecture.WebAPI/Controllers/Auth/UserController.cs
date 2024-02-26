@@ -42,7 +42,7 @@ public class UserController : ApiControllerBase
     public async Task<ActionResult<PagedResult<UserDto>>> GetAllUsersPagedAsync([FromQuery] UserPagingQueryInput input)
     {
         var result = await _userService.GetAllUsersPagedAsync(input);
-        return Ok(result);
+        return Ok(result);  
     }
 
     [HttpPost]
