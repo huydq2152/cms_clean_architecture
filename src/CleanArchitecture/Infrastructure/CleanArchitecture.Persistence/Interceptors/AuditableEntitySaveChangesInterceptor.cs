@@ -75,7 +75,7 @@ public class AuditableEntitySaveChangesInterceptor : SaveChangesInterceptor
                         deletedEntity.DeletionTime = _dateTimeService.Now;
                         deletedEntity.DeleterUserId = _currentUserService.UserId;
                         deletedEntity.IsDeleted = true;
-                        item.State = EntityState.Deleted;
+                        item.State = EntityState.Modified;
                     }
 
                     break;

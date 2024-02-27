@@ -96,4 +96,15 @@ export class UtilityService {
     }
     return data;
   };
+
+  generateRandomCode(
+    length: number = 8,
+    possible: string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
+  ) {
+    let text = '';
+    for (let i = 0; i < length; i++) {
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+    return text;
+  }
 }

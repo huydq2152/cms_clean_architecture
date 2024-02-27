@@ -35,8 +35,9 @@
             <th style="width: 10px">
               <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
             </th>
+            <th>Mã</th>
             <th>Tên</th>
-            <th>URL</th>
+            <th>Slug</th>
             <th>Thứ tự</th>
             <th style="width: 150px">Trạng thái</th>
           </tr>
@@ -46,6 +47,7 @@
             <td style="width: 10px"><span class="ui-column-title"></span>
               <p-tableCheckbox [value]="row"></p-tableCheckbox>
             </td>
+            <td>{{row.code}}</td>
             <td>{{row.name}}</td>
             <td>{{row.slug}}</td>
             <td>{{row.sortOrder | number}}</td>

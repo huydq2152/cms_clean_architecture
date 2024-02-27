@@ -67,6 +67,11 @@ export class PostCategoryDetailComponent implements OnInit, OnDestroy {
   // Validate
   noSpecial: RegExp = /^[^<>*!_~]+$/;
   validationMessages = {
+    code: [
+      { type: 'required', message: 'Bạn phải nhập mã' },
+      { type: 'minlength', message: 'Bạn phải nhập ít nhất 3 kí tự' },
+      { type: 'maxlength', message: 'Bạn không được nhập quá 255 kí tự' },
+    ],
     name: [
       { type: 'required', message: 'Bạn phải nhập tên' },
       { type: 'minlength', message: 'Bạn phải nhập ít nhất 3 kí tự' },
@@ -125,6 +130,14 @@ export class PostCategoryDetailComponent implements OnInit, OnDestroy {
 
   buildForm() {
     this.form = this.fb.group({
+      code: new FormControl(
+        this.selectedEntity.code || null,
+        Validators.compose([
+          Validators.required,
+          Validators.maxLength(255),
+          Validators.minLength(3),
+        ])
+      ),
       name: new FormControl(
         this.selectedEntity.name || null,
         Validators.compose([
@@ -133,19 +146,22 @@ export class PostCategoryDetailComponent implements OnInit, OnDestroy {
           Validators.minLength(3),
         ])
       ),
-      // slug: new FormControl(
-      //   this.selectedEntity.slug || null,
-      //   Validators.required
-      // ),
-      // sortOrder: new FormControl(
-      //   this.selectedEntity.sortOrder || 0,
-      //   Validators.required
-      // ),
-      // isActive: new FormControl(this.selectedEntity.isActive || true),
-      // seoDescription: new FormControl(
-      //   this.selectedEntity.seoDescription || null
-      // ),
+      slug: new FormControl(
+        this.selectedEntity.slug || null,
+        Validators.required
+      ),
+      sortOrder: new FormControl(
+        this.selectedEntity.sortOrder || 0,
+        Validators.required
+      ),
+      isActive: new FormControl(this.selectedEntity.isActive || false),
+      seoDescription: new FormControl(
+        this.selectedEntity.seoDescription || null
+      ),
     });
+    if (this.form.get('code').value === null) {
+      this.generateRandomCode();
+    }
   }
 
   private toggleBlockUI(enabled: boolean) {
@@ -158,5 +174,10 @@ export class PostCategoryDetailComponent implements OnInit, OnDestroy {
         this.blockedPanelDetail = false;
       }, 1000);
     }
+  }
+
+  generateRandomCode() {
+    const randomCode = this.utilService.generateRandomCode();
+    this.form.controls['code'].setValue(randomCode);
   }
 }

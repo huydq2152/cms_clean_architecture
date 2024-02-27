@@ -1727,6 +1727,11 @@ export class CreatePostCategoryDto implements ICreatePostCategoryDto {
     isDeleted?: boolean;
     code?: string | undefined;
     name?: string | undefined;
+    slug?: string | undefined;
+    isActive?: boolean;
+    seoDescription?: string | undefined;
+    sortOrder?: number;
+    parentId?: number | undefined;
 
     constructor(data?: ICreatePostCategoryDto) {
         if (data) {
@@ -1749,6 +1754,11 @@ export class CreatePostCategoryDto implements ICreatePostCategoryDto {
             this.isDeleted = _data["isDeleted"];
             this.code = _data["code"];
             this.name = _data["name"];
+            this.slug = _data["slug"];
+            this.isActive = _data["isActive"];
+            this.seoDescription = _data["seoDescription"];
+            this.sortOrder = _data["sortOrder"];
+            this.parentId = _data["parentId"];
         }
     }
 
@@ -1771,6 +1781,11 @@ export class CreatePostCategoryDto implements ICreatePostCategoryDto {
         data["isDeleted"] = this.isDeleted;
         data["code"] = this.code;
         data["name"] = this.name;
+        data["slug"] = this.slug;
+        data["isActive"] = this.isActive;
+        data["seoDescription"] = this.seoDescription;
+        data["sortOrder"] = this.sortOrder;
+        data["parentId"] = this.parentId;
         return data;
     }
 }
@@ -1786,6 +1801,11 @@ export interface ICreatePostCategoryDto {
     isDeleted?: boolean;
     code?: string | undefined;
     name?: string | undefined;
+    slug?: string | undefined;
+    isActive?: boolean;
+    seoDescription?: string | undefined;
+    sortOrder?: number;
+    parentId?: number | undefined;
 }
 
 export class CreateRoleDto implements ICreateRoleDto {
@@ -2059,6 +2079,13 @@ export class PostCategoryDto implements IPostCategoryDto {
     isDeleted?: boolean;
     code?: string | undefined;
     name?: string | undefined;
+    slug?: string | undefined;
+    isActive?: boolean;
+    seoDescription?: string | undefined;
+    sortOrder?: number;
+    parentId?: number | undefined;
+    parentCode?: string | undefined;
+    parentName?: string | undefined;
 
     constructor(data?: IPostCategoryDto) {
         if (data) {
@@ -2081,6 +2108,13 @@ export class PostCategoryDto implements IPostCategoryDto {
             this.isDeleted = _data["isDeleted"];
             this.code = _data["code"];
             this.name = _data["name"];
+            this.slug = _data["slug"];
+            this.isActive = _data["isActive"];
+            this.seoDescription = _data["seoDescription"];
+            this.sortOrder = _data["sortOrder"];
+            this.parentId = _data["parentId"];
+            this.parentCode = _data["parentCode"];
+            this.parentName = _data["parentName"];
         }
     }
 
@@ -2103,6 +2137,13 @@ export class PostCategoryDto implements IPostCategoryDto {
         data["isDeleted"] = this.isDeleted;
         data["code"] = this.code;
         data["name"] = this.name;
+        data["slug"] = this.slug;
+        data["isActive"] = this.isActive;
+        data["seoDescription"] = this.seoDescription;
+        data["sortOrder"] = this.sortOrder;
+        data["parentId"] = this.parentId;
+        data["parentCode"] = this.parentCode;
+        data["parentName"] = this.parentName;
         return data;
     }
 }
@@ -2118,6 +2159,13 @@ export interface IPostCategoryDto {
     isDeleted?: boolean;
     code?: string | undefined;
     name?: string | undefined;
+    slug?: string | undefined;
+    isActive?: boolean;
+    seoDescription?: string | undefined;
+    sortOrder?: number;
+    parentId?: number | undefined;
+    parentCode?: string | undefined;
+    parentName?: string | undefined;
 }
 
 export class PostCategoryDtoPagedResult implements IPostCategoryDtoPagedResult {
@@ -2483,6 +2531,11 @@ export class UpdatePostCategoryDto implements IUpdatePostCategoryDto {
     isDeleted?: boolean;
     code?: string | undefined;
     name?: string | undefined;
+    slug?: string | undefined;
+    isActive?: boolean;
+    seoDescription?: string | undefined;
+    sortOrder?: number;
+    parentId?: number | undefined;
 
     constructor(data?: IUpdatePostCategoryDto) {
         if (data) {
@@ -2505,6 +2558,11 @@ export class UpdatePostCategoryDto implements IUpdatePostCategoryDto {
             this.isDeleted = _data["isDeleted"];
             this.code = _data["code"];
             this.name = _data["name"];
+            this.slug = _data["slug"];
+            this.isActive = _data["isActive"];
+            this.seoDescription = _data["seoDescription"];
+            this.sortOrder = _data["sortOrder"];
+            this.parentId = _data["parentId"];
         }
     }
 
@@ -2527,6 +2585,11 @@ export class UpdatePostCategoryDto implements IUpdatePostCategoryDto {
         data["isDeleted"] = this.isDeleted;
         data["code"] = this.code;
         data["name"] = this.name;
+        data["slug"] = this.slug;
+        data["isActive"] = this.isActive;
+        data["seoDescription"] = this.seoDescription;
+        data["sortOrder"] = this.sortOrder;
+        data["parentId"] = this.parentId;
         return data;
     }
 }
@@ -2542,6 +2605,11 @@ export interface IUpdatePostCategoryDto {
     isDeleted?: boolean;
     code?: string | undefined;
     name?: string | undefined;
+    slug?: string | undefined;
+    isActive?: boolean;
+    seoDescription?: string | undefined;
+    sortOrder?: number;
+    parentId?: number | undefined;
 }
 
 export class UpdateRoleDto implements IUpdateRoleDto {
