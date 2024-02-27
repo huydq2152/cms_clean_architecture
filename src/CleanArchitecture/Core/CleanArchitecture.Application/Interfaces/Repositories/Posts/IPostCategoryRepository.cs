@@ -1,16 +1,14 @@
 ﻿using CleanArchitecture.Application.Dtos.Posts;
-using CleanArchitecture.Domain.Entities.Post;
+using CleanArchitecture.Domain.Entities.Posts;
 using Contracts.Common.Interfaces.Repositories;
-using Infrastructure.Common.Models;
-using Infrastructure.Common.Models.Paging;
 
 namespace CleanArchitecture.Application.Interfaces.Repositories.Posts;
 
 public interface IPostCategoryRepository : IRepositoryBase<PostCategory, int>
 {
     Task<PostCategory> GetPostCategoryByIdAsync(int id);
-    Task<IEnumerable<PostCategory>> GetAllPostCategoriesAsync();
-    Task<PagedResult<PostCategory>> GetAllPostCategoryPagedAsync(PostCategoryPagingQueryInput query);
+    Task<IQueryable<PostCategoryDto>> GetAllPostCategoriesAsync();
+    Task<IQueryable<PostCategoryDto>> GetAllPostCategoryPagedAsync(PostCategoryPagingQueryInput query);
     Task CreatePostCategoryAsync(PostCategory postCategory);
     Task UpdatePostCategoryAsync(PostCategory postCategory);
     Task DeletePostCategoryAsync(PostCategory postCategory);

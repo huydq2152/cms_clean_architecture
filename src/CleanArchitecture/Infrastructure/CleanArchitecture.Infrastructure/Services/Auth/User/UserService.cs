@@ -25,7 +25,7 @@ public class UserService : IUserService
         var user = await _userManager.FindByIdAsync(id.ToString());
         if (user == null)
         {
-            throw new NotFoundException("User", id);
+            throw new NotFoundException(nameof(AppUser), id);
         }
 
         var result = _mapper.Map<AppUser, UserDto>(user);
@@ -53,7 +53,7 @@ public class UserService : IUserService
 
         var objQuery = _mapper.ProjectTo<UserDto>(query);
 
-        var result = await PagedResult<UserDto>.ToPagedList(objQuery, input.PageIndex, input.PageSize);
+        var result = await PagedResult<UserDto>.ToPagedListAsync(objQuery, input.PageIndex, input.PageSize);
         return result;
     }
 
@@ -83,7 +83,7 @@ public class UserService : IUserService
         var user = await _userManager.FindByIdAsync(input.Id.ToString());
         if (user == null)
         {
-            throw new NotFoundException("User", input.Id);
+            throw new NotFoundException(nameof(AppUser), input.Id);
         }
 
         _mapper.Map(input, user);
@@ -97,7 +97,7 @@ public class UserService : IUserService
             var user = await _userManager.FindByIdAsync(id.ToString());
             if (user == null)
             {
-                throw new NotFoundException("User", id);
+                throw new NotFoundException(nameof(AppUser), id);
             }
 
             await _userManager.DeleteAsync(user);
@@ -109,7 +109,7 @@ public class UserService : IUserService
         var user = await _userManager.FindByIdAsync(currentUserId.ToString());
         if (user == null)
         {
-            throw new NotFoundException("User", currentUserId);
+            throw new NotFoundException(nameof(AppUser), currentUserId);
         }
 
         await _userManager.ChangePasswordAsync(user, input.OldPassword, input.NewPassword);
@@ -120,7 +120,7 @@ public class UserService : IUserService
         var user = await _userManager.FindByIdAsync(input.CurrentUserId.ToString());
         if (user == null)
         {
-            throw new NotFoundException("User", input.CurrentUserId);
+            throw new NotFoundException(nameof(AppUser), input.CurrentUserId);
         }
 
         user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, input.NewPassword);
@@ -132,7 +132,7 @@ public class UserService : IUserService
         var user = await _userManager.FindByIdAsync(input.CurrentUserId.ToString());
         if (user == null)
         {
-            throw new NotFoundException("User", input.CurrentUserId);
+            throw new NotFoundException(nameof(AppUser), input.CurrentUserId);
         }
 
         var token = await _userManager.GenerateChangeEmailTokenAsync(user, input.Email);
@@ -144,7 +144,7 @@ public class UserService : IUserService
         var user = await _userManager.FindByIdAsync(input.CurrentUserId.ToString());
         if (user == null)
         {
-            throw new NotFoundException("User", input.CurrentUserId);
+            throw new NotFoundException(nameof(AppUser), input.CurrentUserId);
         }
 
         var currentRoles = await _userManager.GetRolesAsync(user);

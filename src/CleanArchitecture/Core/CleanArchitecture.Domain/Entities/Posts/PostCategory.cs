@@ -1,6 +1,6 @@
 ﻿using Contracts.Domains;
 
-namespace CleanArchitecture.Domain.Entities.Post;
+namespace CleanArchitecture.Domain.Entities.Posts;
 
 public class PostCategory : FullAuditedEntityBase<int>
 {

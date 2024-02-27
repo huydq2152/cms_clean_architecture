@@ -4,8 +4,9 @@ using CleanArchitecture.Application.Dtos.Auth;
 using CleanArchitecture.Application.Dtos.Auth.Roles;
 using CleanArchitecture.Application.Dtos.Auth.Users;
 using CleanArchitecture.Application.Dtos.Posts;
+using CleanArchitecture.Domain.Entities.Auth;
 using CleanArchitecture.Domain.Entities.Identity;
-using CleanArchitecture.Domain.Entities.Post;
+using CleanArchitecture.Domain.Entities.Posts;
 
 namespace CleanArchitecture.Application.Common.Mappings
 {

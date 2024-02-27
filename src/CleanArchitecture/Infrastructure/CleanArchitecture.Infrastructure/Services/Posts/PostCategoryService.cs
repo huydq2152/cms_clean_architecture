@@ -2,7 +2,10 @@
 using CleanArchitecture.Application.Dtos.Posts;
 using CleanArchitecture.Application.Interfaces.Repositories.Posts;
 using CleanArchitecture.Application.Interfaces.Services.Posts;
-using CleanArchitecture.Domain.Entities.Post;
+using CleanArchitecture.Domain.Entities.Posts;
+using Contracts.Exceptions;
+using Infrastructure.Common.Models.Paging;
+using Microsoft.EntityFrameworkCore;
 
 namespace CleanArchitecture.Infrastructure.Services.Posts;
 
@@ -24,18 +27,17 @@ public class PostCategoryService : IPostCategoryService
         return result;
     }
 
-    public async Task<IEnumerable<PostCategoryDto>> GetAllPostCategoriesAsync()
+    public async Task<List<PostCategoryDto>> GetAllPostCategoriesAsync()
     {
-        var postCategories = await _postCategoryRepository.GetAllPostCategoriesAsync();
-        var result = _mapper.Map<IEnumerable<PostCategoryDto>>(postCategories);
+        var objQuery = await _postCategoryRepository.GetAllPostCategoriesAsync();
+        var result = await objQuery.ToListAsync();
         return result;
     }
 
-    public async Task<IEnumerable<PostCategoryDto>> GetAllPostCategoryPagedAsync(PostCategoryPagingQueryInput input)
+    public async Task<PagedResult<PostCategoryDto>> GetAllPostCategoryPagedAsync(PostCategoryPagingQueryInput input)
     {
-        var postCategoriesPagedResult = await _postCategoryRepository.GetAllPostCategoryPagedAsync(input);
-        var postCategories = postCategoriesPagedResult.Results;
-        var result = _mapper.Map<IEnumerable<PostCategoryDto>>(postCategories);
+        var objQuery = await _postCategoryRepository.GetAllPostCategoryPagedAsync(input);
+        var result = await PagedResult<PostCategoryDto>.ToPagedListAsync(objQuery, input.PageIndex, input.PageSize);
         return result;
     }
 
@@ -56,7 +58,7 @@ public class PostCategoryService : IPostCategoryService
         foreach (var id in ids)
         {
             var postCategory = await _postCategoryRepository.GetPostCategoryByIdAsync(id);
-            if (postCategory == null) throw new Exception("Post category not found");
+            if (postCategory == null) throw new NotFoundException(nameof(PostCategory), id);
             await _postCategoryRepository.DeletePostCategoryAsync(postCategory);
         }
     }

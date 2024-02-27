@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
+using CleanArchitecture.Domain.Entities.Auth;
 using CleanArchitecture.Domain.Entities.Identity;
-using CleanArchitecture.Domain.Entities.Post;
+using CleanArchitecture.Domain.Entities.Posts;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 

@@ -1,4 +1,4 @@
-﻿using CleanArchitecture.Domain.Entities.Post;
+﻿using CleanArchitecture.Domain.Entities.Posts;
 using Shared;
 
 namespace CleanArchitecture.Persistence.Contexts.Seed;

@@ -1,5 +1,4 @@
-﻿using Shared.SeedWork;
-using Shared.SeedWork.Paging;
+﻿using Shared.SeedWork.Paging;
 
 namespace CleanArchitecture.Application.Dtos.Posts;
 

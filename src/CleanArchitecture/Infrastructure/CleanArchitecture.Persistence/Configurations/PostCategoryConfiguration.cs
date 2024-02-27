@@ -1,4 +1,4 @@
-﻿using CleanArchitecture.Domain.Entities.Post;
+﻿using CleanArchitecture.Domain.Entities.Posts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

@@ -1,19 +1,23 @@
-﻿using CleanArchitecture.Application.Dtos.Posts;
+﻿using AutoMapper;
+using CleanArchitecture.Application.Dtos.Posts;
 using CleanArchitecture.Application.Interfaces.Repositories.Posts;
-using CleanArchitecture.Domain.Entities.Post;
+using CleanArchitecture.Domain.Entities.Posts;
 using CleanArchitecture.Persistence.Common.Repositories;
 using CleanArchitecture.Persistence.Contexts;
 using Contracts.Common.Interfaces;
-using Infrastructure.Common.Models;
-using Infrastructure.Common.Models.Paging;
 using Microsoft.EntityFrameworkCore;
+using Shared.Extensions.Collection;
 
 namespace CleanArchitecture.Persistence.Repositories;
 
 public class PostCategoryRepository : RepositoryBase<PostCategory, int>, IPostCategoryRepository
 {
-    public PostCategoryRepository(ApplicationDbContext dbContext, IUnitOfWork unitOfWork) : base(dbContext, unitOfWork)
+    private readonly IMapper _mapper;
+
+    public PostCategoryRepository(ApplicationDbContext dbContext, IUnitOfWork unitOfWork, IMapper mapper) : base(
+        dbContext, unitOfWork)
     {
+        _mapper = mapper;
     }
 
     public async Task<PostCategory> GetPostCategoryByIdAsync(int id)
@@ -22,17 +26,20 @@ public class PostCategoryRepository : RepositoryBase<PostCategory, int>, IPostCa
         return result;
     }
 
-    public async Task<IEnumerable<PostCategory>> GetAllPostCategoriesAsync()
+    public Task<IQueryable<PostCategoryDto>> GetAllPostCategoriesAsync()
     {
-        var result = await GetByCondition(o => !o.IsDeleted).ToListAsync();
-        return result;
+        var objQuery = GetByCondition(o => !o.IsDeleted);
+        var result = _mapper.ProjectTo<PostCategoryDto>(objQuery);
+        return Task.FromResult(result);
     }
 
-    public async Task<PagedResult<PostCategory>> GetAllPostCategoryPagedAsync(PostCategoryPagingQueryInput query)
+    public Task<IQueryable<PostCategoryDto>> GetAllPostCategoryPagedAsync(PostCategoryPagingQueryInput input)
     {
-        var objQuery = GetByCondition(o => !o.IsDeleted).OrderBy(o => o.Code);
-        var result = await PagedResult<PostCategory>.ToPagedList(objQuery, query.PageIndex, query.PageSize);
-        return result;
+        var objQuery = GetByCondition(o => !o.IsDeleted)
+            .WhereIf(!string.IsNullOrWhiteSpace(input.Keyword),
+                o => o.Code.Contains(input.Keyword) || o.Name.Contains(input.Keyword));
+        var result = _mapper.ProjectTo<PostCategoryDto>(objQuery);
+        return Task.FromResult(result);
     }
 
     public async Task CreatePostCategoryAsync(PostCategory postCategory)

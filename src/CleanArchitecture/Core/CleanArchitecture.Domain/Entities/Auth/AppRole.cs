@@ -1,10 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Contracts.Domains;
 using Contracts.Domains.Interfaces;
 using Microsoft.AspNetCore.Identity;
 
-namespace CleanArchitecture.Domain.Entities.Identity;
+namespace CleanArchitecture.Domain.Entities.Auth;
 
 [Table("AppRoles")]
 public class AppRole: IdentityRole<int>, IFullAuditedEntityBase
