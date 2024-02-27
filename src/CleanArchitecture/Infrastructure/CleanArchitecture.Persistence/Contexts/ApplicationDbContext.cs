@@ -1,6 +1,5 @@
 ﻿using System.Reflection;
 using CleanArchitecture.Domain.Entities.Auth;
-using CleanArchitecture.Domain.Entities.Identity;
 using CleanArchitecture.Domain.Entities.Posts;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -25,7 +24,7 @@ namespace CleanArchitecture.Persistence.Contexts
                 var tableName = entityType.GetTableName();
                 if (tableName != null && tableName.StartsWith("AspNet"))
                 {
-                    entityType.SetTableName(tableName[6..]);
+                    entityType.SetTableName($"Identity_{tableName[6..]}");
                 }
             }
         }

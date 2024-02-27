@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using CleanArchitecture.Application.Dtos.Auth.Users;
 using CleanArchitecture.Application.Interfaces.Services.Auth.User;
-using CleanArchitecture.Domain.Entities.Identity;
+using CleanArchitecture.Domain.Entities.Auth;
 using Contracts.Exceptions;
 using Infrastructure.Common.Models.Paging;
 using Microsoft.AspNetCore.Identity;

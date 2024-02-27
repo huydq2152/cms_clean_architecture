@@ -1,6 +1,5 @@
 ﻿using CleanArchitecture.Application.Interfaces.Repositories.Posts;
 using CleanArchitecture.Domain.Entities.Auth;
-using CleanArchitecture.Domain.Entities.Identity;
 using CleanArchitecture.Persistence.Common;
 using CleanArchitecture.Persistence.Common.Repositories;
 using CleanArchitecture.Persistence.Contexts;

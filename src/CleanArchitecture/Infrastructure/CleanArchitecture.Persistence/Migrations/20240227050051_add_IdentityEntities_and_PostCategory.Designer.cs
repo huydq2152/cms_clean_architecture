@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CleanArchitecture.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240225095454_AppRoles_add_full_audited")]
-    partial class AppRoles_add_full_audited
+    [Migration("20240227050051_add_IdentityEntities_and_PostCategory")]
+    partial class add_IdentityEntities_and_PostCategory
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,7 +24,7 @@ namespace CleanArchitecture.Persistence.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("CleanArchitecture.Domain.Entities.Identity.AppRole", b =>
+            modelBuilder.Entity("CleanArchitecture.Domain.Entities.Auth.AppRole", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -77,10 +77,10 @@ namespace CleanArchitecture.Persistence.Migrations
                         .HasDatabaseName("RoleNameIndex")
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
-                    b.ToTable("Roles", (string)null);
+                    b.ToTable("Identity_Roles", (string)null);
                 });
 
-            modelBuilder.Entity("CleanArchitecture.Domain.Entities.Identity.AppUser", b =>
+            modelBuilder.Entity("CleanArchitecture.Domain.Entities.Auth.AppUser", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -98,6 +98,15 @@ namespace CleanArchitecture.Persistence.Migrations
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("CreatorUserId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("DeleterUserId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("DeletionTime")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime?>("Dob")
                         .HasColumnType("datetime2");
 
@@ -109,15 +118,22 @@ namespace CleanArchitecture.Persistence.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastModificationTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("LastModifiedUserId")
+                        .HasColumnType("int");
+
                     b.Property<string>("LastName")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
@@ -170,10 +186,10 @@ namespace CleanArchitecture.Persistence.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Identity_Users", (string)null);
                 });
 
-            modelBuilder.Entity("CleanArchitecture.Domain.Entities.Post.PostCategory", b =>
+            modelBuilder.Entity("CleanArchitecture.Domain.Entities.Posts.PostCategory", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -198,6 +214,9 @@ namespace CleanArchitecture.Persistence.Migrations
                     b.Property<DateTime?>("DeletionTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -212,9 +231,23 @@ namespace CleanArchitecture.Persistence.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
+                    b.Property<int?>("ParentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SeoDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Slug")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.ToTable("PostCategories");
+                    b.HasIndex("ParentId");
+
+                    b.ToTable("Posts_PostCategory", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -238,7 +271,7 @@ namespace CleanArchitecture.Persistence.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("RoleClaims", (string)null);
+                    b.ToTable("Identity_RoleClaims", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
@@ -262,7 +295,7 @@ namespace CleanArchitecture.Persistence.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserClaims", (string)null);
+                    b.ToTable("Identity_UserClaims", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
@@ -283,7 +316,7 @@ namespace CleanArchitecture.Persistence.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserLogins", (string)null);
+                    b.ToTable("Identity_UserLogins", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
@@ -298,7 +331,7 @@ namespace CleanArchitecture.Persistence.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("UserRoles", (string)null);
+                    b.ToTable("Identity_UserRoles", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
@@ -317,12 +350,21 @@ namespace CleanArchitecture.Persistence.Migrations
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("UserTokens", (string)null);
+                    b.ToTable("Identity_UserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("CleanArchitecture.Domain.Entities.Posts.PostCategory", b =>
+                {
+                    b.HasOne("CleanArchitecture.Domain.Entities.Posts.PostCategory", "Parent")
+                        .WithMany("Children")
+                        .HasForeignKey("ParentId");
+
+                    b.Navigation("Parent");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
-                    b.HasOne("CleanArchitecture.Domain.Entities.Identity.AppRole", null)
+                    b.HasOne("CleanArchitecture.Domain.Entities.Auth.AppRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -331,7 +373,7 @@ namespace CleanArchitecture.Persistence.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
                 {
-                    b.HasOne("CleanArchitecture.Domain.Entities.Identity.AppUser", null)
+                    b.HasOne("CleanArchitecture.Domain.Entities.Auth.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -340,7 +382,7 @@ namespace CleanArchitecture.Persistence.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
-                    b.HasOne("CleanArchitecture.Domain.Entities.Identity.AppUser", null)
+                    b.HasOne("CleanArchitecture.Domain.Entities.Auth.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -349,13 +391,13 @@ namespace CleanArchitecture.Persistence.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
                 {
-                    b.HasOne("CleanArchitecture.Domain.Entities.Identity.AppRole", null)
+                    b.HasOne("CleanArchitecture.Domain.Entities.Auth.AppRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CleanArchitecture.Domain.Entities.Identity.AppUser", null)
+                    b.HasOne("CleanArchitecture.Domain.Entities.Auth.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -364,11 +406,16 @@ namespace CleanArchitecture.Persistence.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
-                    b.HasOne("CleanArchitecture.Domain.Entities.Identity.AppUser", null)
+                    b.HasOne("CleanArchitecture.Domain.Entities.Auth.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("CleanArchitecture.Domain.Entities.Posts.PostCategory", b =>
+                {
+                    b.Navigation("Children");
                 });
 #pragma warning restore 612, 618
         }

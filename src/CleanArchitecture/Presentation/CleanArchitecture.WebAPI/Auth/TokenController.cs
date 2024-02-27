@@ -1,6 +1,6 @@
 ﻿using CleanArchitecture.Application.Dtos.Auth;
 using CleanArchitecture.Application.Interfaces.Services.Auth;
-using CleanArchitecture.Domain.Entities.Identity;
+using CleanArchitecture.Domain.Entities.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

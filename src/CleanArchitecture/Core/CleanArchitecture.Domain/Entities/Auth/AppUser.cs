@@ -1,21 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using Contracts.Domains.Interfaces;
+﻿using Contracts.Domains.Interfaces;
 using Microsoft.AspNetCore.Identity;
 
-namespace CleanArchitecture.Domain.Entities.Identity;
+namespace CleanArchitecture.Domain.Entities.Auth;
 
-[Table("AppUsers")]
 public class AppUser: IdentityUser<int>, IFullAuditedEntityBase
 {
-   [Required]
-   [MaxLength(100)]
    public string FirstName { get; set; }
-   
-   [Required]
-   [MaxLength(100)]
    public string LastName { get; set; }
-   
    public bool IsActive { get; set; }
    public string? RefreshToken { get; set; }
    public DateTime? RefreshTokenExpiryTime { get; set; }

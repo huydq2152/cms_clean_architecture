@@ -39,8 +39,8 @@ public class AuditableEntitySaveChangesInterceptor : SaveChangesInterceptor
     {
         if (context == null) return;
         var modified = context.ChangeTracker.Entries().Where(o =>
-            o.State == EntityState.Added || 
-            o.State == EntityState.Modified || 
+            o.State == EntityState.Added ||
+            o.State == EntityState.Modified ||
             o.State == EntityState.Deleted ||
             o.HasChangedOwnedEntities());
 

@@ -5,60 +5,52 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CleanArchitecture.Persistence.Migrations
 {
-    public partial class init_migrations : Migration
+    public partial class add_IdentityEntities_and_PostCategory : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "PostCategories",
+                name: "Identity_Roles",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Code = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    DisplayName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     CreatorUserId = table.Column<int>(type: "int", nullable: true),
                     CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LastModifiedUserId = table.Column<int>(type: "int", nullable: true),
                     LastModificationTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DeleterUserId = table.Column<int>(type: "int", nullable: true),
                     DeletionTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PostCategories", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Roles",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    DisplayName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Roles", x => x.Id);
+                    table.PrimaryKey("PK_Identity_Roles", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Users",
+                name: "Identity_Users",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     RefreshToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RefreshTokenExpiryTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Dob = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreatorUserId = table.Column<int>(type: "int", nullable: true),
                     CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastModifiedUserId = table.Column<int>(type: "int", nullable: true),
+                    LastModificationTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeleterUserId = table.Column<int>(type: "int", nullable: true),
+                    DeletionTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -76,11 +68,42 @@ namespace CleanArchitecture.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.PrimaryKey("PK_Identity_Users", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "RoleClaims",
+                name: "Posts_PostCategory",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Code = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    Slug = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    SeoDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SortOrder = table.Column<int>(type: "int", nullable: false),
+                    ParentId = table.Column<int>(type: "int", nullable: true),
+                    CreatorUserId = table.Column<int>(type: "int", nullable: true),
+                    CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastModifiedUserId = table.Column<int>(type: "int", nullable: true),
+                    LastModificationTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeleterUserId = table.Column<int>(type: "int", nullable: true),
+                    DeletionTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Posts_PostCategory", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Posts_PostCategory_Posts_PostCategory_ParentId",
+                        column: x => x.ParentId,
+                        principalTable: "Posts_PostCategory",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Identity_RoleClaims",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -91,17 +114,17 @@ namespace CleanArchitecture.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RoleClaims", x => x.Id);
+                    table.PrimaryKey("PK_Identity_RoleClaims", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_RoleClaims_Roles_RoleId",
+                        name: "FK_Identity_RoleClaims_Identity_Roles_RoleId",
                         column: x => x.RoleId,
-                        principalTable: "Roles",
+                        principalTable: "Identity_Roles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserClaims",
+                name: "Identity_UserClaims",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -112,17 +135,17 @@ namespace CleanArchitecture.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserClaims", x => x.Id);
+                    table.PrimaryKey("PK_Identity_UserClaims", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserClaims_Users_UserId",
+                        name: "FK_Identity_UserClaims_Identity_Users_UserId",
                         column: x => x.UserId,
-                        principalTable: "Users",
+                        principalTable: "Identity_Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserLogins",
+                name: "Identity_UserLogins",
                 columns: table => new
                 {
                     LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -132,17 +155,17 @@ namespace CleanArchitecture.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserLogins", x => new { x.LoginProvider, x.ProviderKey });
+                    table.PrimaryKey("PK_Identity_UserLogins", x => new { x.LoginProvider, x.ProviderKey });
                     table.ForeignKey(
-                        name: "FK_UserLogins_Users_UserId",
+                        name: "FK_Identity_UserLogins_Identity_Users_UserId",
                         column: x => x.UserId,
-                        principalTable: "Users",
+                        principalTable: "Identity_Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserRoles",
+                name: "Identity_UserRoles",
                 columns: table => new
                 {
                     UserId = table.Column<int>(type: "int", nullable: false),
@@ -150,23 +173,23 @@ namespace CleanArchitecture.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserRoles", x => new { x.UserId, x.RoleId });
+                    table.PrimaryKey("PK_Identity_UserRoles", x => new { x.UserId, x.RoleId });
                     table.ForeignKey(
-                        name: "FK_UserRoles_Roles_RoleId",
+                        name: "FK_Identity_UserRoles_Identity_Roles_RoleId",
                         column: x => x.RoleId,
-                        principalTable: "Roles",
+                        principalTable: "Identity_Roles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserRoles_Users_UserId",
+                        name: "FK_Identity_UserRoles_Identity_Users_UserId",
                         column: x => x.UserId,
-                        principalTable: "Users",
+                        principalTable: "Identity_Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserTokens",
+                name: "Identity_UserTokens",
                 columns: table => new
                 {
                     UserId = table.Column<int>(type: "int", nullable: false),
@@ -176,80 +199,85 @@ namespace CleanArchitecture.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
+                    table.PrimaryKey("PK_Identity_UserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
                     table.ForeignKey(
-                        name: "FK_UserTokens_Users_UserId",
+                        name: "FK_Identity_UserTokens_Identity_Users_UserId",
                         column: x => x.UserId,
-                        principalTable: "Users",
+                        principalTable: "Identity_Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_RoleClaims_RoleId",
-                table: "RoleClaims",
+                name: "IX_Identity_RoleClaims_RoleId",
+                table: "Identity_RoleClaims",
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
-                table: "Roles",
+                table: "Identity_Roles",
                 column: "NormalizedName",
                 unique: true,
                 filter: "[NormalizedName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserClaims_UserId",
-                table: "UserClaims",
+                name: "IX_Identity_UserClaims_UserId",
+                table: "Identity_UserClaims",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserLogins_UserId",
-                table: "UserLogins",
+                name: "IX_Identity_UserLogins_UserId",
+                table: "Identity_UserLogins",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserRoles_RoleId",
-                table: "UserRoles",
+                name: "IX_Identity_UserRoles_RoleId",
+                table: "Identity_UserRoles",
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",
-                table: "Users",
+                table: "Identity_Users",
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
-                table: "Users",
+                table: "Identity_Users",
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Posts_PostCategory_ParentId",
+                table: "Posts_PostCategory",
+                column: "ParentId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "PostCategories");
+                name: "Identity_RoleClaims");
 
             migrationBuilder.DropTable(
-                name: "RoleClaims");
+                name: "Identity_UserClaims");
 
             migrationBuilder.DropTable(
-                name: "UserClaims");
+                name: "Identity_UserLogins");
 
             migrationBuilder.DropTable(
-                name: "UserLogins");
+                name: "Identity_UserRoles");
 
             migrationBuilder.DropTable(
-                name: "UserRoles");
+                name: "Identity_UserTokens");
 
             migrationBuilder.DropTable(
-                name: "UserTokens");
+                name: "Posts_PostCategory");
 
             migrationBuilder.DropTable(
-                name: "Roles");
+                name: "Identity_Roles");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "Identity_Users");
         }
     }
 }
