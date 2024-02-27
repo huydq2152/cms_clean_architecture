@@ -43,12 +43,12 @@ public class UserService : IUserService
     public async Task<PagedResult<UserDto>> GetAllUsersPagedAsync(UserPagingQueryInput input)
     {
         var query = _userManager.Users;
-        if (!string.IsNullOrEmpty(input.Keyword))
+        if (!string.IsNullOrEmpty(input.Filter))
         {
-            query = query.Where(x => x.FirstName.Contains(input.Keyword)
-                                     || x.UserName.Contains(input.Keyword)
-                                     || x.Email.Contains(input.Keyword)
-                                     || x.PhoneNumber.Contains(input.Keyword));
+            query = query.Where(x => x.FirstName.Contains(input.Filter)
+                                     || x.UserName.Contains(input.Filter)
+                                     || x.Email.Contains(input.Filter)
+                                     || x.PhoneNumber.Contains(input.Filter));
         }
 
         var objQuery = _mapper.ProjectTo<UserDto>(query);

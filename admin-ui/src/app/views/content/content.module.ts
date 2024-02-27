@@ -19,6 +19,7 @@ import { KeyFilterModule } from 'primeng/keyfilter';
 import { BlogSharedModule } from 'src/app/shared/modules/shared.module';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 
 @NgModule({
   imports: [
@@ -38,6 +39,7 @@ import { InputTextModule } from 'primeng/inputtext';
     BlogSharedModule,
     ButtonModule,
     InputTextModule,
+    AutoCompleteModule,
   ],
   declarations: [PostCategoryComponent, PostCategoryDetailComponent],
 })

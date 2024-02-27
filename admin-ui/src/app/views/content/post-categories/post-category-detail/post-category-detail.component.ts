@@ -11,6 +11,7 @@ import {
   AdminApiPostCategoryApiClient,
   PostCategoryDto,
   UpdatePostCategoryDto,
+  AdminApiBlogApiClient,
 } from 'src/app/api/admin-api.service.generated';
 import { UtilityService } from 'src/app/shared/services/utility.service';
 
@@ -28,6 +29,7 @@ export class PostCategoryDetailComponent implements OnInit, OnDestroy {
   public saveBtnName: string;
   public closeBtnName: string;
   selectedEntity = {} as PostCategoryDto;
+  filteredPostCategories: PostCategoryDto[];
 
   formSavedEventEmitter: EventEmitter<any> = new EventEmitter();
 
@@ -36,7 +38,8 @@ export class PostCategoryDetailComponent implements OnInit, OnDestroy {
     public config: DynamicDialogConfig,
     private postCategoryService: AdminApiPostCategoryApiClient,
     private utilService: UtilityService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private blogService: AdminApiBlogApiClient
   ) {}
 
   ngOnDestroy(): void {
@@ -150,6 +153,7 @@ export class PostCategoryDetailComponent implements OnInit, OnDestroy {
         this.selectedEntity.slug || null,
         Validators.required
       ),
+      parentId: new FormControl(this.selectedEntity.parentId || null),
       sortOrder: new FormControl(
         this.selectedEntity.sortOrder || 0,
         Validators.required
@@ -179,5 +183,18 @@ export class PostCategoryDetailComponent implements OnInit, OnDestroy {
   generateRandomCode() {
     const randomCode = this.utilService.generateRandomCode();
     this.form.controls['code'].setValue(randomCode);
+  }
+
+  filterPostCategories(event): void {
+    this.blogService
+      .getAllBlogPostCategories('')
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((res) => {
+        this.filteredPostCategories = res;
+      });
+  }
+
+  public selectedItemDisplay(postCategory: PostCategoryDto): string {
+    return `${postCategory.code} - ${postCategory.name}`;
   }
 }

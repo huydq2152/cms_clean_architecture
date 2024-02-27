@@ -36,8 +36,8 @@ public class PostCategoryRepository : RepositoryBase<PostCategory, int>, IPostCa
     public Task<IQueryable<PostCategoryDto>> GetAllPostCategoryPagedAsync(PostCategoryPagingQueryInput input)
     {
         var objQuery = GetByCondition(o => !o.IsDeleted)
-            .WhereIf(!string.IsNullOrWhiteSpace(input.Keyword),
-                o => o.Code.Contains(input.Keyword) || o.Name.Contains(input.Keyword));
+            .WhereIf(!string.IsNullOrWhiteSpace(input.Filter),
+                o => o.Code.Contains(input.Filter) || o.Name.Contains(input.Filter));
         var result = _mapper.ProjectTo<PostCategoryDto>(objQuery);
         return Task.FromResult(result);
     }

@@ -28,7 +28,7 @@ public class PostCategoryController : ApiControllerBase
 
     [HttpGet("all")]
     [Authorize(StaticPermissions.PostCategories.View)]
-    public async Task<ActionResult<IEnumerable<PostCategoryDto>>> GetAllPostCategoriesAsync()
+    public async Task<ActionResult<List<PostCategoryDto>>> GetAllPostCategoriesAsync()
     {
         var result = await _postCategoryService.GetAllPostCategoriesAsync();
         return Ok(result);

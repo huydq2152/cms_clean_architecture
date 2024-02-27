@@ -84,6 +84,133 @@ export class AdminApiAuthApiClient {
 }
 
 @Injectable()
+export class AdminApiBlogApiClient {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(ADMIN_API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param filter (optional) 
+     * @return Success
+     */
+    getAllBlogPostCategories(filter?: string | null | undefined): Observable<PostCategoryDto[]> {
+        let url_ = this.baseUrl + "/api/blog/all-post-categories?";
+        if (filter !== undefined && filter !== null)
+            url_ += "filter=" + encodeURIComponent("" + filter) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllBlogPostCategories(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllBlogPostCategories(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<PostCategoryDto[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<PostCategoryDto[]>;
+        }));
+    }
+
+    protected processGetAllBlogPostCategories(response: HttpResponseBase): Observable<PostCategoryDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(PostCategoryDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @return Success
+     */
+    getBlogPostCategoryById(id: number): Observable<PostCategoryDto> {
+        let url_ = this.baseUrl + "/api/blog/post-category/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetBlogPostCategoryById(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetBlogPostCategoryById(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<PostCategoryDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<PostCategoryDto>;
+        }));
+    }
+
+    protected processGetBlogPostCategoryById(response: HttpResponseBase): Observable<PostCategoryDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PostCategoryDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+}
+
+@Injectable()
 export class AdminApiPostCategoryApiClient {
     private http: HttpClient;
     private baseUrl: string;
@@ -207,15 +334,15 @@ export class AdminApiPostCategoryApiClient {
     }
 
     /**
-     * @param keyword (optional) 
+     * @param filter (optional) 
      * @param pageIndex (optional) 
      * @param pageSize (optional) 
      * @return Success
      */
-    getAllPostCategoryPaged(keyword?: string | null | undefined, pageIndex?: number | undefined, pageSize?: number | undefined): Observable<PostCategoryDtoPagedResult> {
+    getAllPostCategoryPaged(filter?: string | null | undefined, pageIndex?: number | undefined, pageSize?: number | undefined): Observable<PostCategoryDtoPagedResult> {
         let url_ = this.baseUrl + "/api/postcategory/paging?";
-        if (keyword !== undefined && keyword !== null)
-            url_ += "Keyword=" + encodeURIComponent("" + keyword) + "&";
+        if (filter !== undefined && filter !== null)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
         if (pageIndex === null)
             throw new Error("The parameter 'pageIndex' cannot be null.");
         else if (pageIndex !== undefined)
@@ -551,15 +678,15 @@ export class AdminApiRoleApiClient {
     }
 
     /**
-     * @param keyword (optional) 
+     * @param filter (optional) 
      * @param pageIndex (optional) 
      * @param pageSize (optional) 
      * @return Success
      */
-    getAllRolesPaged(keyword?: string | null | undefined, pageIndex?: number | undefined, pageSize?: number | undefined): Observable<RoleDtoPagedResult> {
+    getAllRolesPaged(filter?: string | null | undefined, pageIndex?: number | undefined, pageSize?: number | undefined): Observable<RoleDtoPagedResult> {
         let url_ = this.baseUrl + "/api/role/paging?";
-        if (keyword !== undefined && keyword !== null)
-            url_ += "Keyword=" + encodeURIComponent("" + keyword) + "&";
+        if (filter !== undefined && filter !== null)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
         if (pageIndex === null)
             throw new Error("The parameter 'pageIndex' cannot be null.");
         else if (pageIndex !== undefined)
@@ -1116,15 +1243,15 @@ export class AdminApiUserApiClient {
     }
 
     /**
-     * @param keyword (optional) 
+     * @param filter (optional) 
      * @param pageIndex (optional) 
      * @param pageSize (optional) 
      * @return Success
      */
-    getAllUsersPaged(keyword?: string | null | undefined, pageIndex?: number | undefined, pageSize?: number | undefined): Observable<UserDtoPagedResult> {
+    getAllUsersPaged(filter?: string | null | undefined, pageIndex?: number | undefined, pageSize?: number | undefined): Observable<UserDtoPagedResult> {
         let url_ = this.baseUrl + "/api/user/paging?";
-        if (keyword !== undefined && keyword !== null)
-            url_ += "Keyword=" + encodeURIComponent("" + keyword) + "&";
+        if (filter !== undefined && filter !== null)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
         if (pageIndex === null)
             throw new Error("The parameter 'pageIndex' cannot be null.");
         else if (pageIndex !== undefined)

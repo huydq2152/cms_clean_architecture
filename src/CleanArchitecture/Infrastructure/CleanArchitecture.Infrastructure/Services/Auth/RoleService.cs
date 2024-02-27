@@ -44,10 +44,10 @@ public class RoleService : IRoleService
     public async Task<PagedResult<RoleDto>> GetAllRolesPagedAsync(RolePagingQueryInput input)
     {
         var query = _roleManager.Roles;
-        if (!string.IsNullOrEmpty(input.Keyword))
+        if (!string.IsNullOrEmpty(input.Filter))
         {
-            query = query.Where(x => x.Name.Contains(input.Keyword)
-                                     || x.DisplayName.Contains(input.Keyword));
+            query = query.Where(x => x.Name.Contains(input.Filter)
+                                     || x.DisplayName.Contains(input.Filter));
         }
 
         var objQuery = _mapper.ProjectTo<RoleDto>(query);
