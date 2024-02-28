@@ -2,6 +2,7 @@
 using CleanArchitecture.Application.Dtos.Posts;
 using CleanArchitecture.Application.Interfaces.Repositories.Posts;
 using CleanArchitecture.Application.Interfaces.Services.Common;
+using Infrastructure.Common.Models.Paging;
 using Microsoft.EntityFrameworkCore;
 using Shared.Extensions.Collection;
 
@@ -25,14 +26,15 @@ public class BlogService : IBlogService
         return result;
     }
 
-    public async Task<List<PostCategoryDto>> GetBlogAllPostCategoriesAsync(string filter)
+    public async Task<List<PostCategoryDto>> GetBlogAllPostCategoriesAsync(GetAllPostCategoriesInput query)
     {
-        var objQuery = await _postCategoryRepository.GetAllPostCategoryPagedAsync(new PostCategoryPagingQueryInput()
-        {
-            Filter = filter
-        });
-        var result = await objQuery.WhereIf(!string.IsNullOrEmpty(filter),
-            o => o.Code.Contains(filter) || o.Name.Contains(filter)).ToListAsync();
+        var result = await _postCategoryRepository.GetAllPostCategoriesAsync(query);
+        return result;
+    }
+    
+    public async Task<PagedResult<PostCategoryDto>> GetBlogAllPostCategoryPagedAsync(GetAllPostCategoriesInput query)
+    {
+        var result = await _postCategoryRepository.GetAllPostCategoryPagedAsync(query);
         return result;
     }
 }

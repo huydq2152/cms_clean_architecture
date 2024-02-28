@@ -1,8 +1,10 @@
 ﻿using CleanArchitecture.Application.Interfaces.Services.Auth;
 using CleanArchitecture.Application.Interfaces.Services.Auth.User;
+using CleanArchitecture.Application.Interfaces.Services.Common;
 using CleanArchitecture.Application.Interfaces.Services.Posts;
 using CleanArchitecture.Infrastructure.Services.Auth;
 using CleanArchitecture.Infrastructure.Services.Auth.User;
+using CleanArchitecture.Infrastructure.Services.Common;
 using CleanArchitecture.Infrastructure.Services.Posts;
 using Contracts.Services;
 using Infrastructure.Services;
@@ -29,7 +31,8 @@ namespace CleanArchitecture.Infrastructure.Extensions
                 .AddTransient<ICurrentUserService, CurrentUserService>()
                 .AddTransient<IRoleService, RoleService>()
                 .AddTransient<IUserService, UserService>()
-                .AddTransient<IPostCategoryService, PostCategoryService>();
+                .AddTransient<IPostCategoryService, PostCategoryService>()
+                .AddTransient<IBlogService, BlogService>();
             
         }
     }

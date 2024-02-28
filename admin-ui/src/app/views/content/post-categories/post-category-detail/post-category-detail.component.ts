@@ -6,12 +6,13 @@ import {
   FormBuilder,
 } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, filter, takeUntil } from 'rxjs';
 import {
   AdminApiPostCategoryApiClient,
   PostCategoryDto,
   UpdatePostCategoryDto,
   AdminApiBlogApiClient,
+  CreatePostCategoryDto,
 } from 'src/app/api/admin-api.service.generated';
 import { UtilityService } from 'src/app/shared/services/utility.service';
 
@@ -108,25 +109,29 @@ export class PostCategoryDetailComponent implements OnInit, OnDestroy {
 
   private saveData() {
     if (this.utilService.isEmpty(this.config.data?.id)) {
+      var createPostCategoryDto = new CreatePostCategoryDto({
+        ...this.form.value,
+        parentId: this.form.value.slParent?.id,
+      });
       this.postCategoryService
-        .createPostCategory(this.form.value)
+        .createPostCategory(new CreatePostCategoryDto(createPostCategoryDto))
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(() => {
-          this.ref.close(this.form.value);
+          this.ref.close(createPostCategoryDto);
           this.toggleBlockUI(false);
         });
     } else {
+      var updatePostCategoryDto = new UpdatePostCategoryDto({
+        ...this.form.value,
+        id: this.config.data?.id,
+        parentId: this.form.value.slParent?.id,
+      });
       this.postCategoryService
-        .updatePostCategory(
-          new UpdatePostCategoryDto({
-            ...this.form.value,
-            id: this.config.data.id,
-          })
-        )
+        .updatePostCategory(updatePostCategoryDto)
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(() => {
           this.toggleBlockUI(false);
-          this.ref.close(this.form.value);
+          this.ref.close(updatePostCategoryDto);
         });
     }
   }
@@ -153,7 +158,11 @@ export class PostCategoryDetailComponent implements OnInit, OnDestroy {
         this.selectedEntity.slug || null,
         Validators.required
       ),
-      parentId: new FormControl(this.selectedEntity.parentId || null),
+      slParent: new FormControl(
+        this.selectedEntity.parentId
+          ? `${this.selectedEntity.parentCode} - ${this.selectedEntity.parentName}`
+          : null
+      ),
       sortOrder: new FormControl(
         this.selectedEntity.sortOrder || 0,
         Validators.required
@@ -186,8 +195,9 @@ export class PostCategoryDetailComponent implements OnInit, OnDestroy {
   }
 
   filterPostCategories(event): void {
+    var filter = event.query;
     this.blogService
-      .getAllBlogPostCategories('')
+      .getAllBlogPostCategories(filter)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((res) => {
         this.filteredPostCategories = res;

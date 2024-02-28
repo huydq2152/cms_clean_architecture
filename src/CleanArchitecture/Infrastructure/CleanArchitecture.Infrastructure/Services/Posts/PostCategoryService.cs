@@ -5,7 +5,6 @@ using CleanArchitecture.Application.Interfaces.Services.Posts;
 using CleanArchitecture.Domain.Entities.Posts;
 using Contracts.Exceptions;
 using Infrastructure.Common.Models.Paging;
-using Microsoft.EntityFrameworkCore;
 
 namespace CleanArchitecture.Infrastructure.Services.Posts;
 
@@ -27,39 +26,30 @@ public class PostCategoryService : IPostCategoryService
         return result;
     }
 
-    public async Task<List<PostCategoryDto>> GetAllPostCategoriesAsync()
+    public async Task<List<PostCategoryDto>> GetAllPostCategoriesAsync(GetAllPostCategoriesInput input)
     {
-        var objQuery = await _postCategoryRepository.GetAllPostCategoriesAsync();
-        var result = await objQuery.ToListAsync();
+        var result = await _postCategoryRepository.GetAllPostCategoriesAsync(input);
         return result;
     }
 
-    public async Task<PagedResult<PostCategoryDto>> GetAllPostCategoryPagedAsync(PostCategoryPagingQueryInput input)
+    public async Task<PagedResult<PostCategoryDto>> GetAllPostCategoryPagedAsync(GetAllPostCategoriesInput input)
     {
-        var objQuery = await _postCategoryRepository.GetAllPostCategoryPagedAsync(input);
-        var result = await PagedResult<PostCategoryDto>.ToPagedListAsync(objQuery, input.PageIndex, input.PageSize);
+        var result = await _postCategoryRepository.GetAllPostCategoryPagedAsync(input);
         return result;
     }
 
     public async Task CreatePostCategoryAsync(CreatePostCategoryDto postCategory)
     {
-        var postCategoryEntity = _mapper.Map<PostCategory>(postCategory);
-        await _postCategoryRepository.CreatePostCategoryAsync(postCategoryEntity);
+        await _postCategoryRepository.CreatePostCategoryAsync(postCategory);
     }
 
     public async Task UpdatePostCategoryAsync(UpdatePostCategoryDto postCategory)
     {
-        var postCategoryEntity = _mapper.Map<PostCategory>(postCategory);
-        await _postCategoryRepository.UpdatePostCategoryAsync(postCategoryEntity);
+        await _postCategoryRepository.UpdatePostCategoryAsync(postCategory);
     }
 
     public async Task DeletePostCategoriesAsync(int[] ids)
     {
-        foreach (var id in ids)
-        {
-            var postCategory = await _postCategoryRepository.GetPostCategoryByIdAsync(id);
-            if (postCategory == null) throw new NotFoundException(nameof(PostCategory), id);
-            await _postCategoryRepository.DeletePostCategoryAsync(postCategory);
-        }
+        await _postCategoryRepository.DeletePostCategoryAsync(ids);
     }
 }

@@ -65,9 +65,8 @@
       </p-table>
     </div>
 
-    <p-paginator [rows]="pageSize" [totalRecords]="totalCount" (onPageChange)="pageChanged($event)"
-      [rowsPerPageOptions]="[10, 20, 50, 100]"></p-paginator>
-
+    <p-paginator (onPageChange)="onPageChange($event)" [rows]="pageSize" [totalRecords]="totalCount"
+      [rowsPerPageOptions]="[10, 20, 30]"></p-paginator>
 
     <p-blockUI [target]="pnl" [blocked]="blockedPanel">
       <p-progressSpinner [style]="{width: '100px', height: '100px', position:'absolute',top:'25%',left:'50%'}"

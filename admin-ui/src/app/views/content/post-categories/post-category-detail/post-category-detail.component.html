@@ -24,11 +24,11 @@
                     [validationMessages]="validationMessages"></app-validation-message>
             </div>
             <div class="field col-12 md:col-6">
-                <label for="parentId">Danh mục cha</label>
-                <p-autoComplete id="parentId" [virtualScroll]="true" [virtualScrollItemSize]="50" [dropdown]="true"
-                    [suggestions]="filteredPostCategories" (completeMethod)="filterPostCategories($event)"
-                    [field]="selectedItemDisplay.bind(this)" placeholder="Danh mục cha" [minLength]="1"
-                    formControlName="parentId" inputStyleClass="form-control" styleClass="w-100">
+                <label for="slParent">Danh mục cha</label>
+                <p-autoComplete id="slParent" [dropdown]="true" [suggestions]="filteredPostCategories"
+                    (completeMethod)="filterPostCategories($event)" [field]="selectedItemDisplay.bind(this)"
+                    placeholder="Danh mục cha" [minLength]="1" formControlName="slParent" inputStyleClass="form-control"
+                    styleClass="w-100">
                     <ng-template let-postCategory pTemplate="item">
                         <div class="flex align-items-center gap-2">
                             <div>{{ postCategory.code }} - {{postCategory.name}}</div>

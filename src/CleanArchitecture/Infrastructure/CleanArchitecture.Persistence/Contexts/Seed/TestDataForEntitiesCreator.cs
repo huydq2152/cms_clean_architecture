@@ -24,28 +24,17 @@ public class TestDataForEntitiesCreator
 
     private async Task CreateTestDataForPostCategory()
     {
-        var postCategories = new List<PostCategory>
+        var postCategories = new List<PostCategory>();
+        for (int i = 1; i < 36; i++)
         {
-            new()
+            postCategories.Add(new PostCategory()
             {
                 Code = Helper.StringHelper.ShortIdentity(),
-                Name = "Technology",
-                CreationTime = DateTime.Now
-            },
-            new()
-            {
-                Code = Helper.StringHelper.ShortIdentity(),
-                Name = "Health",
-                CreationTime = DateTime.Now
-            },
-            new()
-            {
-                Code = Helper.StringHelper.ShortIdentity(),
-                Name = "Education",
-                CreationTime = DateTime.Now
-            }
-        };
-
+                Name = $"Name {i}",
+                SortOrder = i
+            });
+        }
+        
         if (!_dbContext.PostCategories.Any())
         {
             await _dbContext.PostCategories.AddRangeAsync(postCategories);
