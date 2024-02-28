@@ -32,7 +32,8 @@ public static class ServiceExtension
             .AddScoped<AuditableEntitySaveChangesInterceptor>()
             .AddTransient(typeof(IUnitOfWork), typeof(UnitOfWork))
             .AddTransient(typeof(IRepositoryBase<,>), typeof(RepositoryBase<,>))
-            .AddTransient<IPostCategoryRepository, PostCategoryRepository>();
+            .AddTransient<IPostCategoryRepository, PostCategoryRepository>()
+            .AddTransient<IPostRepository, PostRepository>();
     }
 
     private static void AddDbContext(this IServiceCollection services, IConfiguration configuration)

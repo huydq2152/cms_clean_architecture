@@ -1,4 +1,4 @@
-﻿using CleanArchitecture.Application.Dtos.Posts;
+﻿using CleanArchitecture.Application.Dtos.Auth.Users;
 using CleanArchitecture.Application.Dtos.Posts.PostCategory;
 using CleanArchitecture.Application.Interfaces.Services.Common;
 using Infrastructure.Common.Models.Paging;
@@ -17,7 +17,33 @@ public class BlogController : ApiControllerBase
         _blogService = blogService;
     }
 
-    #region Post category
+    #region User
+
+    [HttpGet("user/{id}")]
+    public async Task<ActionResult<UserDto>> GetBlogUserByIdAsync(int id)
+    {
+        var result = await _blogService.GetBlogUserByIdAsync(id);
+        return Ok(result);
+    }
+
+    [HttpGet("all-users")]
+    public async Task<ActionResult<List<UserDto>>> GetAllBlogUsersAsync([FromQuery] UserPagingQueryInput input)
+    {
+        var result = await _blogService.GetAllBlogUsersAsync(input);
+        return Ok(result);
+    }
+
+    [HttpGet("paging-users")]
+    public async Task<ActionResult<PagedResult<UserDto>>> GetAllBlogUsersPagedAsync(
+        [FromQuery] UserPagingQueryInput input)
+    {
+        var result = await _blogService.GetAllBlogUsersPagedAsync(input);
+        return Ok(result);
+    }
+
+    #endregion
+
+    #region PostCategory
 
     [HttpGet("post-category/{id}")]
     public async Task<ActionResult<PostCategoryDto>> GetBlogPostCategoryByIdAsync(int id)
@@ -43,6 +69,4 @@ public class BlogController : ApiControllerBase
     }
 
     #endregion
-    
-    
 }

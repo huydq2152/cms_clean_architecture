@@ -32,10 +32,10 @@ public class UserService : IUserService
         return result;
     }
 
-    public async Task<IEnumerable<UserDto>> GetAllUsersAsync()
+    public async Task<List<UserDto>> GetAllUsersAsync()
     {
         var users = await _userManager.Users.ToListAsync();
-        var result = _mapper.Map<IEnumerable<AppUser>, IEnumerable<UserDto>>(users);
+        var result = _mapper.Map<List<AppUser>, List<UserDto>>(users);
 
         return result;
     }

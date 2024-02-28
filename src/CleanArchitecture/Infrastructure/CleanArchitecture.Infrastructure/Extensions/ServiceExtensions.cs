@@ -31,9 +31,10 @@ namespace CleanArchitecture.Infrastructure.Extensions
                 .AddTransient<ICurrentUserService, CurrentUserService>()
                 .AddTransient<IRoleService, RoleService>()
                 .AddTransient<IUserService, UserService>()
+                
                 .AddTransient<IPostCategoryService, PostCategoryService>()
-                .AddTransient<IBlogService, BlogService>();
-            
+                .AddTransient<IBlogService, BlogService>()
+                .AddTransient<IPostService, PostService>();
         }
     }
 }
