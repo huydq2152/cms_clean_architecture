@@ -30,9 +30,9 @@ public class UserController : ApiControllerBase
 
     [HttpGet("all")]
     [Authorize(StaticPermissions.Users.View)]
-    public async Task<ActionResult<IEnumerable<UserDto>>> GetAllUsersAsync()
+    public async Task<ActionResult<IEnumerable<UserDto>>> GetAllUsersAsync([FromQuery] UserPagingQueryInput input)
     {
-        var result = await _userService.GetAllUsersAsync();
+        var result = await _userService.GetAllUsersAsync(input);
         return Ok(result);
     }
 

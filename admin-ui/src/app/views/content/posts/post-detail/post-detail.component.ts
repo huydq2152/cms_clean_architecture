@@ -8,18 +8,21 @@ import {
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subject, filter, takeUntil } from 'rxjs';
 import {
-  AdminApiPostCategoryApiClient,
-  PostCategoryDto,
-  UpdatePostCategoryDto,
+  AdminApiPostApiClient,
+  PostDto,
+  UpdatePostDto,
   AdminApiBlogApiClient,
-  CreatePostCategoryDto,
+  CreatePostDto,
+  UserDto,
 } from 'src/app/api/admin-api.service.generated';
 import { UtilityService } from 'src/app/shared/services/utility.service';
+import { environment } from 'src/environments/environment';
+import { UploadService } from 'src/app/shared/services/upload.service';
 
 @Component({
-  templateUrl: 'post-category-detail.component.html',
+  templateUrl: 'post-detail.component.html',
 })
-export class PostCategoryDetailComponent implements OnInit, OnDestroy {
+export class PostDetailComponent implements OnInit, OnDestroy {
   private ngUnsubscribe = new Subject<void>();
 
   // Default
@@ -29,18 +32,21 @@ export class PostCategoryDetailComponent implements OnInit, OnDestroy {
   public btnDisabled = false;
   public saveBtnName: string;
   public closeBtnName: string;
-  selectedEntity = {} as PostCategoryDto;
-  filteredPostCategories: PostCategoryDto[];
+  selectedEntity = {} as PostDto;
+  public thumbnailImage;
+  filteredPostCategories: PostDto[];
+  filteredUsers: UserDto[];
 
   formSavedEventEmitter: EventEmitter<any> = new EventEmitter();
 
   constructor(
     public ref: DynamicDialogRef,
     public config: DynamicDialogConfig,
-    private postCategoryService: AdminApiPostCategoryApiClient,
+    private postService: AdminApiPostApiClient,
     private utilService: UtilityService,
     private fb: FormBuilder,
-    private blogService: AdminApiBlogApiClient
+    private blogService: AdminApiBlogApiClient,
+    private uploadService: UploadService
   ) {}
 
   ngOnDestroy(): void {
@@ -87,11 +93,11 @@ export class PostCategoryDetailComponent implements OnInit, OnDestroy {
 
   loadDetail(id: any) {
     this.toggleBlockUI(true);
-    this.postCategoryService
-      .getPostCategoryById(id)
+    this.postService
+      .getPostById(id)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe({
-        next: (response: PostCategoryDto) => {
+        next: (response: PostDto) => {
           this.selectedEntity = response;
           this.buildForm();
           this.toggleBlockUI(false);
@@ -101,37 +107,53 @@ export class PostCategoryDetailComponent implements OnInit, OnDestroy {
         },
       });
   }
+
+  onFileChange(event) {
+    if (event.target.files && event.target.files.length) {
+      this.uploadService.uploadImage('posts', event.target.files).subscribe({
+        next: (response: any) => {
+          this.form.controls['thumbnail'].setValue(response.path);
+          this.thumbnailImage = environment.API_URL + response.path;
+        },
+        error: (err: any) => {
+          console.log(err);
+        },
+      });
+    }
+  }
+
   saveChange() {
     this.toggleBlockUI(true);
-
     this.saveData();
   }
 
   private saveData() {
     if (this.utilService.isEmpty(this.config.data?.id)) {
-      var createPostCategoryDto = new CreatePostCategoryDto({
+      var createPostDto = new CreatePostDto({
         ...this.form.value,
-        parentId: this.form.value.slParent?.id,
+        categoryId: this.form.value.slPostCategory?.id,
+        authorUserId: this.form.value.slUser?.id,
       });
-      this.postCategoryService
-        .createPostCategory(new CreatePostCategoryDto(createPostCategoryDto))
+      this.postService
+        .createPost(new CreatePostDto(createPostDto))
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(() => {
-          this.ref.close(createPostCategoryDto);
+          this.ref.close(createPostDto);
           this.toggleBlockUI(false);
         });
     } else {
-      var updatePostCategoryDto = new UpdatePostCategoryDto({
+      var updatePostDto = new UpdatePostDto({
         ...this.form.value,
         id: this.config.data?.id,
-        parentId: this.form.value.slParent?.id,
+        categoryId: this.form.value.slPostCategory?.id,
+        authorUserId: this.form.value.slUser?.id,
       });
-      this.postCategoryService
-        .updatePostCategory(updatePostCategoryDto)
+      this.postService
+        .updatePost(updatePostDto)
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe(() => {
           this.toggleBlockUI(false);
-          this.ref.close(updatePostCategoryDto);
+          this.ref.close(updatePostDto);
         });
     }
   }
@@ -158,22 +180,30 @@ export class PostCategoryDetailComponent implements OnInit, OnDestroy {
         this.selectedEntity.slug || null,
         Validators.required
       ),
-      slParent: new FormControl(
-        this.selectedEntity.parentId
-          ? `${this.selectedEntity.parentCode} - ${this.selectedEntity.parentName}`
+      slPostCategory: new FormControl(
+        this.selectedEntity.categoryId
+          ? `${this.selectedEntity.categoryCode} - ${this.selectedEntity.categoryName}`
           : null
       ),
-      sortOrder: new FormControl(
-        this.selectedEntity.sortOrder || 0,
-        Validators.required
+      slUser: new FormControl(
+        this.selectedEntity.authorUserId
+          ? `${this.selectedEntity.authorUserName}`
+          : null
       ),
       seoDescription: new FormControl(
         this.selectedEntity.seoDescription || null
       ),
+      description: new FormControl(this.selectedEntity.description || null),
       isActive: new FormControl(this.selectedEntity.isActive || false),
+      tags: new FormControl(this.selectedEntity.tags || null),
+      content: new FormControl(this.selectedEntity.content || null),
+      thumbnail: new FormControl(this.selectedEntity.thumbnail || null),
     });
     if (this.form.get('code').value === null) {
       this.generateRandomCode();
+    }
+    if (this.selectedEntity.thumbnail) {
+      this.thumbnailImage = environment.API_URL + this.selectedEntity.thumbnail;
     }
   }
 
@@ -204,7 +234,21 @@ export class PostCategoryDetailComponent implements OnInit, OnDestroy {
       });
   }
 
-  public selectedPostCategoryDisplay(postCategory: PostCategoryDto): string {
-    return `${postCategory.code} - ${postCategory.name}`;
+  public selectedPostCategoryDisplay(post: PostDto): string {
+    return `${post.code} - ${post.name}`;
+  }
+
+  filterUsers(event): void {
+    var filter = event.query;
+    this.blogService
+      .getAllBlogUsers(filter)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((res) => {
+        this.filteredUsers = res;
+      });
+  }
+
+  public selectedUserDisplay(user: UserDto): string {
+    return `${user.userName}`;
   }
 }

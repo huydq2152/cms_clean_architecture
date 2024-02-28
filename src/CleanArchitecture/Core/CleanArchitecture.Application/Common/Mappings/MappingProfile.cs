@@ -4,6 +4,7 @@ using CleanArchitecture.Application.Dtos.Auth;
 using CleanArchitecture.Application.Dtos.Auth.Roles;
 using CleanArchitecture.Application.Dtos.Auth.Users;
 using CleanArchitecture.Application.Dtos.Posts;
+using CleanArchitecture.Application.Dtos.Posts.Post;
 using CleanArchitecture.Application.Dtos.Posts.PostCategory;
 using CleanArchitecture.Domain.Entities.Auth;
 using CleanArchitecture.Domain.Entities.Posts;
@@ -33,6 +34,10 @@ namespace CleanArchitecture.Application.Common.Mappings
             CreateMap<PostCategory, PostCategoryDto>().ReverseMap();
             CreateMap<PostCategory, CreatePostCategoryDto>().ReverseMap();
             CreateMap<PostCategory, UpdatePostCategoryDto>().ReverseMap();
+            
+            CreateMap<Post, PostDto>().ReverseMap();
+            CreateMap<Post, CreatePostDto>().ReverseMap();
+            CreateMap<Post, UpdatePostDto>().ReverseMap();
 
             #endregion
             

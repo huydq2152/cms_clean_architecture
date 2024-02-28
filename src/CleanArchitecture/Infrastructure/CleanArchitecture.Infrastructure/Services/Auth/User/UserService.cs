@@ -6,6 +6,7 @@ using Contracts.Exceptions;
 using Infrastructure.Common.Models.Paging;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Shared.Extensions.Collection;
 
 namespace CleanArchitecture.Infrastructure.Services.Auth.User;
 
@@ -32,9 +33,14 @@ public class UserService : IUserService
         return result;
     }
 
-    public async Task<List<UserDto>> GetAllUsersAsync()
+    public async Task<List<UserDto>> GetAllUsersAsync(UserPagingQueryInput input)
     {
-        var users = await _userManager.Users.ToListAsync();
+        var users = await _userManager.Users
+            .WhereIf(input != null && !string.IsNullOrWhiteSpace(input.Filter),
+                o => o.FirstName.Contains(input.Filter)
+                     || o.UserName.Contains(input.Filter)
+                     || o.Email.Contains(input.Filter)
+                     || o.PhoneNumber.Contains(input.Filter)).ToListAsync();
         var result = _mapper.Map<List<AppUser>, List<UserDto>>(users);
 
         return result;
@@ -42,14 +48,12 @@ public class UserService : IUserService
 
     public async Task<PagedResult<UserDto>> GetAllUsersPagedAsync(UserPagingQueryInput input)
     {
-        var query = _userManager.Users;
-        if (!string.IsNullOrEmpty(input.Filter))
-        {
-            query = query.Where(x => x.FirstName.Contains(input.Filter)
-                                     || x.UserName.Contains(input.Filter)
-                                     || x.Email.Contains(input.Filter)
-                                     || x.PhoneNumber.Contains(input.Filter));
-        }
+        var query = _userManager.Users
+            .WhereIf(input != null && !string.IsNullOrWhiteSpace(input.Filter),
+                o => o.FirstName.Contains(input.Filter)
+                     || o.UserName.Contains(input.Filter)
+                     || o.Email.Contains(input.Filter)
+                     || o.PhoneNumber.Contains(input.Filter));
 
         var objQuery = _mapper.ProjectTo<UserDto>(query);
 

@@ -97,6 +97,195 @@ export class AdminApiBlogApiClient {
     /**
      * @return Success
      */
+    getBlogUserById(id: number): Observable<UserDto> {
+        let url_ = this.baseUrl + "/api/blog/user/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetBlogUserById(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetBlogUserById(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<UserDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<UserDto>;
+        }));
+    }
+
+    protected processGetBlogUserById(response: HttpResponseBase): Observable<UserDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = UserDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param pageIndex (optional) 
+     * @param pageSize (optional) 
+     * @return Success
+     */
+    getAllBlogUsers(filter?: string | null | undefined, pageIndex?: number | undefined, pageSize?: number | undefined): Observable<UserDto[]> {
+        let url_ = this.baseUrl + "/api/blog/all-users?";
+        if (filter !== undefined && filter !== null)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (pageIndex === null)
+            throw new Error("The parameter 'pageIndex' cannot be null.");
+        else if (pageIndex !== undefined)
+            url_ += "PageIndex=" + encodeURIComponent("" + pageIndex) + "&";
+        if (pageSize === null)
+            throw new Error("The parameter 'pageSize' cannot be null.");
+        else if (pageSize !== undefined)
+            url_ += "PageSize=" + encodeURIComponent("" + pageSize) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllBlogUsers(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllBlogUsers(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<UserDto[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<UserDto[]>;
+        }));
+    }
+
+    protected processGetAllBlogUsers(response: HttpResponseBase): Observable<UserDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(UserDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param pageIndex (optional) 
+     * @param pageSize (optional) 
+     * @return Success
+     */
+    getAllBlogUsersPaged(filter?: string | null | undefined, pageIndex?: number | undefined, pageSize?: number | undefined): Observable<UserDtoPagedResult> {
+        let url_ = this.baseUrl + "/api/blog/paging-users?";
+        if (filter !== undefined && filter !== null)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (pageIndex === null)
+            throw new Error("The parameter 'pageIndex' cannot be null.");
+        else if (pageIndex !== undefined)
+            url_ += "PageIndex=" + encodeURIComponent("" + pageIndex) + "&";
+        if (pageSize === null)
+            throw new Error("The parameter 'pageSize' cannot be null.");
+        else if (pageSize !== undefined)
+            url_ += "PageSize=" + encodeURIComponent("" + pageSize) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllBlogUsersPaged(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllBlogUsersPaged(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<UserDtoPagedResult>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<UserDtoPagedResult>;
+        }));
+    }
+
+    protected processGetAllBlogUsersPaged(response: HttpResponseBase): Observable<UserDtoPagedResult> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = UserDtoPagedResult.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @return Success
+     */
     getBlogPostCategoryById(id: number): Observable<PostCategoryDto> {
         let url_ = this.baseUrl + "/api/blog/post-category/{id}";
         if (id === undefined || id === null)
@@ -274,6 +463,363 @@ export class AdminApiBlogApiClient {
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
             result200 = PostCategoryDtoPagedResult.fromJS(resultData200);
             return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+}
+
+@Injectable()
+export class AdminApiPostApiClient {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(ADMIN_API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @return Success
+     */
+    getPostById(id: number): Observable<PostDto> {
+        let url_ = this.baseUrl + "/api/post/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetPostById(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetPostById(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<PostDto>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<PostDto>;
+        }));
+    }
+
+    protected processGetPostById(response: HttpResponseBase): Observable<PostDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PostDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param pageIndex (optional) 
+     * @param pageSize (optional) 
+     * @return Success
+     */
+    getAllPosts(filter?: string | null | undefined, pageIndex?: number | undefined, pageSize?: number | undefined): Observable<PostDto[]> {
+        let url_ = this.baseUrl + "/api/post/all?";
+        if (filter !== undefined && filter !== null)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (pageIndex === null)
+            throw new Error("The parameter 'pageIndex' cannot be null.");
+        else if (pageIndex !== undefined)
+            url_ += "PageIndex=" + encodeURIComponent("" + pageIndex) + "&";
+        if (pageSize === null)
+            throw new Error("The parameter 'pageSize' cannot be null.");
+        else if (pageSize !== undefined)
+            url_ += "PageSize=" + encodeURIComponent("" + pageSize) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllPosts(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllPosts(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<PostDto[]>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<PostDto[]>;
+        }));
+    }
+
+    protected processGetAllPosts(response: HttpResponseBase): Observable<PostDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(PostDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param pageIndex (optional) 
+     * @param pageSize (optional) 
+     * @return Success
+     */
+    getAllPostPaged(filter?: string | null | undefined, pageIndex?: number | undefined, pageSize?: number | undefined): Observable<PostDtoPagedResult> {
+        let url_ = this.baseUrl + "/api/post/paging?";
+        if (filter !== undefined && filter !== null)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (pageIndex === null)
+            throw new Error("The parameter 'pageIndex' cannot be null.");
+        else if (pageIndex !== undefined)
+            url_ += "PageIndex=" + encodeURIComponent("" + pageIndex) + "&";
+        if (pageSize === null)
+            throw new Error("The parameter 'pageSize' cannot be null.");
+        else if (pageSize !== undefined)
+            url_ += "PageSize=" + encodeURIComponent("" + pageSize) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllPostPaged(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllPostPaged(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<PostDtoPagedResult>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<PostDtoPagedResult>;
+        }));
+    }
+
+    protected processGetAllPostPaged(response: HttpResponseBase): Observable<PostDtoPagedResult> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PostDtoPagedResult.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createPost(body?: CreatePostDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/post";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreatePost(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreatePost(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processCreatePost(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    updatePost(body?: UpdatePostDto | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/post";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdatePost(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdatePost(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processUpdatePost(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    deletePost(body?: number[] | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/post";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDeletePost(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDeletePost(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<void>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<void>;
+        }));
+    }
+
+    protected processDeletePost(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return _observableOf(null as any);
             }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
@@ -1272,10 +1818,23 @@ export class AdminApiUserApiClient {
     }
 
     /**
+     * @param filter (optional) 
+     * @param pageIndex (optional) 
+     * @param pageSize (optional) 
      * @return Success
      */
-    getAllUsers(): Observable<UserDto[]> {
-        let url_ = this.baseUrl + "/api/user/all";
+    getAllUsers(filter?: string | null | undefined, pageIndex?: number | undefined, pageSize?: number | undefined): Observable<UserDto[]> {
+        let url_ = this.baseUrl + "/api/user/all?";
+        if (filter !== undefined && filter !== null)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (pageIndex === null)
+            throw new Error("The parameter 'pageIndex' cannot be null.");
+        else if (pageIndex !== undefined)
+            url_ += "PageIndex=" + encodeURIComponent("" + pageIndex) + "&";
+        if (pageSize === null)
+            throw new Error("The parameter 'pageSize' cannot be null.");
+        else if (pageSize !== undefined)
+            url_ += "PageSize=" + encodeURIComponent("" + pageSize) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -2022,6 +2581,138 @@ export interface ICreatePostCategoryDto {
     parentId?: number | undefined;
 }
 
+export class CreatePostDto implements ICreatePostDto {
+    id?: number | undefined;
+    creatorUserId?: number | undefined;
+    creationTime?: Date;
+    lastModifiedUserId?: number | undefined;
+    lastModificationTime?: Date | undefined;
+    deleterUserId?: number | undefined;
+    deletionTime?: Date | undefined;
+    isDeleted?: boolean;
+    code?: string | undefined;
+    name?: string | undefined;
+    slug?: string | undefined;
+    description?: string | undefined;
+    categoryId?: number;
+    categoryCode?: string | undefined;
+    categoryName?: string | undefined;
+    thumbnail?: string | undefined;
+    content?: string | undefined;
+    authorUserId?: number;
+    authorUserName?: string | undefined;
+    source?: string | undefined;
+    tags?: string | undefined;
+    seoDescription?: string | undefined;
+    viewCount?: number;
+    status?: PostStatusEnum;
+    isActive?: boolean;
+
+    constructor(data?: ICreatePostDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.creatorUserId = _data["creatorUserId"];
+            this.creationTime = _data["creationTime"] ? new Date(_data["creationTime"].toString()) : <any>undefined;
+            this.lastModifiedUserId = _data["lastModifiedUserId"];
+            this.lastModificationTime = _data["lastModificationTime"] ? new Date(_data["lastModificationTime"].toString()) : <any>undefined;
+            this.deleterUserId = _data["deleterUserId"];
+            this.deletionTime = _data["deletionTime"] ? new Date(_data["deletionTime"].toString()) : <any>undefined;
+            this.isDeleted = _data["isDeleted"];
+            this.code = _data["code"];
+            this.name = _data["name"];
+            this.slug = _data["slug"];
+            this.description = _data["description"];
+            this.categoryId = _data["categoryId"];
+            this.categoryCode = _data["categoryCode"];
+            this.categoryName = _data["categoryName"];
+            this.thumbnail = _data["thumbnail"];
+            this.content = _data["content"];
+            this.authorUserId = _data["authorUserId"];
+            this.authorUserName = _data["authorUserName"];
+            this.source = _data["source"];
+            this.tags = _data["tags"];
+            this.seoDescription = _data["seoDescription"];
+            this.viewCount = _data["viewCount"];
+            this.status = _data["status"];
+            this.isActive = _data["isActive"];
+        }
+    }
+
+    static fromJS(data: any): CreatePostDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreatePostDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["creatorUserId"] = this.creatorUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["lastModifiedUserId"] = this.lastModifiedUserId;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["isDeleted"] = this.isDeleted;
+        data["code"] = this.code;
+        data["name"] = this.name;
+        data["slug"] = this.slug;
+        data["description"] = this.description;
+        data["categoryId"] = this.categoryId;
+        data["categoryCode"] = this.categoryCode;
+        data["categoryName"] = this.categoryName;
+        data["thumbnail"] = this.thumbnail;
+        data["content"] = this.content;
+        data["authorUserId"] = this.authorUserId;
+        data["authorUserName"] = this.authorUserName;
+        data["source"] = this.source;
+        data["tags"] = this.tags;
+        data["seoDescription"] = this.seoDescription;
+        data["viewCount"] = this.viewCount;
+        data["status"] = this.status;
+        data["isActive"] = this.isActive;
+        return data;
+    }
+}
+
+export interface ICreatePostDto {
+    id?: number | undefined;
+    creatorUserId?: number | undefined;
+    creationTime?: Date;
+    lastModifiedUserId?: number | undefined;
+    lastModificationTime?: Date | undefined;
+    deleterUserId?: number | undefined;
+    deletionTime?: Date | undefined;
+    isDeleted?: boolean;
+    code?: string | undefined;
+    name?: string | undefined;
+    slug?: string | undefined;
+    description?: string | undefined;
+    categoryId?: number;
+    categoryCode?: string | undefined;
+    categoryName?: string | undefined;
+    thumbnail?: string | undefined;
+    content?: string | undefined;
+    authorUserId?: number;
+    authorUserName?: string | undefined;
+    source?: string | undefined;
+    tags?: string | undefined;
+    seoDescription?: string | undefined;
+    viewCount?: number;
+    status?: PostStatusEnum;
+    isActive?: boolean;
+}
+
 export class CreateRoleDto implements ICreateRoleDto {
     id?: number | undefined;
     creatorUserId?: number | undefined;
@@ -2458,6 +3149,221 @@ export interface IPostCategoryDtoPagedResult {
     results?: PostCategoryDto[] | undefined;
 }
 
+export class PostDto implements IPostDto {
+    id?: number;
+    creatorUserId?: number | undefined;
+    creationTime?: Date;
+    lastModifiedUserId?: number | undefined;
+    lastModificationTime?: Date | undefined;
+    deleterUserId?: number | undefined;
+    deletionTime?: Date | undefined;
+    isDeleted?: boolean;
+    code?: string | undefined;
+    name?: string | undefined;
+    slug?: string | undefined;
+    description?: string | undefined;
+    categoryId?: number;
+    categoryCode?: string | undefined;
+    categoryName?: string | undefined;
+    thumbnail?: string | undefined;
+    content?: string | undefined;
+    authorUserId?: number;
+    authorUserName?: string | undefined;
+    source?: string | undefined;
+    tags?: string | undefined;
+    seoDescription?: string | undefined;
+    viewCount?: number;
+    status?: PostStatusEnum;
+    isActive?: boolean;
+
+    constructor(data?: IPostDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.creatorUserId = _data["creatorUserId"];
+            this.creationTime = _data["creationTime"] ? new Date(_data["creationTime"].toString()) : <any>undefined;
+            this.lastModifiedUserId = _data["lastModifiedUserId"];
+            this.lastModificationTime = _data["lastModificationTime"] ? new Date(_data["lastModificationTime"].toString()) : <any>undefined;
+            this.deleterUserId = _data["deleterUserId"];
+            this.deletionTime = _data["deletionTime"] ? new Date(_data["deletionTime"].toString()) : <any>undefined;
+            this.isDeleted = _data["isDeleted"];
+            this.code = _data["code"];
+            this.name = _data["name"];
+            this.slug = _data["slug"];
+            this.description = _data["description"];
+            this.categoryId = _data["categoryId"];
+            this.categoryCode = _data["categoryCode"];
+            this.categoryName = _data["categoryName"];
+            this.thumbnail = _data["thumbnail"];
+            this.content = _data["content"];
+            this.authorUserId = _data["authorUserId"];
+            this.authorUserName = _data["authorUserName"];
+            this.source = _data["source"];
+            this.tags = _data["tags"];
+            this.seoDescription = _data["seoDescription"];
+            this.viewCount = _data["viewCount"];
+            this.status = _data["status"];
+            this.isActive = _data["isActive"];
+        }
+    }
+
+    static fromJS(data: any): PostDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PostDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["creatorUserId"] = this.creatorUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["lastModifiedUserId"] = this.lastModifiedUserId;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["isDeleted"] = this.isDeleted;
+        data["code"] = this.code;
+        data["name"] = this.name;
+        data["slug"] = this.slug;
+        data["description"] = this.description;
+        data["categoryId"] = this.categoryId;
+        data["categoryCode"] = this.categoryCode;
+        data["categoryName"] = this.categoryName;
+        data["thumbnail"] = this.thumbnail;
+        data["content"] = this.content;
+        data["authorUserId"] = this.authorUserId;
+        data["authorUserName"] = this.authorUserName;
+        data["source"] = this.source;
+        data["tags"] = this.tags;
+        data["seoDescription"] = this.seoDescription;
+        data["viewCount"] = this.viewCount;
+        data["status"] = this.status;
+        data["isActive"] = this.isActive;
+        return data;
+    }
+}
+
+export interface IPostDto {
+    id?: number;
+    creatorUserId?: number | undefined;
+    creationTime?: Date;
+    lastModifiedUserId?: number | undefined;
+    lastModificationTime?: Date | undefined;
+    deleterUserId?: number | undefined;
+    deletionTime?: Date | undefined;
+    isDeleted?: boolean;
+    code?: string | undefined;
+    name?: string | undefined;
+    slug?: string | undefined;
+    description?: string | undefined;
+    categoryId?: number;
+    categoryCode?: string | undefined;
+    categoryName?: string | undefined;
+    thumbnail?: string | undefined;
+    content?: string | undefined;
+    authorUserId?: number;
+    authorUserName?: string | undefined;
+    source?: string | undefined;
+    tags?: string | undefined;
+    seoDescription?: string | undefined;
+    viewCount?: number;
+    status?: PostStatusEnum;
+    isActive?: boolean;
+}
+
+export class PostDtoPagedResult implements IPostDtoPagedResult {
+    pageIndex?: number;
+    pageCount?: number;
+    pageSize?: number;
+    rowCount?: number;
+    readonly hasPrevious?: boolean;
+    readonly hasNext?: boolean;
+    readonly firstRowOnPage?: number;
+    readonly lastRowOnPage?: number;
+    results?: PostDto[] | undefined;
+
+    constructor(data?: IPostDtoPagedResult) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.pageIndex = _data["pageIndex"];
+            this.pageCount = _data["pageCount"];
+            this.pageSize = _data["pageSize"];
+            this.rowCount = _data["rowCount"];
+            (<any>this).hasPrevious = _data["hasPrevious"];
+            (<any>this).hasNext = _data["hasNext"];
+            (<any>this).firstRowOnPage = _data["firstRowOnPage"];
+            (<any>this).lastRowOnPage = _data["lastRowOnPage"];
+            if (Array.isArray(_data["results"])) {
+                this.results = [] as any;
+                for (let item of _data["results"])
+                    this.results!.push(PostDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PostDtoPagedResult {
+        data = typeof data === 'object' ? data : {};
+        let result = new PostDtoPagedResult();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["pageIndex"] = this.pageIndex;
+        data["pageCount"] = this.pageCount;
+        data["pageSize"] = this.pageSize;
+        data["rowCount"] = this.rowCount;
+        data["hasPrevious"] = this.hasPrevious;
+        data["hasNext"] = this.hasNext;
+        data["firstRowOnPage"] = this.firstRowOnPage;
+        data["lastRowOnPage"] = this.lastRowOnPage;
+        if (Array.isArray(this.results)) {
+            data["results"] = [];
+            for (let item of this.results)
+                data["results"].push(item.toJSON());
+        }
+        return data;
+    }
+}
+
+export interface IPostDtoPagedResult {
+    pageIndex?: number;
+    pageCount?: number;
+    pageSize?: number;
+    rowCount?: number;
+    hasPrevious?: boolean;
+    hasNext?: boolean;
+    firstRowOnPage?: number;
+    lastRowOnPage?: number;
+    results?: PostDto[] | undefined;
+}
+
+export enum PostStatusEnum {
+    _0 = 0,
+    _1 = 1,
+    _2 = 2,
+    _3 = 3,
+}
+
 export class RoleClaimsDto implements IRoleClaimsDto {
     type?: string | undefined;
     value?: string | undefined;
@@ -2809,6 +3715,98 @@ export class UpdatePostCategoryDto implements IUpdatePostCategoryDto {
 }
 
 export interface IUpdatePostCategoryDto {
+    id?: number | undefined;
+    creatorUserId?: number | undefined;
+    creationTime?: Date;
+    lastModifiedUserId?: number | undefined;
+    lastModificationTime?: Date | undefined;
+    deleterUserId?: number | undefined;
+    deletionTime?: Date | undefined;
+    isDeleted?: boolean;
+    code?: string | undefined;
+    name?: string | undefined;
+    slug?: string | undefined;
+    isActive?: boolean;
+    seoDescription?: string | undefined;
+    sortOrder?: number;
+    parentId?: number | undefined;
+}
+
+export class UpdatePostDto implements IUpdatePostDto {
+    id?: number | undefined;
+    creatorUserId?: number | undefined;
+    creationTime?: Date;
+    lastModifiedUserId?: number | undefined;
+    lastModificationTime?: Date | undefined;
+    deleterUserId?: number | undefined;
+    deletionTime?: Date | undefined;
+    isDeleted?: boolean;
+    code?: string | undefined;
+    name?: string | undefined;
+    slug?: string | undefined;
+    isActive?: boolean;
+    seoDescription?: string | undefined;
+    sortOrder?: number;
+    parentId?: number | undefined;
+
+    constructor(data?: IUpdatePostDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.creatorUserId = _data["creatorUserId"];
+            this.creationTime = _data["creationTime"] ? new Date(_data["creationTime"].toString()) : <any>undefined;
+            this.lastModifiedUserId = _data["lastModifiedUserId"];
+            this.lastModificationTime = _data["lastModificationTime"] ? new Date(_data["lastModificationTime"].toString()) : <any>undefined;
+            this.deleterUserId = _data["deleterUserId"];
+            this.deletionTime = _data["deletionTime"] ? new Date(_data["deletionTime"].toString()) : <any>undefined;
+            this.isDeleted = _data["isDeleted"];
+            this.code = _data["code"];
+            this.name = _data["name"];
+            this.slug = _data["slug"];
+            this.isActive = _data["isActive"];
+            this.seoDescription = _data["seoDescription"];
+            this.sortOrder = _data["sortOrder"];
+            this.parentId = _data["parentId"];
+        }
+    }
+
+    static fromJS(data: any): UpdatePostDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new UpdatePostDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["creatorUserId"] = this.creatorUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        data["lastModifiedUserId"] = this.lastModifiedUserId;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
+        data["isDeleted"] = this.isDeleted;
+        data["code"] = this.code;
+        data["name"] = this.name;
+        data["slug"] = this.slug;
+        data["isActive"] = this.isActive;
+        data["seoDescription"] = this.seoDescription;
+        data["sortOrder"] = this.sortOrder;
+        data["parentId"] = this.parentId;
+        return data;
+    }
+}
+
+export interface IUpdatePostDto {
     id?: number | undefined;
     creatorUserId?: number | undefined;
     creationTime?: Date;

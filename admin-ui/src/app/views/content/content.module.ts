@@ -6,8 +6,12 @@ import { IconModule } from '@coreui/icons-angular';
 import { ChartjsModule } from '@coreui/angular-chartjs';
 
 import { ContentRoutingModule } from './content-routing.module';
+
 import { PostCategoryComponent } from './post-categories/post-category/post-category.component';
 import { PostCategoryDetailComponent } from './post-categories/post-category-detail/post-category-detail.component';
+import { PostComponent } from './posts/post/post.component';
+import { PostDetailComponent } from './posts/post-detail/post-detail.component';
+
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { PanelModule } from 'primeng/panel';
 import { BlockUIModule } from 'primeng/blockui';
@@ -19,6 +23,12 @@ import { KeyFilterModule } from 'primeng/keyfilter';
 import { BlogSharedModule } from 'src/app/shared/modules/shared.module';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
+import { DropdownModule } from 'primeng/dropdown';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { ImageModule } from 'primeng/image';
+import { DynamicDialogModule } from 'primeng/dynamicdialog';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { EditorModule } from 'primeng/editor';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 
 @NgModule({
@@ -39,8 +49,19 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
     BlogSharedModule,
     ButtonModule,
     InputTextModule,
+    InputTextareaModule,
+    DropdownModule,
+    EditorModule,
+    InputNumberModule,
+    ImageModule,
     AutoCompleteModule,
+    DynamicDialogModule,
   ],
-  declarations: [PostCategoryComponent, PostCategoryDetailComponent],
+  declarations: [
+    PostCategoryComponent,
+    PostCategoryDetailComponent,
+    PostComponent,
+    PostDetailComponent,
+  ],
 })
 export class ContentModule {}

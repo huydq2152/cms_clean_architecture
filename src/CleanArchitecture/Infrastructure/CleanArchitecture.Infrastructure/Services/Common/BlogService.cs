@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using CleanArchitecture.Application.Dtos.Auth.Users;
-using CleanArchitecture.Application.Dtos.Posts;
 using CleanArchitecture.Application.Dtos.Posts.PostCategory;
 using CleanArchitecture.Application.Interfaces.Repositories.Posts;
 using CleanArchitecture.Application.Interfaces.Services.Common;

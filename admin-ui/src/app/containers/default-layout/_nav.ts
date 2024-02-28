@@ -21,7 +21,7 @@ export const navItems: INavData[] = [
     iconComponent: { name: 'cil-puzzle' },
     children: [
       {
-        name: 'Danh mục',
+        name: 'Loại bài viết',
         url: UrlConstants.POST_CATEGORIES,
         attributes: {
           policyName: 'Permissions.PostCategories.View',

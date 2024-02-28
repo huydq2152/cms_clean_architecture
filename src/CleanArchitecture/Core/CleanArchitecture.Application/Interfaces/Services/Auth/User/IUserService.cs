@@ -7,7 +7,7 @@ namespace CleanArchitecture.Application.Interfaces.Services.Auth.User;
 public interface IUserService
 {
     Task<UserDto> GetUserByIdAsync(int id);
-    Task<List<UserDto>> GetAllUsersAsync();
+    Task<List<UserDto>> GetAllUsersAsync(UserPagingQueryInput input);
     Task<PagedResult<UserDto>> GetAllUsersPagedAsync(UserPagingQueryInput input);
     Task CreateUserAsync(CreateUserDto input);
     Task UpdateUserAsync(UpdateUserDto input);
