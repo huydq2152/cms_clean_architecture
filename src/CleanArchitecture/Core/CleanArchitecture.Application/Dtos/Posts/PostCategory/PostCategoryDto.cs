@@ -1,8 +1,8 @@
 ﻿using Contracts.Dtos;
 
-namespace CleanArchitecture.Application.Dtos.Posts;
+namespace CleanArchitecture.Application.Dtos.Posts.PostCategory;
 
-public class CreateOrUpdatePostCategoryDto : FullAuditedEntityBaseDto<int?>
+public class PostCategoryDto : FullAuditedEntityBaseDto<int>
 {
     public string Code { get; set; }
     public string Name { get; set; }
@@ -12,4 +12,6 @@ public class CreateOrUpdatePostCategoryDto : FullAuditedEntityBaseDto<int?>
     public int SortOrder { set; get; }
     
     public int? ParentId { get; set; }
+    public string ParentCode { get; set; }
+    public string ParentName { get; set; }
 }

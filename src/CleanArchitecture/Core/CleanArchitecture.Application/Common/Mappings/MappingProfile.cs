@@ -4,6 +4,7 @@ using CleanArchitecture.Application.Dtos.Auth;
 using CleanArchitecture.Application.Dtos.Auth.Roles;
 using CleanArchitecture.Application.Dtos.Auth.Users;
 using CleanArchitecture.Application.Dtos.Posts;
+using CleanArchitecture.Application.Dtos.Posts.PostCategory;
 using CleanArchitecture.Domain.Entities.Auth;
 using CleanArchitecture.Domain.Entities.Posts;
 

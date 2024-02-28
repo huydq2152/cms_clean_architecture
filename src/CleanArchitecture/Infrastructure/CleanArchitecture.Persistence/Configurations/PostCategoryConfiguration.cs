@@ -18,8 +18,8 @@ public class PostCategoryConfiguration: IEntityTypeConfiguration<PostCategory>
             .HasMaxLength(200)
             .IsRequired();
 
-        builder.HasOne<PostCategory>(postCategory => postCategory.Parent)
-            .WithMany(parent => parent.Children)
+        builder.HasOne(postCategory => postCategory.Parent)
+            .WithMany()
             .HasForeignKey(postCategory => postCategory.ParentId);
     }
 }

@@ -1,4 +1,4 @@
-﻿using CleanArchitecture.Application.Dtos.Posts;
+﻿using CleanArchitecture.Application.Dtos.Posts.PostCategory;
 using Infrastructure.Common.Models.Paging;
 
 namespace CleanArchitecture.Application.Interfaces.Services.Posts;

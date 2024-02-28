@@ -1,4 +1,4 @@
-﻿using CleanArchitecture.Application.Dtos.Posts;
+﻿using CleanArchitecture.Application.Dtos.Posts.PostCategory;
 using CleanArchitecture.Application.Interfaces.Services.Posts;
 using CleanArchitecture.WebAPI.Controllers.Common;
 using CleanArchitecture.WebAPI.Filter;

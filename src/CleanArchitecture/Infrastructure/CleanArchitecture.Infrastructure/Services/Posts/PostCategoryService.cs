@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
-using CleanArchitecture.Application.Dtos.Posts;
+using CleanArchitecture.Application.Dtos.Posts.PostCategory;
 using CleanArchitecture.Application.Interfaces.Repositories.Posts;
 using CleanArchitecture.Application.Interfaces.Services.Posts;
-using CleanArchitecture.Domain.Entities.Posts;
-using Contracts.Exceptions;
 using Infrastructure.Common.Models.Paging;
 
 namespace CleanArchitecture.Infrastructure.Services.Posts;

@@ -1,4 +1,5 @@
 ﻿using CleanArchitecture.Application.Dtos.Posts;
+using CleanArchitecture.Application.Dtos.Posts.PostCategory;
 using CleanArchitecture.Domain.Entities.Posts;
 using Contracts.Common.Interfaces.Repositories;
 using Infrastructure.Common.Models.Paging;
