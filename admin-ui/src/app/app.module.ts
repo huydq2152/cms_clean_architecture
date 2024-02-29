@@ -68,6 +68,7 @@ import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
 import { UtilityService } from './shared/services/utility.service';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { UploadService } from './shared/services/upload.service';
+import { BroadcastService } from './shared/services/broadcast.service';
 
 const APP_CONTAINERS = [
   DefaultFooterComponent,
@@ -145,6 +146,7 @@ const APP_CONTAINERS = [
     ConfirmationService,
     UtilityService,
     UploadService,
+    BroadcastService,
   ],
   bootstrap: [AppComponent],
 })

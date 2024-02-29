@@ -9,10 +9,14 @@ import {
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AlertService } from '../services/alert.service';
+import { BroadcastService } from '../services/broadcast.service';
 
 @Injectable()
 export class GlobalHttpInterceptorService implements HttpInterceptor {
-  constructor(private alertService: AlertService) {}
+  constructor(
+    private alertService: AlertService,
+    public broadcastService: BroadcastService
+  ) {}
 
   intercept(
     req: HttpRequest<any>,
@@ -30,6 +34,7 @@ export class GlobalHttpInterceptorService implements HttpInterceptor {
           const error = await new Response(ex.error).text();
           this.alertService.showError(error);
         }
+        this.broadcastService.httpError.next(true);
         throw ex;
       })
     );
