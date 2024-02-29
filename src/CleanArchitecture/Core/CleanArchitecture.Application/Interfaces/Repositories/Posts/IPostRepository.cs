@@ -13,4 +13,5 @@ public interface IPostRepository: IRepositoryBase<Post, int>
     Task CreatePostAsync(CreatePostDto post);
     Task UpdatePostAsync(UpdatePostDto post);
     Task DeletePostAsync(int[] ids);
+    Task<List<PostDto>> GetPostsByCategoryIdAsync(int id);
 }

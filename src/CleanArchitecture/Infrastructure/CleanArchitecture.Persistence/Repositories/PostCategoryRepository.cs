@@ -5,6 +5,7 @@ using CleanArchitecture.Domain.Entities.Posts;
 using CleanArchitecture.Persistence.Common.Repositories;
 using CleanArchitecture.Persistence.Contexts;
 using Contracts.Common.Interfaces;
+using Contracts.Exceptions;
 using Infrastructure.Common.Models.Paging;
 using Microsoft.EntityFrameworkCore;
 using Shared.Extensions.Collection;
@@ -90,9 +91,13 @@ public class PostCategoryRepository : RepositoryBase<PostCategory, int>, IPostCa
         await UpdateAsync(entity);
     }
 
-    public async Task DeletePostCategoryAsync(int[] ids)
+    public async Task DeletePostCategoryAsync(int id)
     {
-        var entities = await GetAll().Where(o => ids.Contains(o.Id)).ToListAsync();
-        await DeleteListAsync(entities);
+        var entity = GetByCondition(o=>o.Id == id).FirstOrDefault();
+        if (entity == null)
+        {
+            throw new NotFoundException(nameof(PostCategory), id);
+        }
+        await DeleteAsync(entity);
     }
 }

@@ -13,5 +13,5 @@ public interface IPostCategoryRepository : IRepositoryBase<PostCategory, int>
     Task<PagedResult<PostCategoryDto>> GetAllPostCategoryPagedAsync(GetAllPostCategoriesInput input);
     Task CreatePostCategoryAsync(CreatePostCategoryDto postCategory);
     Task UpdatePostCategoryAsync(UpdatePostCategoryDto postCategory);
-    Task DeletePostCategoryAsync(int[] ids);
+    Task DeletePostCategoryAsync(int id);
 }

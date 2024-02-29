@@ -11,7 +11,7 @@ using Shared.Extensions.Collection;
 
 namespace CleanArchitecture.Persistence.Repositories;
 
-public class PostRepository: RepositoryBase<Post, int>, IPostRepository
+public class PostRepository : RepositoryBase<Post, int>, IPostRepository
 {
     private readonly IMapper _mapper;
 
@@ -44,17 +44,17 @@ public class PostRepository: RepositoryBase<Post, int>, IPostRepository
                 Name = obj.Name,
                 Slug = obj.Slug,
                 Description = obj.Description,
-                
+
                 CategoryId = obj.CategoryId,
                 CategoryCode = obj.Category.Code,
                 CategoryName = obj.Category.Name,
-                
+
                 Thumbnail = obj.Thumbnail,
                 Content = obj.Content,
-                
+
                 AuthorUserId = obj.AuthorUserId,
                 AuthorUserName = obj.Author.UserName,
-                
+
                 Tags = obj.Tags,
                 SeoDescription = obj.SeoDescription,
                 ViewCount = obj.ViewCount,
@@ -105,5 +105,12 @@ public class PostRepository: RepositoryBase<Post, int>, IPostRepository
     {
         var entities = await GetAll().Where(o => ids.Contains(o.Id)).ToListAsync();
         await DeleteListAsync(entities);
+    }
+
+    public async Task<List<PostDto>> GetPostsByCategoryIdAsync(int id)
+    {
+        var entities = await GetByCondition(o => !o.IsDeleted && o.CategoryId == id).ToListAsync();
+        var result = _mapper.Map<List<PostDto>>(entities);
+        return result;
     }
 }

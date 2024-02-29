@@ -1,6 +1,5 @@
 ﻿using CleanArchitecture.Application.Dtos.Auth.Users;
 using Infrastructure.Common.Models.Paging;
-using Microsoft.AspNetCore.Identity;
 
 namespace CleanArchitecture.Application.Interfaces.Services.Auth.User;
 

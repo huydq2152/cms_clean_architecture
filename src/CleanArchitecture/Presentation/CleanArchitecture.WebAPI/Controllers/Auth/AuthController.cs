@@ -47,13 +47,13 @@ public class AuthController : ApiControllerBase
         var user = await _userManager.FindByNameAsync(request.UserName);
         if (user == null || user.IsActive == false || user.LockoutEnabled)
         {
-            return Unauthorized();
+            return Unauthorized("Invalid user");
         }
 
         var result = await _signInManager.PasswordSignInAsync(request.UserName, request.Password, false, true);
         if (!result.Succeeded)
         {
-            return Unauthorized();
+            return Unauthorized("Invalid user");
         }
 
         //Authorization

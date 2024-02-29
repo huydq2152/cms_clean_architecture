@@ -9,12 +9,12 @@ namespace CleanArchitecture.Infrastructure.Services.Posts;
 public class PostCategoryService : IPostCategoryService
 {
     private readonly IPostCategoryRepository _postCategoryRepository;
-    private readonly IMapper _mapper;
+    private readonly IPostRepository _postRepository;
 
-    public PostCategoryService(IPostCategoryRepository postCategoryRepository, IMapper mapper)
+    public PostCategoryService(IPostCategoryRepository postCategoryRepository, IPostRepository postRepository)
     {
         _postCategoryRepository = postCategoryRepository;
-        _mapper = mapper;
+        _postRepository = postRepository;
     }
 
     public async Task<PostCategoryDto> GetPostCategoryByIdAsync(int id)
@@ -47,6 +47,14 @@ public class PostCategoryService : IPostCategoryService
 
     public async Task DeletePostCategoriesAsync(int[] ids)
     {
-        await _postCategoryRepository.DeletePostCategoryAsync(ids);
+        foreach (var id in ids)
+        {
+            var posts = await _postRepository.GetPostsByCategoryIdAsync(id);
+            if (posts.Any())
+            {
+                throw new Exception("Exist posts still not delete in this category");
+            }
+            await _postCategoryRepository.DeletePostCategoryAsync(id);
+        }
     }
 }
