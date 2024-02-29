@@ -108,8 +108,6 @@ export class PostCategoryDetailComponent implements OnInit, OnDestroy {
   }
 
   private saveData() {
-    console.log(this.form.value);
-
     if (this.utilService.isEmpty(this.config.data?.id)) {
       var createPostCategoryDto = new CreatePostCategoryDto({
         ...this.form.value,
@@ -125,7 +123,7 @@ export class PostCategoryDetailComponent implements OnInit, OnDestroy {
     } else {
       var updatePostCategoryDto = new UpdatePostCategoryDto({
         ...this.form.value,
-        id: this.config.data?.id,
+        id: this.config.data.id,
         parentId: this.form.value.slParent?.id,
       });
       this.postCategoryService
@@ -174,8 +172,18 @@ export class PostCategoryDetailComponent implements OnInit, OnDestroy {
       ),
       isActive: new FormControl(this.selectedEntity.isActive || false),
     });
-    if (this.form.get('code').value === null) {
+
+    if (this.form.controls['code'].value === null) {
       this.generateRandomCode();
+    }
+
+    if (this.selectedEntity.parentId) {
+      this.blogService
+        .getBlogPostCategoryById(this.selectedEntity.parentId)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe((res) => {
+          this.form.controls['slParent'].setValue(res);
+        });
     }
   }
 

@@ -129,13 +129,11 @@ export class PostDetailComponent implements OnInit, OnDestroy {
   }
 
   private saveData() {
-    console.log(this.form.value);
-
     if (this.utilService.isEmpty(this.config.data?.id)) {
       var createPostDto = new CreatePostDto({
         ...this.form.value,
-        categoryId: this.form.value.slPostCategory?.id,
-        authorUserId: this.form.value.slUser?.id,
+        categoryId: this.form.value.slPostCategory.id,
+        authorUserId: this.form.value.slUser.id,
       });
       this.postService
         .createPost(new CreatePostDto(createPostDto))
@@ -147,9 +145,9 @@ export class PostDetailComponent implements OnInit, OnDestroy {
     } else {
       var updatePostDto = new UpdatePostDto({
         ...this.form.value,
-        id: this.config.data?.id,
-        categoryId: this.form.value.slPostCategory?.id,
-        authorUserId: this.form.value.slUser?.id,
+        id: this.config.data.id,
+        categoryId: this.form.value.slPostCategory.id,
+        authorUserId: this.form.value.slUser.id,
       });
       this.postService
         .updatePost(updatePostDto)
@@ -202,11 +200,27 @@ export class PostDetailComponent implements OnInit, OnDestroy {
       content: new FormControl(this.selectedEntity.content || null),
       thumbnail: new FormControl(this.selectedEntity.thumbnail || null),
     });
-    if (this.form.get('code').value === null) {
+    if (this.form.controls['code'].value === null) {
       this.generateRandomCode();
     }
     if (this.selectedEntity.thumbnail) {
       this.thumbnailImage = environment.API_URL + this.selectedEntity.thumbnail;
+    }
+    if (this.selectedEntity.categoryId) {
+      this.blogService
+        .getBlogPostCategoryById(this.selectedEntity.categoryId)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe((res) => {
+          this.form.controls['slPostCategory'].setValue(res);
+        });
+    }
+    if (this.selectedEntity.authorUserId) {
+      this.blogService
+        .getBlogUserById(this.selectedEntity.authorUserId)
+        .pipe(takeUntil(this.ngUnsubscribe))
+        .subscribe((res) => {
+          this.form.controls['slUser'].setValue(res);
+        });
     }
   }
 

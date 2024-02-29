@@ -3744,10 +3744,20 @@ export class UpdatePostDto implements IUpdatePostDto {
     code?: string | undefined;
     name?: string | undefined;
     slug?: string | undefined;
-    isActive?: boolean;
+    description?: string | undefined;
+    categoryId?: number;
+    categoryCode?: string | undefined;
+    categoryName?: string | undefined;
+    thumbnail?: string | undefined;
+    content?: string | undefined;
+    authorUserId?: number;
+    authorUserName?: string | undefined;
+    source?: string | undefined;
+    tags?: string | undefined;
     seoDescription?: string | undefined;
-    sortOrder?: number;
-    parentId?: number | undefined;
+    viewCount?: number;
+    status?: PostStatusEnum;
+    isActive?: boolean;
 
     constructor(data?: IUpdatePostDto) {
         if (data) {
@@ -3771,10 +3781,20 @@ export class UpdatePostDto implements IUpdatePostDto {
             this.code = _data["code"];
             this.name = _data["name"];
             this.slug = _data["slug"];
-            this.isActive = _data["isActive"];
+            this.description = _data["description"];
+            this.categoryId = _data["categoryId"];
+            this.categoryCode = _data["categoryCode"];
+            this.categoryName = _data["categoryName"];
+            this.thumbnail = _data["thumbnail"];
+            this.content = _data["content"];
+            this.authorUserId = _data["authorUserId"];
+            this.authorUserName = _data["authorUserName"];
+            this.source = _data["source"];
+            this.tags = _data["tags"];
             this.seoDescription = _data["seoDescription"];
-            this.sortOrder = _data["sortOrder"];
-            this.parentId = _data["parentId"];
+            this.viewCount = _data["viewCount"];
+            this.status = _data["status"];
+            this.isActive = _data["isActive"];
         }
     }
 
@@ -3798,10 +3818,20 @@ export class UpdatePostDto implements IUpdatePostDto {
         data["code"] = this.code;
         data["name"] = this.name;
         data["slug"] = this.slug;
-        data["isActive"] = this.isActive;
+        data["description"] = this.description;
+        data["categoryId"] = this.categoryId;
+        data["categoryCode"] = this.categoryCode;
+        data["categoryName"] = this.categoryName;
+        data["thumbnail"] = this.thumbnail;
+        data["content"] = this.content;
+        data["authorUserId"] = this.authorUserId;
+        data["authorUserName"] = this.authorUserName;
+        data["source"] = this.source;
+        data["tags"] = this.tags;
         data["seoDescription"] = this.seoDescription;
-        data["sortOrder"] = this.sortOrder;
-        data["parentId"] = this.parentId;
+        data["viewCount"] = this.viewCount;
+        data["status"] = this.status;
+        data["isActive"] = this.isActive;
         return data;
     }
 }
@@ -3818,10 +3848,20 @@ export interface IUpdatePostDto {
     code?: string | undefined;
     name?: string | undefined;
     slug?: string | undefined;
-    isActive?: boolean;
+    description?: string | undefined;
+    categoryId?: number;
+    categoryCode?: string | undefined;
+    categoryName?: string | undefined;
+    thumbnail?: string | undefined;
+    content?: string | undefined;
+    authorUserId?: number;
+    authorUserName?: string | undefined;
+    source?: string | undefined;
+    tags?: string | undefined;
     seoDescription?: string | undefined;
-    sortOrder?: number;
-    parentId?: number | undefined;
+    viewCount?: number;
+    status?: PostStatusEnum;
+    isActive?: boolean;
 }
 
 export class UpdateRoleDto implements IUpdateRoleDto {
