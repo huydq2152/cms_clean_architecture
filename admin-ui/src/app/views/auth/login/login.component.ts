@@ -15,7 +15,7 @@ import {
 import { UrlConstants } from 'src/app/shared/constants/url.constants';
 import { AlertService } from 'src/app/shared/services/alert.service';
 import { TokenStorageService } from 'src/app/shared/services/token-storage.service';
-import { BroadcastService } from 'src/app/shared/services/broadcast.service';}
+import { BroadcastService } from 'src/app/shared/services/broadcast.service';
 
 @Component({
   selector: 'app-login',
