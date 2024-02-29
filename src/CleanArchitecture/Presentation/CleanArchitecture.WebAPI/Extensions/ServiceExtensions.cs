@@ -55,6 +55,7 @@ public static class ServiceExtensions
             });
         });
         services.AddAuthenticationAndAuthorization(configuration);
+        services.Configure<MediaSettings>(configuration.GetSection("MediaSettings"));
     }
 
     private static void AddServices(this IServiceCollection services)

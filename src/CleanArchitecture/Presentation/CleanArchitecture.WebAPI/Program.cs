@@ -52,6 +52,7 @@ try
     }
 
     app.UseMiddleware<ErrorWrappingMiddleware>();
+    app.UseStaticFiles();
     app.UseCors(blogCorsPolicy);
     app.UseHttpsRedirection();
     app.UseAuthentication();
