@@ -21,4 +21,11 @@ public static class AutoMapperExtensions
         }
         return expression;
     }
+    
+    public static IMappingExpression<TSource, TDestination> IgnoreProperty<TSource, TDestination>(
+        this IMappingExpression<TSource, TDestination> expression, string propertyName)
+    {
+        expression.ForMember(propertyName, opt => opt.Ignore());
+        return expression;
+    }
 }

@@ -14,6 +14,7 @@ import {
   AdminApiBlogApiClient,
   CreatePostDto,
   UserDto,
+  PostCategoryDto,
 } from 'src/app/api/admin-api.service.generated';
 import { UtilityService } from 'src/app/shared/services/utility.service';
 import { environment } from 'src/environments/environment';
@@ -34,7 +35,7 @@ export class PostDetailComponent implements OnInit, OnDestroy {
   public closeBtnName: string;
   selectedEntity = {} as PostDto;
   public thumbnailImage;
-  filteredPostCategories: PostDto[];
+  filteredPostCategories: PostCategoryDto[];
   filteredUsers: UserDto[];
 
   formSavedEventEmitter: EventEmitter<any> = new EventEmitter();
@@ -128,6 +129,8 @@ export class PostDetailComponent implements OnInit, OnDestroy {
   }
 
   private saveData() {
+    console.log(this.form.value);
+
     if (this.utilService.isEmpty(this.config.data?.id)) {
       var createPostDto = new CreatePostDto({
         ...this.form.value,
@@ -234,8 +237,8 @@ export class PostDetailComponent implements OnInit, OnDestroy {
       });
   }
 
-  public selectedPostCategoryDisplay(post: PostDto): string {
-    return `${post.code} - ${post.name}`;
+  public selectedPostCategoryDisplay(postCategory: PostCategoryDto): string {
+    return `${postCategory.code} - ${postCategory.name}`;
   }
 
   filterUsers(event): void {

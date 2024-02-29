@@ -31,7 +31,7 @@ public class RoleService : IRoleService
             throw new NotFoundException(nameof(AppRole), id);
         }
 
-        var result = _mapper.Map<AppRole, RoleDto>(role);
+        var result = _mapper.Map<RoleDto>(role);
         return result;
     }
 

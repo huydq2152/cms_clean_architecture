@@ -108,6 +108,8 @@ export class PostCategoryDetailComponent implements OnInit, OnDestroy {
   }
 
   private saveData() {
+    console.log(this.form.value);
+
     if (this.utilService.isEmpty(this.config.data?.id)) {
       var createPostCategoryDto = new CreatePostCategoryDto({
         ...this.form.value,

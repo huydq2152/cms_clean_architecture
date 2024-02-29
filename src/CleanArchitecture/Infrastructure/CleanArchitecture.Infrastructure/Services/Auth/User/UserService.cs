@@ -29,7 +29,7 @@ public class UserService : IUserService
             throw new NotFoundException(nameof(AppUser), id);
         }
 
-        var result = _mapper.Map<AppUser, UserDto>(user);
+        var result = _mapper.Map<UserDto>(user);
         return result;
     }
 
@@ -41,7 +41,7 @@ public class UserService : IUserService
                      || o.UserName.Contains(input.Filter)
                      || o.Email.Contains(input.Filter)
                      || o.PhoneNumber.Contains(input.Filter)).ToListAsync();
-        var result = _mapper.Map<List<AppUser>, List<UserDto>>(users);
+        var result = _mapper.Map<List<UserDto>>(users);
 
         return result;
     }
@@ -73,7 +73,7 @@ public class UserService : IUserService
             throw new BadRequestException("Email already exists");
         }
 
-        var user = _mapper.Map<CreateUserDto, AppUser>(input);
+        var user = _mapper.Map<AppUser>(input);
         await _userManager.CreateAsync(user, input.Password);
     }
 

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CleanArchitecture.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240228081437_add_post")]
+    [Migration("20240229025718_add_post")]
     partial class add_post
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

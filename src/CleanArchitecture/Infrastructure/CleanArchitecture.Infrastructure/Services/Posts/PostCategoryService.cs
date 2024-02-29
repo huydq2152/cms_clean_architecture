@@ -19,8 +19,7 @@ public class PostCategoryService : IPostCategoryService
 
     public async Task<PostCategoryDto> GetPostCategoryByIdAsync(int id)
     {
-        var postCategory = await _postCategoryRepository.GetPostCategoryByIdAsync(id);
-        var result = _mapper.Map<PostCategoryDto>(postCategory);
+        var result = await _postCategoryRepository.GetPostCategoryByIdAsync(id);
         return result;
     }
 

@@ -66,16 +66,15 @@
                 <p-editor formControlName="content" [style]="{ height: '320px' }">
                 </p-editor>
             </div>
-            <div class="field col-12 md:col-12">
-                <label for="tags">Tags</label>
-                <input id="tags" type="text" pInputText [pKeyFilter]="noSpecial" formControlName="tags"
-                    [style]="{ width: '100%' }" />
-            </div>
-
             <div class="field col-12">
                 <label for="seoDescription">Mô tả SEO</label>
                 <textarea id="seoDescription" type="text" rows="4" pInputTextarea [pKeyFilter]="noSpecial"
                     formControlName="seoDescription" [style]="{ width: '100%' }"></textarea>
+            </div>
+            <div class="field col-12 md:col-12">
+                <label for="tags">Tags</label>
+                <input id="tags" type="text" pInputText [pKeyFilter]="noSpecial" formControlName="tags"
+                    [style]="{ width: '100%' }" />
             </div>
             <div class="field-checkbox col-12 md:col-6">
                 <p-checkbox formControlName="isActive" [binary]="true" [binary]="true" id="isActive"></p-checkbox>

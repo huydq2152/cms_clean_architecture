@@ -6,7 +6,6 @@ namespace CleanArchitecture.Domain.Entities.Posts;
 
 public class Post: FullAuditedEntityBase<int>
 {
-    public int Id { get; set; }
     public string Code { get; set; }
     public string Name { get; set; }
     public string Slug { get; set; }

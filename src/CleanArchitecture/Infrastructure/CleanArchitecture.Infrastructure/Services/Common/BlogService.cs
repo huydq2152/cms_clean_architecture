@@ -35,7 +35,7 @@ public class BlogService : IBlogService
             throw new NotFoundException(nameof(AppUser), id);
         }
 
-        var result = _mapper.Map<AppUser, UserDto>(user);
+        var result = _mapper.Map<UserDto>(user);
         return result;
     }
 
@@ -46,7 +46,7 @@ public class BlogService : IBlogService
                 x => x.UserName.Contains(input.Filter)
                      || x.Email.Contains(input.Filter)).ToListAsync();
 
-        var result = _mapper.Map<List<AppUser>, List<UserDto>>(users);
+        var result = _mapper.Map<List<UserDto>>(users);
         return result;
     }
 
@@ -69,8 +69,7 @@ public class BlogService : IBlogService
 
     public async Task<PostCategoryDto> GetBlogPostCategoryByIdAsync(int id)
     {
-        var objQuery = await _postCategoryRepository.GetPostCategoryByIdAsync(id);
-        var result = _mapper.Map<PostCategoryDto>(objQuery);
+        var result = await _postCategoryRepository.GetPostCategoryByIdAsync(id);
         return result;
     }
 

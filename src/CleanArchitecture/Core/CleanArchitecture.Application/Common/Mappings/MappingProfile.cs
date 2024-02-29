@@ -1,9 +1,7 @@
 ﻿using System.Reflection;
 using AutoMapper;
-using CleanArchitecture.Application.Dtos.Auth;
 using CleanArchitecture.Application.Dtos.Auth.Roles;
 using CleanArchitecture.Application.Dtos.Auth.Users;
-using CleanArchitecture.Application.Dtos.Posts;
 using CleanArchitecture.Application.Dtos.Posts.Post;
 using CleanArchitecture.Application.Dtos.Posts.PostCategory;
 using CleanArchitecture.Domain.Entities.Auth;
@@ -19,25 +17,25 @@ namespace CleanArchitecture.Application.Common.Mappings
             
             #region Auth
 
-            CreateMap<AppRole, RoleDto>().ReverseMap();
-            CreateMap<AppRole, CreateRoleDto>().ReverseMap();
-            CreateMap<AppRole, UpdateRoleDto>().ReverseMap();
+            CreateMap<AppRole, RoleDto>();
+            CreateMap<AppRole, CreateRoleDto>();
+            CreateMap<AppRole, UpdateRoleDto>();
             
-            CreateMap<AppUser, UserDto>().ReverseMap();
-            CreateMap<AppUser, CreateUserDto>().ReverseMap();
-            CreateMap<AppUser, UpdateUserDto>().ReverseMap();
+            CreateMap<AppUser, UserDto>();
+            CreateMap<CreateUserDto, AppUser>();
+            CreateMap<AppUser, UpdateUserDto>();
 
             #endregion
             
             #region Post
 
-            CreateMap<PostCategory, PostCategoryDto>().ReverseMap();
-            CreateMap<PostCategory, CreatePostCategoryDto>().ReverseMap();
-            CreateMap<PostCategory, UpdatePostCategoryDto>().ReverseMap();
+            CreateMap<PostCategoryDto, PostCategory>();
+            CreateMap<CreatePostCategoryDto, PostCategory>();
+            CreateMap<UpdatePostCategoryDto, PostCategory>();
             
-            CreateMap<Post, PostDto>().ReverseMap();
-            CreateMap<Post, CreatePostDto>().ReverseMap();
-            CreateMap<Post, UpdatePostDto>().ReverseMap();
+            CreateMap<PostDto, Post>();
+            CreateMap<CreatePostDto, Post>();
+            CreateMap<UpdatePostDto, Post>();
 
             #endregion
             
