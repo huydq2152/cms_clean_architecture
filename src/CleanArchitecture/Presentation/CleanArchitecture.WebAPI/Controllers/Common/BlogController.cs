@@ -27,7 +27,7 @@ public class BlogController : ApiControllerBase
     }
 
     [HttpGet("all-users")]
-    public async Task<ActionResult<List<UserDto>>> GetAllBlogUsersAsync([FromQuery] UserPagingQueryInput input)
+    public async Task<ActionResult<List<UserDto>>> GetAllBlogUsersAsync([FromQuery] GetAllUsersInput input)
     {
         var result = await _blogService.GetAllBlogUsersAsync(input);
         return Ok(result);
@@ -35,7 +35,7 @@ public class BlogController : ApiControllerBase
 
     [HttpGet("paging-users")]
     public async Task<ActionResult<PagedResult<UserDto>>> GetAllBlogUsersPagedAsync(
-        [FromQuery] UserPagingQueryInput input)
+        [FromQuery] GetAllUsersInput input)
     {
         var result = await _blogService.GetAllBlogUsersPagedAsync(input);
         return Ok(result);

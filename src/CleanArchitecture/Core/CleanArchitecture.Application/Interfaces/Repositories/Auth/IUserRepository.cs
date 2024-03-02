@@ -1,9 +1,9 @@
-﻿using CleanArchitecture.Application.Dtos.Auth.Users;
+using CleanArchitecture.Application.Dtos.Auth.Users;
 using Infrastructure.Common.Models.Paging;
 
-namespace CleanArchitecture.Application.Interfaces.Services.Auth.User;
+namespace CleanArchitecture.Application.Interfaces.Repositories.Auth;
 
-public interface IUserService
+public interface IUserRepository
 {
     Task<UserDto> GetUserByIdAsync(int id);
     Task<List<UserDto>> GetAllUsersAsync(GetAllUsersInput input);

@@ -36,6 +36,7 @@ public static class ServiceExtension
             .AddTransient(typeof(IUnitOfWork), typeof(UnitOfWork))
             .AddTransient(typeof(IRepositoryBase<,>), typeof(RepositoryBase<,>))
             .AddTransient<IRoleRepository, RoleRepository>()
+            .AddTransient<IUserRepository, UserRepository>()
             .AddTransient<IPostCategoryRepository, PostCategoryRepository>()
             .AddTransient<IPostRepository, PostRepository>();
     }

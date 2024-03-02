@@ -1,15 +1,7 @@
-﻿using System.Reflection;
-using AutoMapper;
-using CleanArchitecture.Application.Dtos.Auth.Roles;
-using CleanArchitecture.Application.Extensions.Auth;
+﻿using CleanArchitecture.Application.Dtos.Auth.Roles;
 using CleanArchitecture.Application.Interfaces.Repositories.Auth;
 using CleanArchitecture.Application.Interfaces.Services.Auth;
-using CleanArchitecture.Domain.Entities.Auth;
-using Contracts.Exceptions;
 using Infrastructure.Common.Models.Paging;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Shared.SeedWork.Auth;
 
 namespace CleanArchitecture.Infrastructure.Services.Auth;
 

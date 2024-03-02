@@ -9,8 +9,8 @@ public interface IBlogService
     #region User
 
     Task<UserDto> GetBlogUserByIdAsync(int id);
-    Task<List<UserDto>> GetAllBlogUsersAsync(UserPagingQueryInput input);
-    Task<PagedResult<UserDto>> GetAllBlogUsersPagedAsync(UserPagingQueryInput input);
+    Task<List<UserDto>> GetAllBlogUsersAsync(GetAllUsersInput input);
+    Task<PagedResult<UserDto>> GetAllBlogUsersPagedAsync(GetAllUsersInput input);
 
     #endregion
 

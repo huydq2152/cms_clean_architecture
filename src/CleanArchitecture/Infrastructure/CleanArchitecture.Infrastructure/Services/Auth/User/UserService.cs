@@ -1,165 +1,74 @@
-﻿using AutoMapper;
-using CleanArchitecture.Application.Dtos.Auth.Users;
+﻿using CleanArchitecture.Application.Dtos.Auth.Users;
+using CleanArchitecture.Application.Interfaces.Repositories.Auth;
 using CleanArchitecture.Application.Interfaces.Services.Auth.User;
-using CleanArchitecture.Domain.Entities.Auth;
-using Contracts.Exceptions;
 using Infrastructure.Common.Models.Paging;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Shared.Extensions.Collection;
 
 namespace CleanArchitecture.Infrastructure.Services.Auth.User;
 
 public class UserService : IUserService
 {
-    private readonly UserManager<AppUser> _userManager;
-    private readonly IMapper _mapper;
-
-    public UserService(UserManager<AppUser> userManager, IMapper mapper)
+    private readonly IUserRepository _userRepository;
+    public UserService(IUserRepository userRepository)
     {
-        _userManager = userManager;
-        _mapper = mapper;
+        _userRepository = userRepository;
     }
 
     public async Task<UserDto> GetUserByIdAsync(int id)
     {
-        var user = await _userManager.FindByIdAsync(id.ToString());
-        if (user == null)
-        {
-            throw new NotFoundException(nameof(AppUser), id);
-        }
-
-        var result = _mapper.Map<UserDto>(user);
+        var result = await _userRepository.GetUserByIdAsync(id);
         return result;
     }
 
-    public async Task<List<UserDto>> GetAllUsersAsync(UserPagingQueryInput input)
+    public async Task<List<UserDto>> GetAllUsersAsync(GetAllUsersInput input)
     {
-        var users = await _userManager.Users
-            .WhereIf(input != null && !string.IsNullOrWhiteSpace(input.Filter),
-                o => o.FirstName.Contains(input.Filter)
-                     || o.UserName.Contains(input.Filter)
-                     || o.Email.Contains(input.Filter)
-                     || o.PhoneNumber.Contains(input.Filter)).ToListAsync();
-        var result = _mapper.Map<List<UserDto>>(users);
-
+        var result = await _userRepository.GetAllUsersAsync(input);
         return result;
     }
 
-    public async Task<PagedResult<UserDto>> GetAllUsersPagedAsync(UserPagingQueryInput input)
+    public async Task<PagedResult<UserDto>> GetAllUsersPagedAsync(GetAllUsersInput input)
     {
-        var query = _userManager.Users
-            .WhereIf(input != null && !string.IsNullOrWhiteSpace(input.Filter),
-                o => o.FirstName.Contains(input.Filter)
-                     || o.UserName.Contains(input.Filter)
-                     || o.Email.Contains(input.Filter)
-                     || o.PhoneNumber.Contains(input.Filter));
-
-        var objQuery = _mapper.ProjectTo<UserDto>(query);
-
-        var result = await PagedResult<UserDto>.ToPagedListAsync(objQuery, input.PageIndex, input.PageSize);
+        var result = await _userRepository.GetAllUsersPagedAsync(input);
         return result;
     }
 
     public async Task CreateUserAsync(CreateUserDto input)
     {
-        if (await _userManager.FindByNameAsync(input.UserName) != null)
-        {
-            throw new BadRequestException("Username already exists");
-        }
-
-        if (await _userManager.FindByEmailAsync(input.Email) != null)
-        {
-            throw new BadRequestException("Email already exists");
-        }
-
-        var user = _mapper.Map<AppUser>(input);
-        await _userManager.CreateAsync(user, input.Password);
+        await _userRepository.CreateUserAsync(input);
     }
 
     public async Task UpdateUserAsync(UpdateUserDto input)
     {
-        if (input.Id == null)
-        {
-            throw new BadRequestException("Id is required");
-        }
-
-        var user = await _userManager.FindByIdAsync(input.Id.ToString());
-        if (user == null)
-        {
-            throw new NotFoundException(nameof(AppUser), input.Id);
-        }
-
-        _mapper.Map(input, user);
-        await _userManager.UpdateAsync(user);
+        await _userRepository.UpdateUserAsync(input);
     }
 
     public async Task DeleteUsersAsync(int[] ids)
     {
-        foreach (var id in ids)
-        {
-            var user = await _userManager.FindByIdAsync(id.ToString());
-            if (user == null)
-            {
-                throw new NotFoundException(nameof(AppUser), id);
-            }
-
-            await _userManager.DeleteAsync(user);
-        }
+        await _userRepository.DeleteUsersAsync(ids);
     }
 
     public async Task ChangeMyPassWordAsync(ChangeMyPasswordRequest input, int currentUserId)
     {
-        var user = await _userManager.FindByIdAsync(currentUserId.ToString());
-        if (user == null)
-        {
-            throw new NotFoundException(nameof(AppUser), currentUserId);
-        }
-
-        await _userManager.ChangePasswordAsync(user, input.OldPassword, input.NewPassword);
+        await _userRepository.ChangeMyPassWordAsync(input, currentUserId);
     }
 
     public async Task SetPasswordAsync(SetPasswordRequest input)
     {
-        var user = await _userManager.FindByIdAsync(input.CurrentUserId.ToString());
-        if (user == null)
-        {
-            throw new NotFoundException(nameof(AppUser), input.CurrentUserId);
-        }
-
-        user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, input.NewPassword);
-        await _userManager.UpdateAsync(user);
+        await _userRepository.SetPasswordAsync(input);
     }
 
     public async Task ChangeEmailAsync(ChangeEmailRequest input)
     {
-        var user = await _userManager.FindByIdAsync(input.CurrentUserId.ToString());
-        if (user == null)
-        {
-            throw new NotFoundException(nameof(AppUser), input.CurrentUserId);
-        }
-
-        var token = await _userManager.GenerateChangeEmailTokenAsync(user, input.Email);
-        await _userManager.ChangeEmailAsync(user, input.Email, token);
+        await _userRepository.ChangeEmailAsync(input);
     }
 
     public async Task AssignRolesToUserAsync(AssignRolesToUserRequest input)
     {
-        var user = await _userManager.FindByIdAsync(input.CurrentUserId.ToString());
-        if (user == null)
-        {
-            throw new NotFoundException(nameof(AppUser), input.CurrentUserId);
-        }
-
-        var currentRoles = await _userManager.GetRolesAsync(user);
-        await _userManager.RemoveFromRolesAsync(user, currentRoles);
-        await _userManager.AddToRolesAsync(user, input.Roles);
+        await _userRepository.AssignRolesToUserAsync(input);
     }
 
     public async Task<IList<string>> GetUserRolesAsync(int userId)
     {
-        var user = await _userManager.FindByIdAsync(userId.ToString());
-        var result = await _userManager.GetRolesAsync(user);
+        var result = await _userRepository.GetUserRolesAsync(userId);
         return result;
     }
 }

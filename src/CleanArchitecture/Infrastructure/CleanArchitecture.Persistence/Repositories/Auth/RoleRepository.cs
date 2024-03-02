@@ -49,9 +49,11 @@ public class RoleRepository:  IRoleRepository
         var query = _roleManager.Roles;
         if (!string.IsNullOrEmpty(input.Filter))
         {
-            query = query.Where(x => x.Name.Contains(input.Filter)
-                                     || x.DisplayName.Contains(input.Filter));
+            query = query.Where(o => o.Name.Contains(input.Filter)
+                                     || o.DisplayName.Contains(input.Filter));
         }
+
+        query = query.Where(o => !o.IsDeleted);
 
         var objQuery = _mapper.ProjectTo<RoleDto>(query);
 
@@ -66,7 +68,6 @@ public class RoleRepository:  IRoleRepository
             Name = input.Name,
             DisplayName = input.DisplayName,
         });
-        await _dbContext.SaveChangesAsync();
     }
 
     public async Task UpdateRoleAsync(UpdateRoleDto input)
@@ -86,7 +87,6 @@ public class RoleRepository:  IRoleRepository
         role.DisplayName = input.DisplayName;
 
         await _roleManager.UpdateAsync(role);
-        await _dbContext.SaveChangesAsync();
     }
 
     public async Task DeleteRoleAsync(int[] ids)
@@ -101,7 +101,6 @@ public class RoleRepository:  IRoleRepository
 
             await _roleManager.DeleteAsync(role);
         }
-        await _dbContext.SaveChangesAsync();
     }
 
     public async Task<PermissionDto> GetRolePermissionsAsync(int id)

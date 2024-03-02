@@ -39,7 +39,7 @@ public class BlogService : IBlogService
         return result;
     }
 
-    public async Task<List<UserDto>> GetAllBlogUsersAsync(UserPagingQueryInput input)
+    public async Task<List<UserDto>> GetAllBlogUsersAsync(GetAllUsersInput input)
     {
         var users = await _userManager.Users
             .WhereIf(input != null && !string.IsNullOrWhiteSpace(input.Filter),
@@ -50,7 +50,7 @@ public class BlogService : IBlogService
         return result;
     }
 
-    public async Task<PagedResult<UserDto>> GetAllBlogUsersPagedAsync(UserPagingQueryInput input)
+    public async Task<PagedResult<UserDto>> GetAllBlogUsersPagedAsync(GetAllUsersInput input)
     {
         var query = _userManager.Users
             .WhereIf(input != null && !string.IsNullOrWhiteSpace(input.Filter),
