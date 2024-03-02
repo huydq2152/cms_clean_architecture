@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CleanArchitecture.WebAPI.Auth
+namespace CleanArchitecture.WebAPI.Controllers.Auth
 {
     [Route("api/admin/token")]
     [ApiController]
