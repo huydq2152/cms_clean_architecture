@@ -1,4 +1,5 @@
-﻿using CleanArchitecture.Application.Interfaces.Repositories.Posts;
+﻿using CleanArchitecture.Application.Interfaces.Repositories.Auth;
+using CleanArchitecture.Application.Interfaces.Repositories.Posts;
 using CleanArchitecture.Domain.Entities.Auth;
 using CleanArchitecture.Persistence.Common;
 using CleanArchitecture.Persistence.Common.Repositories;
@@ -6,6 +7,8 @@ using CleanArchitecture.Persistence.Contexts;
 using CleanArchitecture.Persistence.Contexts.Seed;
 using CleanArchitecture.Persistence.Interceptors;
 using CleanArchitecture.Persistence.Repositories;
+using CleanArchitecture.Persistence.Repositories.Auth;
+using CleanArchitecture.Persistence.Repositories.Posts;
 using Contracts.Common.Interfaces;
 using Contracts.Common.Interfaces.Repositories;
 using Infrastructure.Configurations;
@@ -32,6 +35,7 @@ public static class ServiceExtension
             .AddScoped<AuditableEntitySaveChangesInterceptor>()
             .AddTransient(typeof(IUnitOfWork), typeof(UnitOfWork))
             .AddTransient(typeof(IRepositoryBase<,>), typeof(RepositoryBase<,>))
+            .AddTransient<IRoleRepository, RoleRepository>()
             .AddTransient<IPostCategoryRepository, PostCategoryRepository>()
             .AddTransient<IPostRepository, PostRepository>();
     }

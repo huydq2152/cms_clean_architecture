@@ -31,7 +31,7 @@ public class PostCategoryService : IPostCategoryService
 
     public async Task<PagedResult<PostCategoryDto>> GetAllPostCategoryPagedAsync(GetAllPostCategoriesInput input)
     {
-        var result = await _postCategoryRepository.GetAllPostCategoryPagedAsync(input);
+        var result = await _postCategoryRepository.GetAllPostCategoriesPagedAsync(input);
         return result;
     }
 

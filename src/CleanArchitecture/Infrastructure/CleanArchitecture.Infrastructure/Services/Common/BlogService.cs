@@ -81,7 +81,7 @@ public class BlogService : IBlogService
 
     public async Task<PagedResult<PostCategoryDto>> GetBlogAllPostCategoryPagedAsync(GetAllPostCategoriesInput input)
     {
-        var result = await _postCategoryRepository.GetAllPostCategoryPagedAsync(input);
+        var result = await _postCategoryRepository.GetAllPostCategoriesPagedAsync(input);
         return result;
     }
 
