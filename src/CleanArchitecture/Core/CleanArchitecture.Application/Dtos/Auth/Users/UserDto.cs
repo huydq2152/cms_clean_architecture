@@ -14,4 +14,5 @@ public class UserDto: FullAuditedEntityBaseDto<int>
     public bool IsActive { get; set; }
     
     public IList<string> Roles { get; set; }
+    public string FullName => FirstName + " " + LastName;
 }

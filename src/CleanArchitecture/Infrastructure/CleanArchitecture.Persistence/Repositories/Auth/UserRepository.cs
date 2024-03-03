@@ -39,6 +39,7 @@ public class UserRepository : IUserRepository
     public async Task<List<UserDto>> GetAllUsersAsync(GetAllUsersInput input)
     {
         var users = await _userManager.Users
+            .Where(o=>!o.IsDeleted)
             .WhereIf(input != null && !string.IsNullOrWhiteSpace(input.Filter),
                 o => o.FirstName.Contains(input.Filter)
                      || o.UserName.Contains(input.Filter)
@@ -52,6 +53,7 @@ public class UserRepository : IUserRepository
     public async Task<PagedResult<UserDto>> GetAllUsersPagedAsync(GetAllUsersInput input)
     {
         var query = _userManager.Users
+            .Where(o=>!o.IsDeleted)
             .WhereIf(input != null && !string.IsNullOrWhiteSpace(input.Filter),
                 o => o.FirstName.Contains(input.Filter)
                      || o.UserName.Contains(input.Filter)
@@ -78,6 +80,7 @@ public class UserRepository : IUserRepository
 
         var user = _mapper.Map<AppUser>(input);
         await _userManager.CreateAsync(user, input.Password);
+        await _dbContext.SaveChangesAsync();
     }
 
     public async Task UpdateUserAsync(UpdateUserDto input)
@@ -92,9 +95,12 @@ public class UserRepository : IUserRepository
         {
             throw new NotFoundException(nameof(AppUser), input.Id);
         }
+        input.UserName = user.UserName;
+        input.Email = user.Email;
 
         _mapper.Map(input, user);
         await _userManager.UpdateAsync(user);
+        await _dbContext.SaveChangesAsync();
     }
 
     public async Task DeleteUsersAsync(int[] ids)
@@ -109,6 +115,7 @@ public class UserRepository : IUserRepository
 
             await _userManager.DeleteAsync(user);
         }
+        await _dbContext.SaveChangesAsync();
     }
 
     public async Task ChangeMyPassWordAsync(ChangeMyPasswordRequest input, int currentUserId)
@@ -120,6 +127,7 @@ public class UserRepository : IUserRepository
         }
 
         await _userManager.ChangePasswordAsync(user, input.OldPassword, input.NewPassword);
+        await _dbContext.SaveChangesAsync();
     }
 
     public async Task SetPasswordAsync(SetPasswordRequest input)
@@ -132,6 +140,7 @@ public class UserRepository : IUserRepository
 
         user.PasswordHash = _userManager.PasswordHasher.HashPassword(user, input.NewPassword);
         await _userManager.UpdateAsync(user);
+        await _dbContext.SaveChangesAsync();
     }
 
     public async Task ChangeEmailAsync(ChangeEmailRequest input)
@@ -144,6 +153,7 @@ public class UserRepository : IUserRepository
 
         var token = await _userManager.GenerateChangeEmailTokenAsync(user, input.Email);
         await _userManager.ChangeEmailAsync(user, input.Email, token);
+        await _dbContext.SaveChangesAsync();
     }
 
     public async Task AssignRolesToUserAsync(AssignRolesToUserRequest input)
@@ -157,6 +167,7 @@ public class UserRepository : IUserRepository
         var currentRoles = await _userManager.GetRolesAsync(user);
         await _userManager.RemoveFromRolesAsync(user, currentRoles);
         await _userManager.AddToRolesAsync(user, input.Roles);
+        await _dbContext.SaveChangesAsync();
     }
 
     public async Task<IList<string>> GetUserRolesAsync(int userId)

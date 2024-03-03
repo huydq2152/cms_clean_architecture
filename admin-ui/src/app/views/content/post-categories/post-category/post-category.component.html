@@ -1,0 +1,89 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card px-6 py-6">
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2">
+                        <button appPermission appPolicy="Permissons.PostCategories.Create" pButton pRipple
+                            label="Thêm mới" icon="pi pi-plus" class="p-button-success mr-2"
+                            (click)="showAddPostCategoryModal()"></button>
+                        <button appPermission appPolicy="Permissons.PostCategories.Delete" pButton pRipple label="Xóa"
+                            icon="pi pi-trash" class="p-button-danger" (click)="deletePostCategories()"
+                            [disabled]="!selectedPostCategories || !selectedPostCategories.length"></button>
+                    </div>
+                </ng-template>
+            </p-toolbar>
+
+            <p-table #dt [value]="postCategories" responsiveLayout="scroll" [(selection)]="selectedPostCategories"
+                selectionMode="multiple" [rowHover]="true" dataKey="id">
+                <ng-template pTemplate="caption">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                        <h5 class="m-0">Danh mục loại bài viết</h5>
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input id="txtKeyword" pInputText type="text" (keyup.enter)="loadData()"
+                                [(ngModel)]="keyword" placeholder="Tìm kiếm..." class="w-full sm:w-auto" />
+                        </span>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3rem">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+                        <th pSortableColumn="code">Mã <p-sortIcon field="code"></p-sortIcon></th>
+                        <th pSortableColumn="name">Tên <p-sortIcon field="name"></p-sortIcon></th>
+                        <th pSortableColumn="parent">Loại bài viết cha<p-sortIcon field="parent"></p-sortIcon></th>
+                        <th pSortableColumn="sortOrder">Thứ tự sắp xếp<p-sortIcon field="sortOrder"></p-sortIcon></th>
+                        <th pSortableColumn="isActive">Kích hoạt<p-sortIcon field="isActive"></p-sortIcon></th>
+                        <th></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-postCategory>
+                    <tr>
+                        <td>
+                            <p-tableCheckbox [value]="postCategory"></p-tableCheckbox>
+                        </td>
+                        <td style="width:14%; min-width:10rem;"><span class="p-column-title">Mã</span>
+                            {{postCategory.code || postCategory.id}}
+                        </td>
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">Tên</span>
+                            {{postCategory.name}}
+                        </td>
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">Loại bài viết cha</span>
+                            {{postCategory.parent}}
+                        </td>
+                        <td style="width:14%; min-width:8rem;">
+                            <span class="p-column-title">Thứ tự sắp xếp</span>
+                            {{postCategory.sortOrder}}
+                        </td>
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">Kích hoạt</span>
+                            {{postCategory.isActive}}
+                        </td>
+                        <td>
+                            <div class="flex">
+                                <button pButton pRipple icon="pi pi-pencil"
+                                    class="p-button-rounded p-button-success mr-2"
+                                    (click)="showEditPostCategoryModal(postCategory)"></button>
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                                    (click)="deletePostCategory(postCategory)"></button>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+            <p-paginator (onPageChange)="onPageChange($event)" [rows]="pageSize" [totalRecords]="totalCount"
+                [rowsPerPageOptions]="[10, 20, 30]" [showCurrentPageReport]="true"
+                currentPageReportTemplate="Hiển thị {first} đến {last} trong tổng {totalRecords} dòng"></p-paginator>
+        </div>
+
+
+        <p-blockUI [target]="dt" [blocked]="blockedPanel">
+            <p-progressSpinner [style]="{width: '100px', height: '100px', position:'absolute',top:'25%',left:'50%'}"
+                strokeWidth="2" animationDuration=".5s"></p-progressSpinner>
+        </p-blockUI>
+    </div>
+</div>

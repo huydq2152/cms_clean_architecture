@@ -23,7 +23,7 @@ namespace CleanArchitecture.Application.Common.Mappings
             
             CreateMap<AppUser, UserDto>();
             CreateMap<CreateUserDto, AppUser>();
-            CreateMap<AppUser, UpdateUserDto>();
+            CreateMap<AppUser, UpdateUserDto>().ReverseMap();
 
             #endregion
             

@@ -68,6 +68,7 @@ public class RoleRepository:  IRoleRepository
             Name = input.Name,
             DisplayName = input.DisplayName,
         });
+        await _dbContext.SaveChangesAsync();
     }
 
     public async Task UpdateRoleAsync(UpdateRoleDto input)
@@ -87,6 +88,7 @@ public class RoleRepository:  IRoleRepository
         role.DisplayName = input.DisplayName;
 
         await _roleManager.UpdateAsync(role);
+        await _dbContext.SaveChangesAsync();
     }
 
     public async Task DeleteRoleAsync(int[] ids)
@@ -101,6 +103,7 @@ public class RoleRepository:  IRoleRepository
 
             await _roleManager.DeleteAsync(role);
         }
+        await _dbContext.SaveChangesAsync();
     }
 
     public async Task<PermissionDto> GetRolePermissionsAsync(int id)
@@ -155,5 +158,6 @@ public class RoleRepository:  IRoleRepository
         {
             await _roleManager.AddPermissionClaim(role, claim.Value);
         }
+        await _dbContext.SaveChangesAsync();
     }
 }
