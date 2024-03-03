@@ -2,7 +2,7 @@
 
 namespace CleanArchitecture.Application.Dtos.Posts.PostCategory;
 
-public class CreateOrUpdatePostCategoryDto : FullAuditedEntityBaseDto<int?>
+public class CreateOrUpdatePostCategoryDto : EntityBaseDto<int?>
 {
     public string Code { get; set; }
     public string Name { get; set; }

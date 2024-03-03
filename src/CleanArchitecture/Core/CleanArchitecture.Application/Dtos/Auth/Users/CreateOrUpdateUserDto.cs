@@ -2,7 +2,7 @@
 
 namespace CleanArchitecture.Application.Dtos.Auth.Users;
 
-public class CreateOrUpdateUserDto: FullAuditedEntityBaseDto<int?>
+public class CreateOrUpdateUserDto: EntityBaseDto<int?>
 {
     public string FirstName { get; set; }
     public string LastName { get; set; }

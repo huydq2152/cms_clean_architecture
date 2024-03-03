@@ -3,7 +3,7 @@ using Contracts.Dtos;
 
 namespace CleanArchitecture.Application.Dtos.Posts.Post;
 
-public class CreateOrUpdatePostDto: FullAuditedEntityBaseDto<int?>
+public class CreateOrUpdatePostDto: EntityBaseDto<int?>
 {
     public string Code { get; set; }
     public string Name { get; set; }

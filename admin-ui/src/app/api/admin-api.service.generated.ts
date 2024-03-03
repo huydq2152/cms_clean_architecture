@@ -2553,13 +2553,6 @@ export interface IChangeMyPasswordRequest {
 
 export class CreatePostCategoryDto implements ICreatePostCategoryDto {
     id?: number | undefined;
-    creatorUserId?: number | undefined;
-    creationTime?: Date;
-    lastModifiedUserId?: number | undefined;
-    lastModificationTime?: Date | undefined;
-    deleterUserId?: number | undefined;
-    deletionTime?: Date | undefined;
-    isDeleted?: boolean;
     code?: string | undefined;
     name?: string | undefined;
     slug?: string | undefined;
@@ -2580,13 +2573,6 @@ export class CreatePostCategoryDto implements ICreatePostCategoryDto {
     init(_data?: any) {
         if (_data) {
             this.id = _data["id"];
-            this.creatorUserId = _data["creatorUserId"];
-            this.creationTime = _data["creationTime"] ? new Date(_data["creationTime"].toString()) : <any>undefined;
-            this.lastModifiedUserId = _data["lastModifiedUserId"];
-            this.lastModificationTime = _data["lastModificationTime"] ? new Date(_data["lastModificationTime"].toString()) : <any>undefined;
-            this.deleterUserId = _data["deleterUserId"];
-            this.deletionTime = _data["deletionTime"] ? new Date(_data["deletionTime"].toString()) : <any>undefined;
-            this.isDeleted = _data["isDeleted"];
             this.code = _data["code"];
             this.name = _data["name"];
             this.slug = _data["slug"];
@@ -2607,13 +2593,6 @@ export class CreatePostCategoryDto implements ICreatePostCategoryDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
-        data["creatorUserId"] = this.creatorUserId;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["lastModifiedUserId"] = this.lastModifiedUserId;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["deleterUserId"] = this.deleterUserId;
-        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
-        data["isDeleted"] = this.isDeleted;
         data["code"] = this.code;
         data["name"] = this.name;
         data["slug"] = this.slug;
@@ -2627,13 +2606,6 @@ export class CreatePostCategoryDto implements ICreatePostCategoryDto {
 
 export interface ICreatePostCategoryDto {
     id?: number | undefined;
-    creatorUserId?: number | undefined;
-    creationTime?: Date;
-    lastModifiedUserId?: number | undefined;
-    lastModificationTime?: Date | undefined;
-    deleterUserId?: number | undefined;
-    deletionTime?: Date | undefined;
-    isDeleted?: boolean;
     code?: string | undefined;
     name?: string | undefined;
     slug?: string | undefined;
@@ -2645,13 +2617,6 @@ export interface ICreatePostCategoryDto {
 
 export class CreatePostDto implements ICreatePostDto {
     id?: number | undefined;
-    creatorUserId?: number | undefined;
-    creationTime?: Date;
-    lastModifiedUserId?: number | undefined;
-    lastModificationTime?: Date | undefined;
-    deleterUserId?: number | undefined;
-    deletionTime?: Date | undefined;
-    isDeleted?: boolean;
     code?: string | undefined;
     name?: string | undefined;
     slug?: string | undefined;
@@ -2682,13 +2647,6 @@ export class CreatePostDto implements ICreatePostDto {
     init(_data?: any) {
         if (_data) {
             this.id = _data["id"];
-            this.creatorUserId = _data["creatorUserId"];
-            this.creationTime = _data["creationTime"] ? new Date(_data["creationTime"].toString()) : <any>undefined;
-            this.lastModifiedUserId = _data["lastModifiedUserId"];
-            this.lastModificationTime = _data["lastModificationTime"] ? new Date(_data["lastModificationTime"].toString()) : <any>undefined;
-            this.deleterUserId = _data["deleterUserId"];
-            this.deletionTime = _data["deletionTime"] ? new Date(_data["deletionTime"].toString()) : <any>undefined;
-            this.isDeleted = _data["isDeleted"];
             this.code = _data["code"];
             this.name = _data["name"];
             this.slug = _data["slug"];
@@ -2719,13 +2677,6 @@ export class CreatePostDto implements ICreatePostDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
-        data["creatorUserId"] = this.creatorUserId;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["lastModifiedUserId"] = this.lastModifiedUserId;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["deleterUserId"] = this.deleterUserId;
-        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
-        data["isDeleted"] = this.isDeleted;
         data["code"] = this.code;
         data["name"] = this.name;
         data["slug"] = this.slug;
@@ -2749,13 +2700,6 @@ export class CreatePostDto implements ICreatePostDto {
 
 export interface ICreatePostDto {
     id?: number | undefined;
-    creatorUserId?: number | undefined;
-    creationTime?: Date;
-    lastModifiedUserId?: number | undefined;
-    lastModificationTime?: Date | undefined;
-    deleterUserId?: number | undefined;
-    deletionTime?: Date | undefined;
-    isDeleted?: boolean;
     code?: string | undefined;
     name?: string | undefined;
     slug?: string | undefined;
@@ -2777,13 +2721,6 @@ export interface ICreatePostDto {
 
 export class CreateRoleDto implements ICreateRoleDto {
     id?: number | undefined;
-    creatorUserId?: number | undefined;
-    creationTime?: Date;
-    lastModifiedUserId?: number | undefined;
-    lastModificationTime?: Date | undefined;
-    deleterUserId?: number | undefined;
-    deletionTime?: Date | undefined;
-    isDeleted?: boolean;
     name?: string | undefined;
     displayName?: string | undefined;
 
@@ -2799,13 +2736,6 @@ export class CreateRoleDto implements ICreateRoleDto {
     init(_data?: any) {
         if (_data) {
             this.id = _data["id"];
-            this.creatorUserId = _data["creatorUserId"];
-            this.creationTime = _data["creationTime"] ? new Date(_data["creationTime"].toString()) : <any>undefined;
-            this.lastModifiedUserId = _data["lastModifiedUserId"];
-            this.lastModificationTime = _data["lastModificationTime"] ? new Date(_data["lastModificationTime"].toString()) : <any>undefined;
-            this.deleterUserId = _data["deleterUserId"];
-            this.deletionTime = _data["deletionTime"] ? new Date(_data["deletionTime"].toString()) : <any>undefined;
-            this.isDeleted = _data["isDeleted"];
             this.name = _data["name"];
             this.displayName = _data["displayName"];
         }
@@ -2821,13 +2751,6 @@ export class CreateRoleDto implements ICreateRoleDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
-        data["creatorUserId"] = this.creatorUserId;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["lastModifiedUserId"] = this.lastModifiedUserId;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["deleterUserId"] = this.deleterUserId;
-        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
-        data["isDeleted"] = this.isDeleted;
         data["name"] = this.name;
         data["displayName"] = this.displayName;
         return data;
@@ -2836,26 +2759,12 @@ export class CreateRoleDto implements ICreateRoleDto {
 
 export interface ICreateRoleDto {
     id?: number | undefined;
-    creatorUserId?: number | undefined;
-    creationTime?: Date;
-    lastModifiedUserId?: number | undefined;
-    lastModificationTime?: Date | undefined;
-    deleterUserId?: number | undefined;
-    deletionTime?: Date | undefined;
-    isDeleted?: boolean;
     name?: string | undefined;
     displayName?: string | undefined;
 }
 
 export class CreateUserDto implements ICreateUserDto {
     id?: number | undefined;
-    creatorUserId?: number | undefined;
-    creationTime?: Date;
-    lastModifiedUserId?: number | undefined;
-    lastModificationTime?: Date | undefined;
-    deleterUserId?: number | undefined;
-    deletionTime?: Date | undefined;
-    isDeleted?: boolean;
     firstName?: string | undefined;
     lastName?: string | undefined;
     userName?: string | undefined;
@@ -2878,13 +2787,6 @@ export class CreateUserDto implements ICreateUserDto {
     init(_data?: any) {
         if (_data) {
             this.id = _data["id"];
-            this.creatorUserId = _data["creatorUserId"];
-            this.creationTime = _data["creationTime"] ? new Date(_data["creationTime"].toString()) : <any>undefined;
-            this.lastModifiedUserId = _data["lastModifiedUserId"];
-            this.lastModificationTime = _data["lastModificationTime"] ? new Date(_data["lastModificationTime"].toString()) : <any>undefined;
-            this.deleterUserId = _data["deleterUserId"];
-            this.deletionTime = _data["deletionTime"] ? new Date(_data["deletionTime"].toString()) : <any>undefined;
-            this.isDeleted = _data["isDeleted"];
             this.firstName = _data["firstName"];
             this.lastName = _data["lastName"];
             this.userName = _data["userName"];
@@ -2907,13 +2809,6 @@ export class CreateUserDto implements ICreateUserDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
-        data["creatorUserId"] = this.creatorUserId;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["lastModifiedUserId"] = this.lastModifiedUserId;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["deleterUserId"] = this.deleterUserId;
-        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
-        data["isDeleted"] = this.isDeleted;
         data["firstName"] = this.firstName;
         data["lastName"] = this.lastName;
         data["userName"] = this.userName;
@@ -2929,13 +2824,6 @@ export class CreateUserDto implements ICreateUserDto {
 
 export interface ICreateUserDto {
     id?: number | undefined;
-    creatorUserId?: number | undefined;
-    creationTime?: Date;
-    lastModifiedUserId?: number | undefined;
-    lastModificationTime?: Date | undefined;
-    deleterUserId?: number | undefined;
-    deletionTime?: Date | undefined;
-    isDeleted?: boolean;
     firstName?: string | undefined;
     lastName?: string | undefined;
     userName?: string | undefined;
@@ -3704,13 +3592,6 @@ export interface ITokenRequest {
 
 export class UpdatePostCategoryDto implements IUpdatePostCategoryDto {
     id?: number | undefined;
-    creatorUserId?: number | undefined;
-    creationTime?: Date;
-    lastModifiedUserId?: number | undefined;
-    lastModificationTime?: Date | undefined;
-    deleterUserId?: number | undefined;
-    deletionTime?: Date | undefined;
-    isDeleted?: boolean;
     code?: string | undefined;
     name?: string | undefined;
     slug?: string | undefined;
@@ -3731,13 +3612,6 @@ export class UpdatePostCategoryDto implements IUpdatePostCategoryDto {
     init(_data?: any) {
         if (_data) {
             this.id = _data["id"];
-            this.creatorUserId = _data["creatorUserId"];
-            this.creationTime = _data["creationTime"] ? new Date(_data["creationTime"].toString()) : <any>undefined;
-            this.lastModifiedUserId = _data["lastModifiedUserId"];
-            this.lastModificationTime = _data["lastModificationTime"] ? new Date(_data["lastModificationTime"].toString()) : <any>undefined;
-            this.deleterUserId = _data["deleterUserId"];
-            this.deletionTime = _data["deletionTime"] ? new Date(_data["deletionTime"].toString()) : <any>undefined;
-            this.isDeleted = _data["isDeleted"];
             this.code = _data["code"];
             this.name = _data["name"];
             this.slug = _data["slug"];
@@ -3758,13 +3632,6 @@ export class UpdatePostCategoryDto implements IUpdatePostCategoryDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
-        data["creatorUserId"] = this.creatorUserId;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["lastModifiedUserId"] = this.lastModifiedUserId;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["deleterUserId"] = this.deleterUserId;
-        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
-        data["isDeleted"] = this.isDeleted;
         data["code"] = this.code;
         data["name"] = this.name;
         data["slug"] = this.slug;
@@ -3778,13 +3645,6 @@ export class UpdatePostCategoryDto implements IUpdatePostCategoryDto {
 
 export interface IUpdatePostCategoryDto {
     id?: number | undefined;
-    creatorUserId?: number | undefined;
-    creationTime?: Date;
-    lastModifiedUserId?: number | undefined;
-    lastModificationTime?: Date | undefined;
-    deleterUserId?: number | undefined;
-    deletionTime?: Date | undefined;
-    isDeleted?: boolean;
     code?: string | undefined;
     name?: string | undefined;
     slug?: string | undefined;
@@ -3796,13 +3656,6 @@ export interface IUpdatePostCategoryDto {
 
 export class UpdatePostDto implements IUpdatePostDto {
     id?: number | undefined;
-    creatorUserId?: number | undefined;
-    creationTime?: Date;
-    lastModifiedUserId?: number | undefined;
-    lastModificationTime?: Date | undefined;
-    deleterUserId?: number | undefined;
-    deletionTime?: Date | undefined;
-    isDeleted?: boolean;
     code?: string | undefined;
     name?: string | undefined;
     slug?: string | undefined;
@@ -3833,13 +3686,6 @@ export class UpdatePostDto implements IUpdatePostDto {
     init(_data?: any) {
         if (_data) {
             this.id = _data["id"];
-            this.creatorUserId = _data["creatorUserId"];
-            this.creationTime = _data["creationTime"] ? new Date(_data["creationTime"].toString()) : <any>undefined;
-            this.lastModifiedUserId = _data["lastModifiedUserId"];
-            this.lastModificationTime = _data["lastModificationTime"] ? new Date(_data["lastModificationTime"].toString()) : <any>undefined;
-            this.deleterUserId = _data["deleterUserId"];
-            this.deletionTime = _data["deletionTime"] ? new Date(_data["deletionTime"].toString()) : <any>undefined;
-            this.isDeleted = _data["isDeleted"];
             this.code = _data["code"];
             this.name = _data["name"];
             this.slug = _data["slug"];
@@ -3870,13 +3716,6 @@ export class UpdatePostDto implements IUpdatePostDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
-        data["creatorUserId"] = this.creatorUserId;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["lastModifiedUserId"] = this.lastModifiedUserId;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["deleterUserId"] = this.deleterUserId;
-        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
-        data["isDeleted"] = this.isDeleted;
         data["code"] = this.code;
         data["name"] = this.name;
         data["slug"] = this.slug;
@@ -3900,13 +3739,6 @@ export class UpdatePostDto implements IUpdatePostDto {
 
 export interface IUpdatePostDto {
     id?: number | undefined;
-    creatorUserId?: number | undefined;
-    creationTime?: Date;
-    lastModifiedUserId?: number | undefined;
-    lastModificationTime?: Date | undefined;
-    deleterUserId?: number | undefined;
-    deletionTime?: Date | undefined;
-    isDeleted?: boolean;
     code?: string | undefined;
     name?: string | undefined;
     slug?: string | undefined;
@@ -3928,13 +3760,6 @@ export interface IUpdatePostDto {
 
 export class UpdateRoleDto implements IUpdateRoleDto {
     id?: number | undefined;
-    creatorUserId?: number | undefined;
-    creationTime?: Date;
-    lastModifiedUserId?: number | undefined;
-    lastModificationTime?: Date | undefined;
-    deleterUserId?: number | undefined;
-    deletionTime?: Date | undefined;
-    isDeleted?: boolean;
     name?: string | undefined;
     displayName?: string | undefined;
 
@@ -3950,13 +3775,6 @@ export class UpdateRoleDto implements IUpdateRoleDto {
     init(_data?: any) {
         if (_data) {
             this.id = _data["id"];
-            this.creatorUserId = _data["creatorUserId"];
-            this.creationTime = _data["creationTime"] ? new Date(_data["creationTime"].toString()) : <any>undefined;
-            this.lastModifiedUserId = _data["lastModifiedUserId"];
-            this.lastModificationTime = _data["lastModificationTime"] ? new Date(_data["lastModificationTime"].toString()) : <any>undefined;
-            this.deleterUserId = _data["deleterUserId"];
-            this.deletionTime = _data["deletionTime"] ? new Date(_data["deletionTime"].toString()) : <any>undefined;
-            this.isDeleted = _data["isDeleted"];
             this.name = _data["name"];
             this.displayName = _data["displayName"];
         }
@@ -3972,13 +3790,6 @@ export class UpdateRoleDto implements IUpdateRoleDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
-        data["creatorUserId"] = this.creatorUserId;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["lastModifiedUserId"] = this.lastModifiedUserId;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["deleterUserId"] = this.deleterUserId;
-        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
-        data["isDeleted"] = this.isDeleted;
         data["name"] = this.name;
         data["displayName"] = this.displayName;
         return data;
@@ -3987,35 +3798,21 @@ export class UpdateRoleDto implements IUpdateRoleDto {
 
 export interface IUpdateRoleDto {
     id?: number | undefined;
-    creatorUserId?: number | undefined;
-    creationTime?: Date;
-    lastModifiedUserId?: number | undefined;
-    lastModificationTime?: Date | undefined;
-    deleterUserId?: number | undefined;
-    deletionTime?: Date | undefined;
-    isDeleted?: boolean;
     name?: string | undefined;
     displayName?: string | undefined;
 }
 
 export class UpdateUserDto implements IUpdateUserDto {
     id?: number | undefined;
-    creatorUserId?: number | undefined;
-    creationTime?: Date;
-    lastModifiedUserId?: number | undefined;
-    lastModificationTime?: Date | undefined;
-    deleterUserId?: number | undefined;
-    deletionTime?: Date | undefined;
-    isDeleted?: boolean;
     firstName?: string | undefined;
     lastName?: string | undefined;
+    isActive?: boolean;
+    dob?: Date | undefined;
     userName?: string | undefined;
     email?: string | undefined;
     phoneNumber?: string | undefined;
     password?: string | undefined;
-    dob?: Date | undefined;
     avatar?: string | undefined;
-    isActive?: boolean;
 
     constructor(data?: IUpdateUserDto) {
         if (data) {
@@ -4029,22 +3826,15 @@ export class UpdateUserDto implements IUpdateUserDto {
     init(_data?: any) {
         if (_data) {
             this.id = _data["id"];
-            this.creatorUserId = _data["creatorUserId"];
-            this.creationTime = _data["creationTime"] ? new Date(_data["creationTime"].toString()) : <any>undefined;
-            this.lastModifiedUserId = _data["lastModifiedUserId"];
-            this.lastModificationTime = _data["lastModificationTime"] ? new Date(_data["lastModificationTime"].toString()) : <any>undefined;
-            this.deleterUserId = _data["deleterUserId"];
-            this.deletionTime = _data["deletionTime"] ? new Date(_data["deletionTime"].toString()) : <any>undefined;
-            this.isDeleted = _data["isDeleted"];
             this.firstName = _data["firstName"];
             this.lastName = _data["lastName"];
+            this.isActive = _data["isActive"];
+            this.dob = _data["dob"] ? new Date(_data["dob"].toString()) : <any>undefined;
             this.userName = _data["userName"];
             this.email = _data["email"];
             this.phoneNumber = _data["phoneNumber"];
             this.password = _data["password"];
-            this.dob = _data["dob"] ? new Date(_data["dob"].toString()) : <any>undefined;
             this.avatar = _data["avatar"];
-            this.isActive = _data["isActive"];
         }
     }
 
@@ -4058,44 +3848,30 @@ export class UpdateUserDto implements IUpdateUserDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
-        data["creatorUserId"] = this.creatorUserId;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        data["lastModifiedUserId"] = this.lastModifiedUserId;
-        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toISOString() : <any>undefined;
-        data["deleterUserId"] = this.deleterUserId;
-        data["deletionTime"] = this.deletionTime ? this.deletionTime.toISOString() : <any>undefined;
-        data["isDeleted"] = this.isDeleted;
         data["firstName"] = this.firstName;
         data["lastName"] = this.lastName;
+        data["isActive"] = this.isActive;
+        data["dob"] = this.dob ? this.dob.toISOString() : <any>undefined;
         data["userName"] = this.userName;
         data["email"] = this.email;
         data["phoneNumber"] = this.phoneNumber;
         data["password"] = this.password;
-        data["dob"] = this.dob ? this.dob.toISOString() : <any>undefined;
         data["avatar"] = this.avatar;
-        data["isActive"] = this.isActive;
         return data;
     }
 }
 
 export interface IUpdateUserDto {
     id?: number | undefined;
-    creatorUserId?: number | undefined;
-    creationTime?: Date;
-    lastModifiedUserId?: number | undefined;
-    lastModificationTime?: Date | undefined;
-    deleterUserId?: number | undefined;
-    deletionTime?: Date | undefined;
-    isDeleted?: boolean;
     firstName?: string | undefined;
     lastName?: string | undefined;
+    isActive?: boolean;
+    dob?: Date | undefined;
     userName?: string | undefined;
     email?: string | undefined;
     phoneNumber?: string | undefined;
     password?: string | undefined;
-    dob?: Date | undefined;
     avatar?: string | undefined;
-    isActive?: boolean;
 }
 
 export class UserDto implements IUserDto {
@@ -4116,6 +3892,7 @@ export class UserDto implements IUserDto {
     avatar?: string | undefined;
     isActive?: boolean;
     roles?: string[] | undefined;
+    readonly fullName?: string | undefined;
 
     constructor(data?: IUserDto) {
         if (data) {
@@ -4149,6 +3926,7 @@ export class UserDto implements IUserDto {
                 for (let item of _data["roles"])
                     this.roles!.push(item);
             }
+            (<any>this).fullName = _data["fullName"];
         }
     }
 
@@ -4182,6 +3960,7 @@ export class UserDto implements IUserDto {
             for (let item of this.roles)
                 data["roles"].push(item);
         }
+        data["fullName"] = this.fullName;
         return data;
     }
 }
@@ -4204,6 +3983,7 @@ export interface IUserDto {
     avatar?: string | undefined;
     isActive?: boolean;
     roles?: string[] | undefined;
+    fullName?: string | undefined;
 }
 
 export class UserDtoPagedResult implements IUserDtoPagedResult {

@@ -6,6 +6,7 @@ using CleanArchitecture.Application.Dtos.Posts.Post;
 using CleanArchitecture.Application.Dtos.Posts.PostCategory;
 using CleanArchitecture.Domain.Entities.Auth;
 using CleanArchitecture.Domain.Entities.Posts;
+using Shared.Extensions.Mapping;
 
 namespace CleanArchitecture.Application.Common.Mappings
 {
@@ -23,7 +24,7 @@ namespace CleanArchitecture.Application.Common.Mappings
             
             CreateMap<AppUser, UserDto>();
             CreateMap<CreateUserDto, AppUser>();
-            CreateMap<AppUser, UpdateUserDto>().ReverseMap();
+            CreateMap<AppUser, UpdateUserDto>().ReverseMap().IgnoreAllNonExisting();
 
             #endregion
             

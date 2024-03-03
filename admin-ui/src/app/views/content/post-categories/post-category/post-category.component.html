@@ -59,9 +59,9 @@
                             <span class="p-column-title">Thứ tự sắp xếp</span>
                             {{postCategory.sortOrder}}
                         </td>
-                        <td style="width:14%; min-width:10rem;">
-                            <span class="p-column-title">Kích hoạt</span>
-                            {{postCategory.isActive}}
+                        <td style="width: 150px">
+                            <p-badge *ngIf="postCategory.isActive == 1" value="Kích hoạt" severity="success"></p-badge>
+                            <p-badge *ngIf="postCategory.isActive == 0" value="Khoá" severity="danger"></p-badge>
                         </td>
                         <td>
                             <div class="flex">
