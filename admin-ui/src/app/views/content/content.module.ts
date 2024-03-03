@@ -27,9 +27,18 @@ import { KeyFilterModule } from 'primeng/keyfilter';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { CheckboxModule } from 'primeng/checkbox';
 import { ReactiveFormsModule } from '@angular/forms';
+import { PostComponent } from './posts/post/post.component';
+import { PostDetailComponent } from './posts/post-detail/post-detail.component';
+import { EditorModule } from 'primeng/editor';
+import { BadgeModule } from 'primeng/badge';
 
 @NgModule({
-    declarations: [PostCategoryComponent, PostCategoryDetailComponent],
+    declarations: [
+        PostCategoryComponent,
+        PostCategoryDetailComponent,
+        PostComponent,
+        PostDetailComponent,
+    ],
     imports: [
         CommonModule,
         ContentRoutingModule,
@@ -56,6 +65,8 @@ import { ReactiveFormsModule } from '@angular/forms';
         AutoCompleteModule,
         CheckboxModule,
         ReactiveFormsModule,
+        EditorModule,
+        BadgeModule,
     ],
 })
 export class ContentModule {}

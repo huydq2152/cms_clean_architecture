@@ -119,10 +119,9 @@ export class RoleComponent implements OnInit, OnDestroy {
     }
 
     showEditRoleModal(role: RoleDto) {
-        var id = role.id;
         const ref = this.dialogService.open(RoleDetailComponent, {
             data: {
-                id: id,
+                id: role.id,
             },
             header: 'Cập nhật quyền',
             width: '70%',

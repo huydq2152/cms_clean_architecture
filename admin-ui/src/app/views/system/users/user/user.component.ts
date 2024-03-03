@@ -97,10 +97,9 @@ export class UserComponent implements OnInit, OnDestroy {
     }
 
     showEditUserModal(user: UserDto) {
-        var id = user.id;
         const ref = this.dialogService.open(UserDetailComponent, {
             data: {
-                id: id,
+                id: user.id,
             },
             header: 'Cập nhật người dùng',
             width: '70%',

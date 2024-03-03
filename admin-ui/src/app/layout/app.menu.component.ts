@@ -32,6 +32,11 @@ export class AppMenuComponent implements OnInit {
                         icon: 'pi pi-fw pi-pencil',
                         routerLink: ['/content/post-categories'],
                     },
+                    {
+                        label: 'Bài viết',
+                        icon: 'pi pi-fw pi-pencil',
+                        routerLink: ['/content/posts'],
+                    },
                 ],
             },
             {

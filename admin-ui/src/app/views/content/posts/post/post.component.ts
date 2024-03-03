@@ -1,21 +1,21 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmationService } from 'primeng/api';
 import { DialogService, DynamicDialogComponent } from 'primeng/dynamicdialog';
 import { Subject, takeUntil } from 'rxjs';
-import {
-    AdminApiPostCategoryApiClient,
-    PostCategoryDto,
-    PostCategoryDtoPagedResult,
-} from 'src/app/api/admin-api.service.generated';
 import { MessageConstants } from 'src/app/shared/constants/messages.constant';
+import { PostDetailComponent } from '../post-detail/post-detail.component';
+import {
+    AdminApiPostApiClient,
+    PostDto,
+    PostDtoPagedResult,
+} from 'src/app/api/admin-api.service.generated';
 import { AlertService } from 'src/app/shared/services/alert.service';
-import { PostCategoryDetailComponent } from '../post-category-detail/post-category-detail.component';
 
 @Component({
-    templateUrl: './post-category.component.html',
-    providers: [MessageService],
+    selector: 'app-post',
+    templateUrl: './post.component.html',
 })
-export class PostCategoryComponent implements OnInit, OnDestroy {
+export class PostComponent implements OnInit, OnDestroy {
     //System variables
     private ngUnsubscribe = new Subject<void>();
     public blockedPanel: boolean = false;
@@ -26,12 +26,12 @@ export class PostCategoryComponent implements OnInit, OnDestroy {
     public totalCount: number;
 
     //Business variables
-    public postCategories: PostCategoryDto[];
-    public selectedPostCategories: PostCategoryDto[] = [];
+    public posts: PostDto[];
+    public selectedPosts: PostDto[] = [];
     public keyword: string = '';
 
     constructor(
-        private postCategoryService: AdminApiPostCategoryApiClient,
+        private postService: AdminApiPostApiClient,
         public dialogService: DialogService,
         private alertService: AlertService,
         private confirmationService: ConfirmationService
@@ -41,23 +41,20 @@ export class PostCategoryComponent implements OnInit, OnDestroy {
         this.ngUnsubscribe.next();
         this.ngUnsubscribe.complete();
     }
-    ngOnInit(): void {
+
+    ngOnInit() {
         this.loadData();
     }
 
     loadData() {
         this.toggleBlockUI(true);
 
-        this.postCategoryService
-            .getAllPostCategoryPaged(
-                this.keyword,
-                this.pageIndex,
-                this.pageSize
-            )
+        this.postService
+            .getAllPostPaged(this.keyword, this.pageIndex, this.pageSize)
             .pipe(takeUntil(this.ngUnsubscribe))
             .subscribe({
-                next: (response: PostCategoryDtoPagedResult) => {
-                    this.postCategories = response.results;
+                next: (response: PostDtoPagedResult) => {
+                    this.posts = response.results;
                     this.totalCount = response.rowCount;
 
                     this.toggleBlockUI(false);
@@ -68,85 +65,85 @@ export class PostCategoryComponent implements OnInit, OnDestroy {
             });
     }
 
+    showAddPostModal() {
+        const ref = this.dialogService.open(PostDetailComponent, {
+            header: 'Thêm mới bài viết',
+            width: '70%',
+        });
+        const dialogRef = this.dialogService.dialogComponentRefMap.get(ref);
+        const dynamicComponent = dialogRef?.instance as DynamicDialogComponent;
+        const ariaLabelledBy = dynamicComponent.getAriaLabelledBy();
+        dynamicComponent.getAriaLabelledBy = () => ariaLabelledBy;
+        ref.onClose.subscribe((data: PostDto) => {
+            if (data) {
+                this.alertService.showSuccess(MessageConstants.CREATED_OK_MSG);
+                this.selectedPosts = [];
+                this.loadData();
+            }
+        });
+    }
+
     onPageChange(event): void {
         this.pageIndex = event.page + 1;
         this.pageSize = event.rows;
         this.loadData();
     }
 
-    showAddPostCategoryModal() {
-        const ref = this.dialogService.open(PostCategoryDetailComponent, {
-            header: 'Thêm mới loại bài viết',
-            width: '70%',
-        });
-        const dialogRef = this.dialogService.dialogComponentRefMap.get(ref);
-        const dynamicComponent = dialogRef?.instance as DynamicDialogComponent;
-        const ariaLabelledBy = dynamicComponent.getAriaLabelledBy();
-        dynamicComponent.getAriaLabelledBy = () => ariaLabelledBy;
-        ref.onClose.subscribe((data: PostCategoryDto) => {
-            if (data) {
-                this.alertService.showSuccess(MessageConstants.CREATED_OK_MSG);
-                this.selectedPostCategories = [];
-                this.loadData();
-            }
-        });
-    }
-
-    showEditPostCategoryModal(postCategory: PostCategoryDto) {
-        const ref = this.dialogService.open(PostCategoryDetailComponent, {
+    showEditPostModal(post: PostDto) {
+        const ref = this.dialogService.open(PostDetailComponent, {
             data: {
-                id: postCategory.id,
+                id: post.id,
             },
-            header: 'Cập nhật loại bài viết',
+            header: 'Cập nhật bài viết',
             width: '70%',
         });
         const dialogRef = this.dialogService.dialogComponentRefMap.get(ref);
         const dynamicComponent = dialogRef?.instance as DynamicDialogComponent;
         const ariaLabelledBy = dynamicComponent.getAriaLabelledBy();
         dynamicComponent.getAriaLabelledBy = () => ariaLabelledBy;
-        ref.onClose.subscribe((data: PostCategoryDto) => {
+        ref.onClose.subscribe((data: PostDto) => {
             if (data) {
                 this.alertService.showSuccess(MessageConstants.UPDATED_OK_MSG);
-                this.selectedPostCategories = [];
+                this.selectedPosts = [];
                 this.loadData();
             }
         });
     }
 
-    deletePostCategories() {
-        if (this.selectedPostCategories.length == 0) {
+    deletePosts() {
+        if (this.selectedPosts.length == 0) {
             this.alertService.showError(MessageConstants.NOT_CHOOSE_ANY_RECORD);
             return;
         }
         var ids = [];
-        this.selectedPostCategories.forEach((element) => {
+        this.selectedPosts.forEach((element) => {
             ids.push(element.id);
         });
-        this.openDeletePostCategoriesConfirm(ids);
+        this.openDeletePostConfirm(ids);
     }
 
-    deletePostCategory(postCategory: PostCategoryDto) {
-        var ids = [postCategory.id];
-        this.openDeletePostCategoriesConfirm(ids);
+    deletePost(post: PostDto) {
+        var ids = [post.id];
+        this.openDeletePostConfirm(ids);
     }
 
-    openDeletePostCategoriesConfirm(ids: any[]) {
+    openDeletePostConfirm(ids: any[]) {
         this.confirmationService.confirm({
             message: MessageConstants.CONFIRM_DELETE_MSG,
             accept: () => {
-                this.deletePostCategoriesConfirm(ids);
+                this.deletePostsConfirm(ids);
             },
         });
     }
 
-    deletePostCategoriesConfirm(ids: any[]) {
+    deletePostsConfirm(ids: any[]) {
         this.toggleBlockUI(true);
 
-        this.postCategoryService.deletePostCategory(ids).subscribe({
+        this.postService.deletePost(ids).subscribe({
             next: () => {
                 this.alertService.showSuccess(MessageConstants.DELETED_OK_MSG);
                 this.loadData();
-                this.selectedPostCategories = [];
+                this.selectedPosts = [];
                 this.toggleBlockUI(false);
             },
             error: () => {

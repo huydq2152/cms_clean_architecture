@@ -4,20 +4,20 @@
       <p-toolbar styleClass="mb-4">
         <ng-template pTemplate="left">
           <div class="my-2">
-            <button appPermission appPolicy="Permissons.Users.Create" pButton pRipple label="Thêm mới" icon="pi pi-plus"
-              class="p-button-success mr-2" (click)="showAddUserModal()"></button>
-            <button appPermission appPolicy="Permissons.Users.Delete" pButton pRipple label="Xóa" icon="pi pi-trash"
-              class="p-button-danger" (click)="deleteUsers()"
-              [disabled]="!selectedUsers || !selectedUsers.length"></button>
+            <button appPermission appPolicy="Permissons.Posts.Create" pButton pRipple label="Thêm mới" icon="pi pi-plus"
+              class="p-button-success mr-2" (click)="showAddPostModal()"></button>
+            <button appPermission appPolicy="Permissons.Posts.Delete" pButton pRipple label="Xóa" icon="pi pi-trash"
+              class="p-button-danger" (click)="deletePosts()"
+              [disabled]="!selectedPosts || !selectedPosts.length"></button>
           </div>
         </ng-template>
       </p-toolbar>
 
-      <p-table #dt [value]="users" responsiveLayout="scroll" [(selection)]="selectedUsers" selectionMode="multiple"
+      <p-table #dt [value]="posts" responsiveLayout="scroll" [(selection)]="selectedPosts" selectionMode="multiple"
         [rowHover]="true" dataKey="id">
         <ng-template pTemplate="caption">
           <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-            <h5 class="m-0">Danh mục người dùng</h5>
+            <h5 class="m-0">Danh mục bài viết</h5>
             <span class="block mt-2 md:mt-0 p-input-icon-left">
               <i class="pi pi-search"></i>
               <input id="txtKeyword" pInputText type="text" (keyup.enter)="loadData()" [(ngModel)]="keyword"
@@ -30,49 +30,55 @@
             <th style="width: 3rem">
               <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
             </th>
-            <th pSortableColumn="fullName">Tên đầy đủ <p-sortIcon field="fullName"></p-sortIcon></th>
-            <th pSortableColumn="userName">Tên tài khoản<p-sortIcon field="userName"></p-sortIcon></th>
-            <th pSortableColumn="email">Email<p-sortIcon field="email"></p-sortIcon></th>
-            <th pSortableColumn="phoneNumber">Số điện thoại<p-sortIcon field="phoneNumber"></p-sortIcon></th>
-            <th pSortableColumn="dob">Ngày sinh<p-sortIcon field="dob"></p-sortIcon></th>
+            <th pSortableColumn="code">Mã <p-sortIcon field="code"></p-sortIcon></th>
+            <th pSortableColumn="name">Tên <p-sortIcon field="name"></p-sortIcon></th>
+            <th pSortableColumn="categoryName">Loại bài viết<p-sortIcon field="categoryName"></p-sortIcon></th>
+            <th pSortableColumn="authorUserName">Tác giả<p-sortIcon field="authorUserName"></p-sortIcon></th>
+            <th pSortableColumn="viewCount">Lượt xem<p-sortIcon field="viewCount"></p-sortIcon></th>
+            <th pSortableColumn="status">Trạng thái<p-sortIcon field="status"></p-sortIcon></th>
             <th pSortableColumn="isActive">Kích hoạt<p-sortIcon field="isActive"></p-sortIcon></th>
             <th></th>
           </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-user>
+        <ng-template pTemplate="body" let-post>
           <tr>
             <td>
-              <p-tableCheckbox [value]="user"></p-tableCheckbox>
-            </td>
-            <td><span class="p-column-title">Tên đầy đủ </span>
-              {{user.fullName || user.id}}
+              <p-tableCheckbox [value]="post"></p-tableCheckbox>
             </td>
             <td>
-              <span class="p-column-title">Tên tài khoản</span>
-              {{user.userName}}
+              <span class="p-column-title">Mã</span>
+              {{post.code || post.id}}
             </td>
             <td>
-              <span class="p-column-title">Email</span>
-              {{user.email}}
+              <span class="p-column-title">Tên</span>
+              {{post.name}}
             </td>
             <td>
-              <span class="p-column-title">Số điện thoại</span>
-              {{user.phoneNumber}}
+              <span class="p-column-title">Loại bài viết</span>
+              {{post.categoryName}}
             </td>
             <td>
-              <span class="p-column-title">Ngày sinh</span>
-              {{user.dob | date: 'dd/MM/yyyy'}}
+              <span class="p-column-title">Tác giả</span>
+              {{post.authorUserName}}
+            </td>
+            <td>
+              <span class="p-column-title">Lượt xem</span>
+              {{post.viewCount}}
+            </td>
+            <td>
+              <span class="p-column-title">Trạng thái</span>
+              {{post.status}}
             </td>
             <td style="width: 150px">
-              <p-badge *ngIf="user.isActive == 1" value="Kích hoạt" severity="success"></p-badge>
-              <p-badge *ngIf="user.isActive == 0" value="Khoá" severity="danger"></p-badge>
+              <p-badge *ngIf="post.isActive == 1" value="Kích hoạt" severity="success"></p-badge>
+              <p-badge *ngIf="post.isActive == 0" value="Khoá" severity="danger"></p-badge>
             </td>
             <td>
               <div class="flex">
                 <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
-                  (click)="showEditUserModal(user)"></button>
+                  (click)="showEditPostModal(post)"></button>
                 <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
-                  (click)="deleteUser(user)"></button>
+                  (click)="deletePost(post)"></button>
               </div>
             </td>
           </tr>
