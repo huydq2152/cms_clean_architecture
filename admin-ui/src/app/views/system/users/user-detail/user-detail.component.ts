@@ -1,10 +1,4 @@
-import {
-    Component,
-    OnInit,
-    EventEmitter,
-    OnDestroy,
-    ChangeDetectorRef,
-} from '@angular/core';
+import { Component, OnInit, EventEmitter, OnDestroy } from '@angular/core';
 import {
     Validators,
     FormControl,
@@ -14,7 +8,6 @@ import {
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { forkJoin, Subject, takeUntil } from 'rxjs';
 import { UtilityService } from 'src/app/shared/services/utility.service';
-import { DomSanitizer } from '@angular/platform-browser';
 import { formatDate } from '@angular/common';
 import {
     AdminApiRoleApiClient,
@@ -23,6 +16,8 @@ import {
     UpdateUserDto,
     UserDto,
 } from 'src/app/api/admin-api.service.generated';
+import { UploadService } from 'src/app/shared/services/upload.service';
+import { environment } from 'src/environments/environment';
 @Component({
     templateUrl: 'user-detail.component.html',
 })
@@ -48,8 +43,7 @@ export class UserDetailComponent implements OnInit, OnDestroy {
         private userService: AdminApiUserApiClient,
         private utilService: UtilityService,
         private fb: FormBuilder,
-        private cd: ChangeDetectorRef,
-        private sanitizer: DomSanitizer
+        private uploadService: UploadService
     ) {}
     ngOnDestroy(): void {
         if (this.ref) {
@@ -131,32 +125,28 @@ export class UserDetailComponent implements OnInit, OnDestroy {
     }
 
     onFileChange(event) {
-        const reader = new FileReader();
-
         if (event.target.files && event.target.files.length) {
-            const [file] = event.target.files;
-            reader.readAsDataURL(file);
-            reader.onload = () => {
-                this.form.patchValue({
-                    avatarFileName: file.name,
-                    avatarFileContent: reader.result,
+            this.uploadService
+                .uploadImage('users', event.target.files)
+                .subscribe({
+                    next: (response: any) => {
+                        this.form.controls['avatar'].setValue(response.path);
+                        this.avatarImage = environment.API_URL + response.path;
+                    },
+                    error: (err: any) => {
+                        console.log(err);
+                    },
                 });
-
-                // need to run CD since file load runs outside of zone
-                this.cd.markForCheck();
-            };
         }
     }
+
     saveChange() {
         this.toggleBlockUI(true);
-
         this.saveData();
     }
 
     private saveData() {
         this.toggleBlockUI(true);
-        console.log('form', this.form.value);
-
         if (this.utilService.isEmpty(this.config.data?.id)) {
             this.userService
                 .createUser(this.form.value)
@@ -257,9 +247,12 @@ export class UserDetailComponent implements OnInit, OnDestroy {
                     ? formatDate(this.selectedEntity.dob, 'yyyy-MM-dd', 'en')
                     : null
             ),
-            avatarFile: new FormControl(null),
             avatar: new FormControl(this.selectedEntity.avatar || null),
             isActive: new FormControl(this.selectedEntity.isActive || true),
         });
+
+        if (this.selectedEntity.avatar) {
+            this.avatarImage = environment.API_URL + this.selectedEntity.avatar;
+        }
     }
 }

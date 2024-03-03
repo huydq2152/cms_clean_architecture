@@ -1,6 +1,6 @@
 ﻿namespace Infrastructure.Configurations;
 
-public class MediaSettings
+public class UploadImageSettings
 {
     public string? AllowImageFileTypes { get; set; }
     public string? ImageFolder { get; set; }

@@ -56,9 +56,12 @@
             </div>
 
             <div class="field col-12 md:col-12">
-                <label for="avatarFile">Ảnh đại diện</label>
-                <input id="avatarFile" (change)="onFileChange($event)" type="file" [style]="{ width: '100%' }" />
-                <p-image *ngIf="avatarImage" [src]="avatarImage" [preview]="true" width="250">
+                <label for="avatar">Ảnh đại diện</label>
+                <input type="hidden" formControlName="avatar" />
+                <input (change)="onFileChange($event)" type="file" class="w-full" />
+            </div>
+            <div *ngIf="avatarImage" class="field col-12 md:col-6">
+                <p-image [src]="avatarImage" [preview]="true" [alt]="selectedEntity.userName" width="250">
                 </p-image>
             </div>
             <div class="field-checkbox col-12 md:col-3">

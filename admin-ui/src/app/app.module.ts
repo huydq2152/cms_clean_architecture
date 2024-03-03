@@ -32,6 +32,7 @@ import { AlertService } from './shared/services/alert.service';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
 import { UtilityService } from './shared/services/utility.service';
+import { UploadService } from './shared/services/upload.service';
 
 @NgModule({
     declarations: [AppComponent, NotfoundComponent],
@@ -65,6 +66,7 @@ import { UtilityService } from './shared/services/utility.service';
         AlertService,
         ConfirmationService,
         UtilityService,
+        UploadService,
     ],
     bootstrap: [AppComponent],
 })

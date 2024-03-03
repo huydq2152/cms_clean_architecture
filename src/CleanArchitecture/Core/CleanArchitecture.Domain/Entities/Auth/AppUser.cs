@@ -8,9 +8,10 @@ public class AppUser: IdentityUser<int>, IFullAuditedEntityBase
    public string FirstName { get; set; }
    public string LastName { get; set; }
    public bool IsActive { get; set; }
-   public string? RefreshToken { get; set; }
+   public string RefreshToken { get; set; }
    public DateTime? RefreshTokenExpiryTime { get; set; }
    public DateTime? Dob { get; set; }
+   public string Avatar { get; set; }
    public int? CreatorUserId { get; set; }
    public DateTime CreationTime { get; set; }
    

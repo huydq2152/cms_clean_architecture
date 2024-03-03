@@ -46,9 +46,9 @@ namespace CleanArchitecture.Infrastructure.Extensions
             if (emailSetting == null) throw new ArgumentNullException("Smtp email setting is not configured");
             services.AddSingleton(emailSetting);
             
-            var mediaSetting = configuration.GetSection(nameof(MediaSettings)).Get<MediaSettings>();
-            if (mediaSetting == null) throw new ArgumentNullException("Media settings is not configured");
-            services.AddSingleton(mediaSetting);
+            var uploadImageSettings = configuration.GetSection(nameof(UploadImageSettings)).Get<UploadImageSettings>();
+            if (uploadImageSettings == null) throw new ArgumentNullException("UploadImageSettings settings is not configured");
+            services.AddSingleton(uploadImageSettings);
         }
     }
 }

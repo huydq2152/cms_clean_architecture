@@ -7,18 +7,18 @@ namespace CleanArchitecture.WebAPI.Controllers.Common;
 public class MediaController : ApiControllerBase
 {
     private readonly IWebHostEnvironment _webHostEnvironment;
-    private readonly MediaSettings _mediaSettings;
+    private readonly UploadImageSettings _uploadImageSettings;
 
-    public MediaController(IWebHostEnvironment webHostEnvironment, MediaSettings mediaSettings)
+    public MediaController(IWebHostEnvironment webHostEnvironment, UploadImageSettings uploadImageSettings)
     {
         _webHostEnvironment = webHostEnvironment;
-        _mediaSettings = mediaSettings;
+        _uploadImageSettings = uploadImageSettings;
     }
     
     [HttpPost]
     public IActionResult UploadImage(string type)
     {
-        var allowImageTypes = _mediaSettings.AllowImageFileTypes?.Split(",");
+        var allowImageTypes = _uploadImageSettings.AllowImageFileTypes?.Split(",");
 
         var now = DateTime.Now;
         var files = Request.Form.Files;
@@ -34,7 +34,7 @@ public class MediaController : ApiControllerBase
             throw new Exception("Không cho phép tải lên file không phải ảnh.");
         }
 
-        var imageFolder = $@"\{_mediaSettings.ImageFolder}\images\{type}\{now:MMyyyy}";
+        var imageFolder = $@"\{_uploadImageSettings.ImageFolder}\{type}\{now:MMyyyy}";
 
         var folder = _webHostEnvironment.WebRootPath + imageFolder;
 
