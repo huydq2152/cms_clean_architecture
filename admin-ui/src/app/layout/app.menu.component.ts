@@ -29,12 +29,12 @@ export class AppMenuComponent implements OnInit {
                 items: [
                     {
                         label: 'Loại bài viết',
-                        icon: 'pi pi-fw pi-pencil',
+                        icon: 'pi pi-fw pi-circle',
                         routerLink: ['/content/post-categories'],
                     },
                     {
                         label: 'Bài viết',
-                        icon: 'pi pi-fw pi-pencil',
+                        icon: 'pi pi-fw pi-circle',
                         routerLink: ['/content/posts'],
                     },
                 ],
@@ -45,12 +45,12 @@ export class AppMenuComponent implements OnInit {
                 items: [
                     {
                         label: 'Người dùng',
-                        icon: 'pi pi-fw pi-pencil',
+                        icon: 'pi pi-fw pi-circle',
                         routerLink: ['/system/users'],
                     },
                     {
                         label: 'Vai trò',
-                        icon: 'pi pi-fw pi-pencil',
+                        icon: 'pi pi-fw pi-circle',
                         routerLink: ['/system/roles'],
                     },
                 ],
