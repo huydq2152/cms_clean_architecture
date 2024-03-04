@@ -41,19 +41,19 @@ public class AuthController : ApiControllerBase
         //Authentication
         if (request == null)
         {
-            return BadRequest("Invalid request");
+            return BadRequest("Request không hợp lệ");
         }
 
         var user = await _userManager.FindByNameAsync(request.UserName);
         if (user == null || user.IsActive == false || user.LockoutEnabled)
         {
-            return Unauthorized("Invalid user");
+            return BadRequest("Tên đăng nhập chưa đúng");
         }
 
         var result = await _signInManager.PasswordSignInAsync(request.UserName, request.Password, false, true);
         if (!result.Succeeded)
         {
-            return Unauthorized("Invalid user");
+            return BadRequest("Tên đăng nhập hoặc mật khẩu chưa đúng");
         }
 
         //Authorization

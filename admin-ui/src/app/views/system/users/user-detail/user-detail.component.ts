@@ -31,7 +31,7 @@ export class UserDetailComponent implements OnInit, OnDestroy {
     public btnDisabled = false;
     public saveBtnName: string;
     public roles: any[] = [];
-    selectedEntity = {} as UserDto;
+    selectedUser = {} as UserDto;
     public avatarImage;
 
     formSavedEventEmitter: EventEmitter<any> = new EventEmitter();
@@ -112,7 +112,7 @@ export class UserDetailComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this.ngUnsubscribe))
             .subscribe({
                 next: (response: UserDto) => {
-                    this.selectedEntity = response;
+                    this.selectedUser = response;
                     this.buildForm();
                     this.setMode('update');
 
@@ -214,23 +214,23 @@ export class UserDetailComponent implements OnInit, OnDestroy {
     buildForm() {
         this.form = this.fb.group({
             firstName: new FormControl(
-                this.selectedEntity.firstName || null,
+                this.selectedUser.firstName || null,
                 Validators.required
             ),
             lastName: new FormControl(
-                this.selectedEntity.lastName || null,
+                this.selectedUser.lastName || null,
                 Validators.required
             ),
             userName: new FormControl(
-                this.selectedEntity.userName || null,
+                this.selectedUser.userName || null,
                 Validators.required
             ),
             email: new FormControl(
-                this.selectedEntity.email || null,
+                this.selectedUser.email || null,
                 Validators.required
             ),
             phoneNumber: new FormControl(
-                this.selectedEntity.phoneNumber || null,
+                this.selectedUser.phoneNumber || null,
                 Validators.required
             ),
             password: new FormControl(
@@ -243,16 +243,16 @@ export class UserDetailComponent implements OnInit, OnDestroy {
                 ])
             ),
             dob: new FormControl(
-                this.selectedEntity.dob
-                    ? formatDate(this.selectedEntity.dob, 'yyyy-MM-dd', 'en')
+                this.selectedUser.dob
+                    ? formatDate(this.selectedUser.dob, 'yyyy-MM-dd', 'en')
                     : null
             ),
-            avatar: new FormControl(this.selectedEntity.avatar || null),
-            isActive: new FormControl(this.selectedEntity.isActive || true),
+            avatar: new FormControl(this.selectedUser.avatar || null),
+            isActive: new FormControl(this.selectedUser.isActive || true),
         });
 
-        if (this.selectedEntity.avatar) {
-            this.avatarImage = environment.API_URL + this.selectedEntity.avatar;
+        if (this.selectedUser.avatar) {
+            this.avatarImage = environment.API_URL + this.selectedUser.avatar;
         }
     }
 }

@@ -21,6 +21,7 @@ import {
 import { Router } from '@angular/router';
 import { AlertService } from 'src/app/shared/services/alert.service';
 import { BroadcastService } from 'src/app/shared/services/broadcast.service';
+import { UrlConstants } from '../constants/url.constants';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
@@ -82,7 +83,7 @@ export class TokenInterceptor implements HttpInterceptor {
 
     logout() {
         this.tokenService.signOut();
-        this.router.navigate(['login']);
+        this.router.navigate([UrlConstants.LOGIN]);
     }
 
     async handleResponseError(error, request?, next?) {

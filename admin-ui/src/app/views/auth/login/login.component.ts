@@ -36,7 +36,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     loginForm: FormGroup;
     public blockedPanel: boolean = false;
     private ngUnsubscribe = new Subject<void>();
-    loading = false;
 
     constructor(
         public layoutService: LayoutService,
@@ -55,7 +54,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.broadcastService.httpError.asObservable().subscribe((res) => {
             if (res) {
-                this.loading = false;
+                this.toggleBlockUI(false);
             }
         });
     }
@@ -85,10 +84,6 @@ export class LoginComponent implements OnInit, OnDestroy {
                     // Redirect to dashboard
                     this.toggleBlockUI(false);
                     this.router.navigate([UrlConstants.DASHBOARD]);
-                },
-                error: () => {
-                    this.alertService.showError('Đăng nhập không đúng.');
-                    this.toggleBlockUI(false);
                 },
             });
     }

@@ -3806,13 +3806,13 @@ export class UpdateUserDto implements IUpdateUserDto {
     id?: number | undefined;
     firstName?: string | undefined;
     lastName?: string | undefined;
-    isActive?: boolean;
-    dob?: Date | undefined;
     userName?: string | undefined;
     email?: string | undefined;
     phoneNumber?: string | undefined;
     password?: string | undefined;
+    dob?: Date | undefined;
     avatar?: string | undefined;
+    isActive?: boolean;
 
     constructor(data?: IUpdateUserDto) {
         if (data) {
@@ -3828,13 +3828,13 @@ export class UpdateUserDto implements IUpdateUserDto {
             this.id = _data["id"];
             this.firstName = _data["firstName"];
             this.lastName = _data["lastName"];
-            this.isActive = _data["isActive"];
-            this.dob = _data["dob"] ? new Date(_data["dob"].toString()) : <any>undefined;
             this.userName = _data["userName"];
             this.email = _data["email"];
             this.phoneNumber = _data["phoneNumber"];
             this.password = _data["password"];
+            this.dob = _data["dob"] ? new Date(_data["dob"].toString()) : <any>undefined;
             this.avatar = _data["avatar"];
+            this.isActive = _data["isActive"];
         }
     }
 
@@ -3850,13 +3850,13 @@ export class UpdateUserDto implements IUpdateUserDto {
         data["id"] = this.id;
         data["firstName"] = this.firstName;
         data["lastName"] = this.lastName;
-        data["isActive"] = this.isActive;
-        data["dob"] = this.dob ? this.dob.toISOString() : <any>undefined;
         data["userName"] = this.userName;
         data["email"] = this.email;
         data["phoneNumber"] = this.phoneNumber;
         data["password"] = this.password;
+        data["dob"] = this.dob ? this.dob.toISOString() : <any>undefined;
         data["avatar"] = this.avatar;
+        data["isActive"] = this.isActive;
         return data;
     }
 }
@@ -3865,13 +3865,13 @@ export interface IUpdateUserDto {
     id?: number | undefined;
     firstName?: string | undefined;
     lastName?: string | undefined;
-    isActive?: boolean;
-    dob?: Date | undefined;
     userName?: string | undefined;
     email?: string | undefined;
     phoneNumber?: string | undefined;
     password?: string | undefined;
+    dob?: Date | undefined;
     avatar?: string | undefined;
+    isActive?: boolean;
 }
 
 export class UserDto implements IUserDto {

@@ -52,13 +52,13 @@
                 <textarea id="description" type="text" rows="4" pInputTextarea [pKeyFilter]="noSpecial"
                     formControlName="description" [style]="{ width: '100%' }"></textarea>
             </div>
-            <div class="field col-12 md:col-6">
-                <label for="thumbnailFileContent">Hình ảnh <span class="required">*</span></label>
+            <div class="field col-12 md:col-12">
+                <label for="thumbnailFileContent">Hình ảnh</label>
                 <input type="hidden" formControlName="thumbnail" />
                 <input (change)="onFileChange($event)" type="file" class="w-full" />
             </div>
-            <div *ngIf="thumbnailImage" class="field col-12 md:col-6">
-                <p-image [src]="thumbnailImage" [preview]="true" [alt]="selectedEntity.name" width="250">
+            <div *ngIf="thumbnailImage" class="field col-12 md:col-12">
+                <p-image [src]="thumbnailImage" [preview]="true" [alt]="selectedPost.name" width="250">
                 </p-image>
             </div>
             <div class="field col-12">

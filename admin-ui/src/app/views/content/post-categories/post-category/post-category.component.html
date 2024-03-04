@@ -65,10 +65,11 @@
                         </td>
                         <td>
                             <div class="flex">
-                                <button pButton pRipple icon="pi pi-pencil"
+                                <button pButton pRipple icon="pi pi-pencil" pTooltip="Chỉnh sửa" tooltipPosition="top"
                                     class="p-button-rounded p-button-success mr-2"
                                     (click)="showEditPostCategoryModal(postCategory)"></button>
-                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                                <button pButton pRipple icon="pi pi-trash" pTooltip="Xóa" tooltipPosition="top"
+                                    class="p-button-rounded p-button-warning"
                                     (click)="deletePostCategory(postCategory)"></button>
                             </div>
                         </td>

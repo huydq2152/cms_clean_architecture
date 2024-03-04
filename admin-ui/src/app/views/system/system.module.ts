@@ -27,6 +27,7 @@ import { BadgeModule } from 'primeng/badge';
 import { PickListModule } from 'primeng/picklist';
 import { ImageModule } from 'primeng/image';
 import { ToolbarModule } from 'primeng/toolbar';
+import { TooltipModule } from 'primeng/tooltip';
 @NgModule({
     imports: [
         SystemRoutingModule,
@@ -48,6 +49,7 @@ import { ToolbarModule } from 'primeng/toolbar';
         PickListModule,
         ImageModule,
         ToolbarModule,
+        TooltipModule,
     ],
     declarations: [
         UserComponent,

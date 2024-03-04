@@ -6,7 +6,7 @@ import {
     FormBuilder,
 } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { Subject, filter, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import {
     AdminApiPostApiClient,
     PostDto,
@@ -33,7 +33,7 @@ export class PostDetailComponent implements OnInit, OnDestroy {
     public btnDisabled = false;
     public saveBtnName: string;
     public closeBtnName: string;
-    selectedEntity = {} as PostDto;
+    selectedPost = {} as PostDto;
     public thumbnailImage;
     filteredPostCategories: PostCategoryDto[];
     filteredUsers: UserDto[];
@@ -99,7 +99,7 @@ export class PostDetailComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this.ngUnsubscribe))
             .subscribe({
                 next: (response: PostDto) => {
-                    this.selectedEntity = response;
+                    this.selectedPost = response;
                     this.buildForm();
                     this.toggleBlockUI(false);
                 },
@@ -165,7 +165,7 @@ export class PostDetailComponent implements OnInit, OnDestroy {
     buildForm() {
         this.form = this.fb.group({
             code: new FormControl(
-                this.selectedEntity.code || null,
+                this.selectedPost.code || null,
                 Validators.compose([
                     Validators.required,
                     Validators.maxLength(255),
@@ -173,7 +173,7 @@ export class PostDetailComponent implements OnInit, OnDestroy {
                 ])
             ),
             name: new FormControl(
-                this.selectedEntity.name || null,
+                this.selectedPost.name || null,
                 Validators.compose([
                     Validators.required,
                     Validators.maxLength(255),
@@ -181,48 +181,46 @@ export class PostDetailComponent implements OnInit, OnDestroy {
                 ])
             ),
             slug: new FormControl(
-                this.selectedEntity.slug || null,
+                this.selectedPost.slug || null,
                 Validators.required
             ),
             slPostCategory: new FormControl(
-                this.selectedEntity.categoryId
-                    ? `${this.selectedEntity.categoryCode} - ${this.selectedEntity.categoryName}`
+                this.selectedPost.categoryId
+                    ? `${this.selectedPost.categoryCode} - ${this.selectedPost.categoryName}`
                     : null
             ),
             slUser: new FormControl(
-                this.selectedEntity.authorUserId
-                    ? `${this.selectedEntity.authorUserName}`
+                this.selectedPost.authorUserId
+                    ? `${this.selectedPost.authorUserName}`
                     : null
             ),
             seoDescription: new FormControl(
-                this.selectedEntity.seoDescription || null
+                this.selectedPost.seoDescription || null
             ),
-            description: new FormControl(
-                this.selectedEntity.description || null
-            ),
-            isActive: new FormControl(this.selectedEntity.isActive || false),
-            tags: new FormControl(this.selectedEntity.tags || null),
-            content: new FormControl(this.selectedEntity.content || null),
-            thumbnail: new FormControl(this.selectedEntity.thumbnail || null),
+            description: new FormControl(this.selectedPost.description || null),
+            isActive: new FormControl(this.selectedPost.isActive || false),
+            tags: new FormControl(this.selectedPost.tags || null),
+            content: new FormControl(this.selectedPost.content || null),
+            thumbnail: new FormControl(this.selectedPost.thumbnail || null),
         });
         if (this.form.controls['code'].value === null) {
             this.generateRandomCode();
         }
-        if (this.selectedEntity.thumbnail) {
+        if (this.selectedPost.thumbnail) {
             this.thumbnailImage =
-                environment.API_URL + this.selectedEntity.thumbnail;
+                environment.API_URL + this.selectedPost.thumbnail;
         }
-        if (this.selectedEntity.categoryId) {
+        if (this.selectedPost.categoryId) {
             this.blogService
-                .getBlogPostCategoryById(this.selectedEntity.categoryId)
+                .getBlogPostCategoryById(this.selectedPost.categoryId)
                 .pipe(takeUntil(this.ngUnsubscribe))
                 .subscribe((res) => {
                     this.form.controls['slPostCategory'].setValue(res);
                 });
         }
-        if (this.selectedEntity.authorUserId) {
+        if (this.selectedPost.authorUserId) {
             this.blogService
-                .getBlogUserById(this.selectedEntity.authorUserId)
+                .getBlogUserById(this.selectedPost.authorUserId)
                 .pipe(takeUntil(this.ngUnsubscribe))
                 .subscribe((res) => {
                     this.form.controls['slUser'].setValue(res);

@@ -60,8 +60,8 @@
                 <input type="hidden" formControlName="avatar" />
                 <input (change)="onFileChange($event)" type="file" class="w-full" />
             </div>
-            <div *ngIf="avatarImage" class="field col-12 md:col-6">
-                <p-image [src]="avatarImage" [preview]="true" [alt]="selectedEntity.userName" width="250">
+            <div *ngIf="avatarImage" class="field col-12 md:col-12">
+                <p-image [src]="avatarImage" [preview]="true" [alt]="selectedUser.userName" width="250">
                 </p-image>
             </div>
             <div class="field-checkbox col-12 md:col-3">

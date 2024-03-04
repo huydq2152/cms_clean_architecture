@@ -27,7 +27,7 @@ export class RoleDetailComponent implements OnInit, OnDestroy {
     public btnDisabled = false;
     public saveBtnName: string;
     public closeBtnName: string;
-    selectedEntity = {} as RoleDto;
+    selectedRole = {} as RoleDto;
 
     formSavedEventEmitter: EventEmitter<any> = new EventEmitter();
 
@@ -77,7 +77,7 @@ export class RoleDetailComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this.ngUnsubscribe))
             .subscribe({
                 next: (response: RoleDto) => {
-                    this.selectedEntity = response;
+                    this.selectedRole = response;
                     this.buildForm();
                     this.toggleBlockUI(false);
                 },
@@ -120,7 +120,7 @@ export class RoleDetailComponent implements OnInit, OnDestroy {
     buildForm() {
         this.form = this.fb.group({
             name: new FormControl(
-                this.selectedEntity.name || null,
+                this.selectedRole.name || null,
                 Validators.compose([
                     Validators.required,
                     Validators.maxLength(255),
@@ -128,7 +128,7 @@ export class RoleDetailComponent implements OnInit, OnDestroy {
                 ])
             ),
             displayName: new FormControl(
-                this.selectedEntity.displayName || null,
+                this.selectedRole.displayName || null,
                 Validators.required
             ),
         });

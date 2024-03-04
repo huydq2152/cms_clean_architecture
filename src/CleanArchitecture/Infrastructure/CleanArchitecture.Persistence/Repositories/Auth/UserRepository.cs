@@ -79,6 +79,7 @@ public class UserRepository : IUserRepository
         }
 
         var user = _mapper.Map<AppUser>(input);
+        user.LockoutEnabled = false;
         await _userManager.CreateAsync(user, input.Password);
         await _dbContext.SaveChangesAsync();
     }

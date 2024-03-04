@@ -69,10 +69,16 @@
             </td>
             <td>
               <div class="flex">
-                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
-                  (click)="showEditUserModal(user)"></button>
-                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
-                  (click)="deleteUser(user)"></button>
+                <button pButton pRipple icon="pi pi-pencil" pTooltip="Chỉnh sửa" tooltipPosition="top"
+                  class="p-button-rounded p-button-success mr-2" (click)="showEditUserModal(user)"></button>
+                <button pButton pRipple icon="pi pi-trash" pTooltip="Xóa" tooltipPosition="top"
+                  class="p-button-rounded p-button-warning mr-2" (click)="deleteUser(user)"></button>
+                <button pButton pRipple icon="pi pi-key" pTooltip="Đặt mật khẩu" tooltipPosition="top"
+                  class="p-button-rounded p-button-rounded mr-2" (click)="setPassword(user.id)"></button>
+                <button pButton pRipple icon="pi pi-envelope" pTooltip="Đặt Email" tooltipPosition="top"
+                  (click)="changeEmail(user.id)" class="p-button-rounded p-button-rounded mr-2"></button>
+                <button pButton pRipple icon="pi pi-users" pTooltip="Gán vai trò" tooltipPosition="top"
+                  (click)="assignRole(user.id)" class="p-button-rounded p-button-rounded "></button>
               </div>
             </td>
           </tr>

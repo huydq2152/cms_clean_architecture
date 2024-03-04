@@ -29,7 +29,7 @@ export class PostCategoryDetailComponent implements OnInit, OnDestroy {
     public btnDisabled = false;
     public saveBtnName: string;
     public closeBtnName: string;
-    selectedEntity = {} as PostCategoryDto;
+    selectedPostCategory = {} as PostCategoryDto;
     filteredPostCategories: PostCategoryDto[];
 
     formSavedEventEmitter: EventEmitter<any> = new EventEmitter();
@@ -92,7 +92,7 @@ export class PostCategoryDetailComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this.ngUnsubscribe))
             .subscribe({
                 next: (response: PostCategoryDto) => {
-                    this.selectedEntity = response;
+                    this.selectedPostCategory = response;
                     this.buildForm();
                     this.toggleBlockUI(false);
                 },
@@ -141,7 +141,7 @@ export class PostCategoryDetailComponent implements OnInit, OnDestroy {
     buildForm() {
         this.form = this.fb.group({
             code: new FormControl(
-                this.selectedEntity.code || null,
+                this.selectedPostCategory.code || null,
                 Validators.compose([
                     Validators.required,
                     Validators.maxLength(255),
@@ -149,7 +149,7 @@ export class PostCategoryDetailComponent implements OnInit, OnDestroy {
                 ])
             ),
             name: new FormControl(
-                this.selectedEntity.name || null,
+                this.selectedPostCategory.name || null,
                 Validators.compose([
                     Validators.required,
                     Validators.maxLength(255),
@@ -157,31 +157,33 @@ export class PostCategoryDetailComponent implements OnInit, OnDestroy {
                 ])
             ),
             slug: new FormControl(
-                this.selectedEntity.slug || null,
+                this.selectedPostCategory.slug || null,
                 Validators.required
             ),
             slParent: new FormControl(
-                this.selectedEntity.parentId
-                    ? `${this.selectedEntity.parentCode} - ${this.selectedEntity.parentName}`
+                this.selectedPostCategory.parentId
+                    ? `${this.selectedPostCategory.parentCode} - ${this.selectedPostCategory.parentName}`
                     : null
             ),
             sortOrder: new FormControl(
-                this.selectedEntity.sortOrder || 0,
+                this.selectedPostCategory.sortOrder || 0,
                 Validators.required
             ),
             seoDescription: new FormControl(
-                this.selectedEntity.seoDescription || null
+                this.selectedPostCategory.seoDescription || null
             ),
-            isActive: new FormControl(this.selectedEntity.isActive || false),
+            isActive: new FormControl(
+                this.selectedPostCategory.isActive || false
+            ),
         });
 
         if (this.form.controls['code'].value === null) {
             this.generateRandomCode();
         }
 
-        if (this.selectedEntity.parentId) {
+        if (this.selectedPostCategory.parentId) {
             this.blogService
-                .getBlogPostCategoryById(this.selectedEntity.parentId)
+                .getBlogPostCategoryById(this.selectedPostCategory.parentId)
                 .pipe(takeUntil(this.ngUnsubscribe))
                 .subscribe((res) => {
                     this.form.controls['slParent'].setValue(res);

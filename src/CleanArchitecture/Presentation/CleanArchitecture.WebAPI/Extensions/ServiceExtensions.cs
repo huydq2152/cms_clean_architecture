@@ -99,6 +99,8 @@ public static class ServiceExtensions
             
             cfg.TokenValidationParameters = new TokenValidationParameters
             {
+                ValidateLifetime = true,
+                ClockSkew = TimeSpan.FromSeconds(0),
                 ValidIssuer = jwtTokenSettings.Issuer,
                 ValidAudience = jwtTokenSettings.Issuer,
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtTokenSettings.Key))
