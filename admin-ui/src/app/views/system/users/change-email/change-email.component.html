@@ -3,8 +3,7 @@
     <div class="formgrid grid">
       <div class="field col-12 md:col-6">
         <label for="email">Email <span class="required">*</span></label>
-        <input id="email" type="text" pInputText [pKeyFilter]="noSpecial" formControlName="email"
-          [style]="{ width: '100%' }" />
+        <input id="email" type="text" pInputText formControlName="email" [style]="{ width: '100%' }" />
         <app-validation-message [entityForm]="form" fieldName="email"
           [validationMessages]="validationMessages"></app-validation-message>
       </div>

@@ -3,22 +3,20 @@
         <div class="formgrid grid">
             <div class="field col-12 md:col-6">
                 <label for="code">Mã <span class="required">*</span></label>
-                <input id="code" type="text" pInputText [pKeyFilter]="noSpecial" formControlName="code"
-                    [style]="{ width: '100%' }" />
+                <input id="code" type="text" pInputText formControlName="code" [style]="{ width: '100%' }" />
                 <app-validation-message [entityForm]="form" fieldName="code"
                     [validationMessages]="validationMessages"></app-validation-message>
             </div>
             <div class="field col-12 md:col-6">
                 <label for="name">Tên <span class="required">*</span></label>
-                <input id="name" type="text" pInputText [pKeyFilter]="noSpecial" formControlName="name"
-                    (keyup)="generateSlug()" [style]="{ width: '100%' }" />
+                <input id="name" type="text" pInputText formControlName="name" (keyup)="generateSlug()"
+                    [style]="{ width: '100%' }" />
                 <app-validation-message [entityForm]="form" fieldName="name"
                     [validationMessages]="validationMessages"></app-validation-message>
             </div>
             <div class="field col-12 md:col-6">
                 <label for="slug">Slug<span class="required">*</span></label>
-                <input id="slug" type="text" pInputText [pKeyFilter]="noSpecial" formControlName="slug"
-                    [style]="{ width: '100%' }" />
+                <input id="slug" type="text" pInputText formControlName="slug" [style]="{ width: '100%' }" />
                 <app-validation-message [entityForm]="form" fieldName="slug"
                     [validationMessages]="validationMessages"></app-validation-message>
             </div>
@@ -49,8 +47,8 @@
             </div>
             <div class="field col-12">
                 <label for="description">Mô tả </label>
-                <textarea id="description" type="text" rows="4" pInputTextarea [pKeyFilter]="noSpecial"
-                    formControlName="description" [style]="{ width: '100%' }"></textarea>
+                <textarea id="description" type="text" rows="4" pInputTextarea formControlName="description"
+                    [style]="{ width: '100%' }"></textarea>
             </div>
             <div class="field col-12 md:col-12">
                 <label for="thumbnailFileContent">Hình ảnh</label>
@@ -68,13 +66,12 @@
             </div>
             <div class="field col-12">
                 <label for="seoDescription">Mô tả SEO</label>
-                <textarea id="seoDescription" type="text" rows="4" pInputTextarea [pKeyFilter]="noSpecial"
-                    formControlName="seoDescription" [style]="{ width: '100%' }"></textarea>
+                <textarea id="seoDescription" rows="4" pInputTextarea formControlName="seoDescription"
+                    [style]="{ width: '100%' }"></textarea>
             </div>
             <div class="field col-12 md:col-12">
                 <label for="tags">Tags</label>
-                <input id="tags" type="text" pInputText [pKeyFilter]="noSpecial" formControlName="tags"
-                    [style]="{ width: '100%' }" />
+                <input id="tags" type="text" pInputText formControlName="tags" [style]="{ width: '100%' }" />
             </div>
             <div class="field-checkbox col-12 md:col-6">
                 <p-checkbox formControlName="isActive" [binary]="true" [binary]="true" id="isActive"></p-checkbox>
