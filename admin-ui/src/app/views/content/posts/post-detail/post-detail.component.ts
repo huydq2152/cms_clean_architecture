@@ -251,7 +251,9 @@ export class PostDetailComponent implements OnInit, OnDestroy {
             .getAllBlogPostCategories(filter)
             .pipe(takeUntil(this.ngUnsubscribe))
             .subscribe((res) => {
-                this.filteredPostCategories = res;
+                if (res.length !== 0) {
+                    this.filteredPostCategories = res;
+                }
             });
     }
 
@@ -265,7 +267,9 @@ export class PostDetailComponent implements OnInit, OnDestroy {
             .getAllBlogUsers(filter)
             .pipe(takeUntil(this.ngUnsubscribe))
             .subscribe((res) => {
-                this.filteredUsers = res;
+                if (res.length !== 0) {
+                    this.filteredUsers = res;
+                }
             });
     }
 

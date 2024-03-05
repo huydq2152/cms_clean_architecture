@@ -28,18 +28,17 @@ public class UserController : ApiControllerBase
         return Ok(result);
     }
 
-    [HttpGet("all")]
+    [HttpPost("all")]
     [Authorize(StaticPermissions.Users.View)]
-    public async Task<ActionResult<IEnumerable<UserDto>>> GetAllUsersAsync([FromQuery] GetAllUsersInput input)
+    public async Task<ActionResult<IEnumerable<UserDto>>> GetAllUsersAsync([FromBody] GetAllUsersInput input)
     {
         var result = await _userService.GetAllUsersAsync(input);
         return Ok(result);
     }
 
-    [HttpGet]
-    [Route("paging")]
+    [HttpPost("paging")]
     [Authorize(StaticPermissions.Users.View)]
-    public async Task<ActionResult<PagedResult<UserDto>>> GetAllUsersPagedAsync([FromQuery] GetAllUsersInput input)
+    public async Task<ActionResult<PagedResult<UserDto>>> GetAllUsersPagedAsync([FromBody] GetAllUsersInput input)
     {
         var result = await _userService.GetAllUsersPagedAsync(input);
         return Ok(result);

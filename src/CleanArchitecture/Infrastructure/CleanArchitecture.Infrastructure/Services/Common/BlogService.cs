@@ -42,9 +42,9 @@ public class BlogService : IBlogService
     public async Task<List<UserDto>> GetAllBlogUsersAsync(GetAllUsersInput input)
     {
         var users = await _userManager.Users
-            .WhereIf(input != null && !string.IsNullOrWhiteSpace(input.Filter),
-                x => x.UserName.Contains(input.Filter)
-                     || x.Email.Contains(input.Filter)).ToListAsync();
+            .WhereIf(input != null && !string.IsNullOrWhiteSpace(input.Keyword),
+                x => x.UserName.Contains(input.Keyword)
+                     || x.Email.Contains(input.Keyword)).ToListAsync();
 
         var result = _mapper.Map<List<UserDto>>(users);
         return result;
@@ -53,9 +53,9 @@ public class BlogService : IBlogService
     public async Task<PagedResult<UserDto>> GetAllBlogUsersPagedAsync(GetAllUsersInput input)
     {
         var query = _userManager.Users
-            .WhereIf(input != null && !string.IsNullOrWhiteSpace(input.Filter),
-                x => x.UserName.Contains(input.Filter)
-                     || x.Email.Contains(input.Filter));
+            .WhereIf(input != null && !string.IsNullOrWhiteSpace(input.Keyword),
+                x => x.UserName.Contains(input.Keyword)
+                     || x.Email.Contains(input.Keyword));
 
         var objQuery = _mapper.ProjectTo<UserDto>(query);
 

@@ -4,5 +4,7 @@ namespace CleanArchitecture.Application.Dtos.Posts.Post;
 
 public class GetAllPostsInput: PagingRequestParameters
 {
-    public string Filter { get; set; }
+    public string Keyword { get; set; }
+    public int? CategoryId { get; set; }
+    public int? AuthorUserId { get; set; }
 }

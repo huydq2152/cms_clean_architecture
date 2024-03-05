@@ -40,11 +40,11 @@ public class UserRepository : IUserRepository
     {
         var users = await _userManager.Users
             .Where(o=>!o.IsDeleted)
-            .WhereIf(input != null && !string.IsNullOrWhiteSpace(input.Filter),
-                o => o.FirstName.Contains(input.Filter)
-                     || o.UserName.Contains(input.Filter)
-                     || o.Email.Contains(input.Filter)
-                     || o.PhoneNumber.Contains(input.Filter)).ToListAsync();
+            .WhereIf(input != null && !string.IsNullOrWhiteSpace(input.Keyword),
+                o => o.FirstName.Contains(input.Keyword)
+                     || o.UserName.Contains(input.Keyword)
+                     || o.Email.Contains(input.Keyword)
+                     || o.PhoneNumber.Contains(input.Keyword)).ToListAsync();
         var result = _mapper.Map<List<UserDto>>(users);
 
         return result;
@@ -54,11 +54,11 @@ public class UserRepository : IUserRepository
     {
         var query = _userManager.Users
             .Where(o=>!o.IsDeleted)
-            .WhereIf(input != null && !string.IsNullOrWhiteSpace(input.Filter),
-                o => o.FirstName.Contains(input.Filter)
-                     || o.UserName.Contains(input.Filter)
-                     || o.Email.Contains(input.Filter)
-                     || o.PhoneNumber.Contains(input.Filter));
+            .WhereIf(input != null && !string.IsNullOrWhiteSpace(input.Keyword),
+                o => o.FirstName.Contains(input.Keyword)
+                     || o.UserName.Contains(input.Keyword)
+                     || o.Email.Contains(input.Keyword)
+                     || o.PhoneNumber.Contains(input.Keyword));
 
         var objQuery = _mapper.ProjectTo<UserDto>(query);
 

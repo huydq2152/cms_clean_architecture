@@ -32,6 +32,7 @@ import { PostDetailComponent } from './posts/post-detail/post-detail.component';
 import { EditorModule } from 'primeng/editor';
 import { BadgeModule } from 'primeng/badge';
 import { ImageModule } from 'primeng/image';
+import { InputGroupModule } from 'primeng/inputgroup';
 
 @NgModule({
     declarations: [
@@ -69,6 +70,7 @@ import { ImageModule } from 'primeng/image';
         EditorModule,
         BadgeModule,
         ImageModule,
+        InputGroupModule,
     ],
 })
 export class ContentModule {}

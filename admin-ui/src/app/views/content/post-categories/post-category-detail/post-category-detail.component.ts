@@ -214,7 +214,9 @@ export class PostCategoryDetailComponent implements OnInit, OnDestroy {
             .getAllBlogPostCategories(filter)
             .pipe(takeUntil(this.ngUnsubscribe))
             .subscribe((res) => {
-                this.filteredPostCategories = res;
+                if (res.length !== 0) {
+                    this.filteredPostCategories = res;
+                }
             });
     }
 

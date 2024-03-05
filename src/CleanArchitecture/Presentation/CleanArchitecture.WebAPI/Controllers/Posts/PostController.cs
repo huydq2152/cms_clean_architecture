@@ -26,19 +26,19 @@ public class PostController: ApiControllerBase
         return Ok(result);
     }
 
-    [HttpGet("all")]
+    [HttpPost("all")]
     [Authorize(StaticPermissions.Posts.View)]
     public async Task<ActionResult<List<PostDto>>> GetAllPostsAsync(
-        [FromQuery] GetAllPostsInput input)
+        [FromBody] GetAllPostsInput input)
     {
         var result = await _postService.GetAllPostsAsync(input);
         return Ok(result);
     }
 
-    [HttpGet("paging")]
+    [HttpPost("paging")]
     [Authorize(StaticPermissions.Posts.View)]
     public async Task<ActionResult<PagedResult<PostDto>>> GetAllPostPagedAsync(
-        [FromQuery] GetAllPostsInput input)
+        [FromBody] GetAllPostsInput input)
     {
         var result = await _postService.GetAllPostPagedAsync(input);
         return Ok(result);

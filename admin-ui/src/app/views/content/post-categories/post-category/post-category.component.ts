@@ -3,7 +3,9 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { DialogService, DynamicDialogComponent } from 'primeng/dynamicdialog';
 import { Subject, takeUntil } from 'rxjs';
 import {
+    AdminApiBlogApiClient,
     AdminApiPostCategoryApiClient,
+    GetAllPostCategoriesInput,
     PostCategoryDto,
     PostCategoryDtoPagedResult,
 } from 'src/app/api/admin-api.service.generated';
@@ -30,11 +32,16 @@ export class PostCategoryComponent implements OnInit, OnDestroy {
     public selectedPostCategories: PostCategoryDto[] = [];
     public keyword: string = '';
 
+    //Filter variables
+    filteredPostCategories: PostCategoryDto[] = [];
+    selectedPostCategory: PostCategoryDto = null;
+
     constructor(
         private postCategoryService: AdminApiPostCategoryApiClient,
         public dialogService: DialogService,
         private alertService: AlertService,
-        private confirmationService: ConfirmationService
+        private confirmationService: ConfirmationService,
+        private blogService: AdminApiBlogApiClient
     ) {}
 
     ngOnDestroy(): void {
@@ -50,9 +57,12 @@ export class PostCategoryComponent implements OnInit, OnDestroy {
 
         this.postCategoryService
             .getAllPostCategoryPaged(
-                this.keyword,
-                this.pageIndex,
-                this.pageSize
+                new GetAllPostCategoriesInput({
+                    pageIndex: this.pageIndex,
+                    pageSize: this.pageSize,
+                    keyword: this.keyword,
+                    parentId: this.selectedPostCategory?.id,
+                })
             )
             .pipe(takeUntil(this.ngUnsubscribe))
             .subscribe({
@@ -163,5 +173,21 @@ export class PostCategoryComponent implements OnInit, OnDestroy {
                 this.blockedPanel = false;
             }, 1000);
         }
+    }
+
+    filterPostCategories(event): void {
+        var filter = event.query;
+        this.blogService
+            .getAllBlogPostCategories(filter)
+            .pipe(takeUntil(this.ngUnsubscribe))
+            .subscribe((res) => {
+                if (res.length !== 0) {
+                    this.filteredPostCategories = res;
+                }
+            });
+    }
+
+    public selectedPostCategoryDisplay(postCategory: PostCategoryDto): string {
+        return `${postCategory.code} - ${postCategory.name}`;
     }
 }

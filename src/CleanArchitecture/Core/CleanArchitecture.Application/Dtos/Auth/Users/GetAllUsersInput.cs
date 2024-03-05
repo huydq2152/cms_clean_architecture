@@ -4,5 +4,5 @@ namespace CleanArchitecture.Application.Dtos.Auth.Users;
 
 public class GetAllUsersInput: PagingRequestParameters
 {
-    public string Filter { get; set; }
+    public string Keyword { get; set; }
 }

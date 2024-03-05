@@ -26,19 +26,19 @@ public class PostCategoryController : ApiControllerBase
         return Ok(result);
     }
 
-    [HttpGet("all")]
+    [HttpPost("all")]
     [Authorize(StaticPermissions.PostCategories.View)]
     public async Task<ActionResult<List<PostCategoryDto>>> GetAllPostCategoriesAsync(
-        [FromQuery] GetAllPostCategoriesInput input)
+        [FromBody] GetAllPostCategoriesInput input)
     {
         var result = await _postCategoryService.GetAllPostCategoriesAsync(input);
         return Ok(result);
     }
 
-    [HttpGet("paging")]
+    [HttpPost("paging")]
     [Authorize(StaticPermissions.PostCategories.View)]
     public async Task<ActionResult<PagedResult<PostCategoryDto>>> GetAllPostCategoryPagedAsync(
-        [FromQuery] GetAllPostCategoriesInput input)
+        [FromBody] GetAllPostCategoriesInput input)
     {
         var result = await _postCategoryService.GetAllPostCategoryPagedAsync(input);
         return Ok(result);

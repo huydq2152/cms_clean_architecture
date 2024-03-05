@@ -1,13 +1,17 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
 import { DialogService, DynamicDialogComponent } from 'primeng/dynamicdialog';
 import { Subject, takeUntil } from 'rxjs';
 import { MessageConstants } from 'src/app/shared/constants/messages.constant';
 import { PostDetailComponent } from '../post-detail/post-detail.component';
 import {
+    AdminApiBlogApiClient,
     AdminApiPostApiClient,
+    GetAllPostsInput,
+    PostCategoryDto,
     PostDto,
     PostDtoPagedResult,
+    UserDto,
 } from 'src/app/api/admin-api.service.generated';
 import { AlertService } from 'src/app/shared/services/alert.service';
 
@@ -26,15 +30,22 @@ export class PostComponent implements OnInit, OnDestroy {
     public totalCount: number;
 
     //Business variables
-    public posts: PostDto[];
+    public posts: PostDto[] = [];
     public selectedPosts: PostDto[] = [];
     public keyword: string = '';
+
+    //Filter variables
+    filteredPostCategories: PostCategoryDto[] = [];
+    selectedPostCategory: PostCategoryDto = null;
+    filteredUsers: UserDto[] = [];
+    selectedUser: UserDto = null;
 
     constructor(
         private postService: AdminApiPostApiClient,
         public dialogService: DialogService,
         private alertService: AlertService,
-        private confirmationService: ConfirmationService
+        private confirmationService: ConfirmationService,
+        private blogService: AdminApiBlogApiClient
     ) {}
 
     ngOnDestroy(): void {
@@ -48,9 +59,16 @@ export class PostComponent implements OnInit, OnDestroy {
 
     loadData() {
         this.toggleBlockUI(true);
-
         this.postService
-            .getAllPostPaged(this.keyword, this.pageIndex, this.pageSize)
+            .getAllPostPaged(
+                new GetAllPostsInput({
+                    pageIndex: this.pageIndex,
+                    pageSize: this.pageSize,
+                    keyword: this.keyword,
+                    categoryId: this.selectedPostCategory?.id,
+                    authorUserId: this.selectedUser?.id,
+                })
+            )
             .pipe(takeUntil(this.ngUnsubscribe))
             .subscribe({
                 next: (response: PostDtoPagedResult) => {
@@ -160,5 +178,37 @@ export class PostComponent implements OnInit, OnDestroy {
                 this.blockedPanel = false;
             }, 1000);
         }
+    }
+
+    filterPostCategories(event): void {
+        var filter = event.query;
+        this.blogService
+            .getAllBlogPostCategories(filter)
+            .pipe(takeUntil(this.ngUnsubscribe))
+            .subscribe((res) => {
+                if (res.length !== 0) {
+                    this.filteredPostCategories = res;
+                }
+            });
+    }
+
+    public selectedPostCategoryDisplay(postCategory: PostCategoryDto): string {
+        return `${postCategory.code} - ${postCategory.name}`;
+    }
+
+    filterUsers(event): void {
+        var filter = event.query;
+        this.blogService
+            .getAllBlogUsers(filter)
+            .pipe(takeUntil(this.ngUnsubscribe))
+            .subscribe((res) => {
+                if (res.length !== 0) {
+                    this.filteredUsers = res;
+                }
+            });
+    }
+
+    public selectedUserDisplay(user: UserDto): string {
+        return `${user.userName}`;
     }
 }

@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import {
     AdminApiRoleApiClient,
+    GetAllRolesInput,
     RoleDto,
     RoleDtoPagedResult,
 } from 'src/app/api/admin-api.service.generated';
@@ -50,7 +51,13 @@ export class RoleComponent implements OnInit, OnDestroy {
         this.toggleBlockUI(true);
 
         this.roleService
-            .getAllRolesPaged(this.keyword, this.pageIndex, this.pageSize)
+            .getAllRolesPaged(
+                new GetAllRolesInput({
+                    pageIndex: this.pageIndex,
+                    pageSize: this.pageSize,
+                    keyword: this.keyword,
+                })
+            )
             .pipe(takeUntil(this.ngUnsubscribe))
             .subscribe({
                 next: (response: RoleDtoPagedResult) => {

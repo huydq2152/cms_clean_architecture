@@ -20,9 +20,9 @@ public class RoleService : IRoleService
         return result;
     }
 
-    public async Task<IEnumerable<RoleDto>> GetAllRolesAsync()
+    public async Task<IEnumerable<RoleDto>> GetAllRolesAsync(GetAllRolesInput input)
     {
-        var result = await _roleRepository.GetAllRolesAsync(new GetAllRolesInput());
+        var result = await _roleRepository.GetAllRolesAsync(input);
         return result;
     }
 

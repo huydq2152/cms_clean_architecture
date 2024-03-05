@@ -35,9 +35,10 @@ public class PostCategoryRepository : RepositoryBase<PostCategory, int>, IPostCa
 
         var query = from obj in GetAll()
                 .Where(o => !o.IsDeleted)
-                .WhereIf(input != null && !string.IsNullOrWhiteSpace(input.Filter),
-                    e => e.Code.Contains(input.Filter) || e.Name.Contains(input.Filter))
+                .WhereIf(input != null && !string.IsNullOrWhiteSpace(input.Keyword),
+                    e => e.Code.Contains(input.Keyword) || e.Name.Contains(input.Keyword))
                 .WhereIf(id.HasValue, e => e.Id == id.Value)
+                .WhereIf(input is { ParentId: not null }, e => e.ParentId == input.ParentId)
             select new PostCategoryDto()
             {
                 Id = obj.Id,

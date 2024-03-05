@@ -1,6 +1,7 @@
 <div class="grid">
   <div class="col-12">
     <div class="card px-6 py-6">
+      <h3>Danh sách bài viết</h3>
       <p-toolbar styleClass="mb-4">
         <ng-template pTemplate="left">
           <div class="my-2">
@@ -16,13 +17,39 @@
       <p-table #dt [value]="posts" responsiveLayout="scroll" [(selection)]="selectedPosts" selectionMode="multiple"
         [rowHover]="true" dataKey="id">
         <ng-template pTemplate="caption">
-          <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-            <h5 class="m-0">Danh mục bài viết</h5>
-            <span class="block mt-2 md:mt-0 p-input-icon-left">
-              <i class="pi pi-search"></i>
-              <input id="txtKeyword" pInputText type="text" (keyup.enter)="loadData()" [(ngModel)]="keyword"
-                placeholder="Tìm kiếm..." class="w-full sm:w-auto" />
-            </span>
+          <div class="flex flex-column md:flex-row md:align-items-center">
+            <div class="field mr-4">
+              <label for="slPostCategory">Loại bài viết</label>
+              <p-autoComplete id="slPostCategory" [dropdown]="true" [suggestions]="filteredPostCategories"
+                (completeMethod)="filterPostCategories($event)" [field]="selectedPostCategoryDisplay.bind(this)"
+                [minLength]="1" [style]="{ width: '100%' }" [(ngModel)]="selectedPostCategory">
+                <ng-template let-postCategory pTemplate="item">
+                  <div class="flex align-items-center gap-2">
+                    <div>{{ postCategory.code }} - {{postCategory.name}}</div>
+                  </div>
+                </ng-template>
+              </p-autoComplete>
+            </div>
+            <div class="field mr-4">
+              <label for="slUser">Tác giả</label>
+              <p-autoComplete id="slUser" [dropdown]="true" [suggestions]="filteredUsers"
+                (completeMethod)="filterUsers($event)" [field]="selectedUserDisplay.bind(this)" [minLength]="1"
+                [style]="{ width: '100%' }" [(ngModel)]="selectedUser">
+                <ng-template let-user pTemplate="item">
+                  <div class="flex align-items-center gap-2">
+                    <div>{{ user.userName }}</div>
+                  </div>
+                </ng-template>
+              </p-autoComplete>
+            </div>
+            <div class="field ml-auto">
+              <label for="search">Tìm kiếm</label>
+              <p-inputGroup id="search">
+                <button type="button" pButton label="Tìm" (click)="loadData()"></button>
+                <input type="text" pInputText placeholder="Từ khóa ..." (keyup.enter)="loadData()"
+                  [(ngModel)]="keyword" />
+              </p-inputGroup>
+            </div>
           </div>
         </ng-template>
         <ng-template pTemplate="header">

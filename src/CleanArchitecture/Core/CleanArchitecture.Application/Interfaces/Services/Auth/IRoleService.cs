@@ -6,7 +6,7 @@ namespace CleanArchitecture.Application.Interfaces.Services.Auth;
 public interface IRoleService
 {
     Task<RoleDto> GetRoleByIdAsync(int id);
-    Task<IEnumerable<RoleDto>> GetAllRolesAsync();
+    Task<IEnumerable<RoleDto>> GetAllRolesAsync(GetAllRolesInput input);
     Task<PagedResult<RoleDto>> GetAllRolesPagedAsync(GetAllRolesInput input);
     Task CreateRoleAsync(CreateRoleDto input);
     Task UpdateRoleAsync(UpdateRoleDto input);

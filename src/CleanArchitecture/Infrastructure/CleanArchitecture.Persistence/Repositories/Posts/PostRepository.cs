@@ -34,9 +34,11 @@ public class PostRepository : RepositoryBase<Post, int>, IPostRepository
 
         var query = from obj in GetAll()
                 .Where(o => !o.IsDeleted)
-                .WhereIf(input != null && !string.IsNullOrWhiteSpace(input.Filter),
-                    e => e.Code.Contains(input.Filter) || e.Name.Contains(input.Filter))
-                .WhereIf(id.HasValue, e => e.Id == id.Value)
+                .WhereIf(input != null && !string.IsNullOrWhiteSpace(input.Keyword),
+                    o => o.Code.Contains(input.Keyword) || o.Name.Contains(input.Keyword))
+                .WhereIf(id.HasValue, o => o.Id == id.Value)
+                .WhereIf(input is { CategoryId: not null }, o => o.CategoryId == input.CategoryId)
+                .WhereIf(input is { AuthorUserId: not null }, o => o.AuthorUserId == input.AuthorUserId)
             select new PostDto()
             {
                 Id = obj.Id,

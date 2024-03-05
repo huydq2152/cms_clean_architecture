@@ -149,15 +149,15 @@ export class AdminApiBlogApiClient {
     }
 
     /**
-     * @param filter (optional) 
+     * @param keyword (optional) 
      * @param pageIndex (optional) 
      * @param pageSize (optional) 
      * @return Success
      */
-    getAllBlogUsers(filter?: string | null | undefined, pageIndex?: number | undefined, pageSize?: number | undefined): Observable<UserDto[]> {
+    getAllBlogUsers(keyword?: string | null | undefined, pageIndex?: number | undefined, pageSize?: number | undefined): Observable<UserDto[]> {
         let url_ = this.baseUrl + "/api/blog/all-users?";
-        if (filter !== undefined && filter !== null)
-            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (keyword !== undefined && keyword !== null)
+            url_ += "Keyword=" + encodeURIComponent("" + keyword) + "&";
         if (pageIndex === null)
             throw new Error("The parameter 'pageIndex' cannot be null.");
         else if (pageIndex !== undefined)
@@ -220,15 +220,15 @@ export class AdminApiBlogApiClient {
     }
 
     /**
-     * @param filter (optional) 
+     * @param keyword (optional) 
      * @param pageIndex (optional) 
      * @param pageSize (optional) 
      * @return Success
      */
-    getAllBlogUsersPaged(filter?: string | null | undefined, pageIndex?: number | undefined, pageSize?: number | undefined): Observable<UserDtoPagedResult> {
+    getAllBlogUsersPaged(keyword?: string | null | undefined, pageIndex?: number | undefined, pageSize?: number | undefined): Observable<UserDtoPagedResult> {
         let url_ = this.baseUrl + "/api/blog/paging-users?";
-        if (filter !== undefined && filter !== null)
-            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (keyword !== undefined && keyword !== null)
+            url_ += "Keyword=" + encodeURIComponent("" + keyword) + "&";
         if (pageIndex === null)
             throw new Error("The parameter 'pageIndex' cannot be null.");
         else if (pageIndex !== undefined)
@@ -338,15 +338,18 @@ export class AdminApiBlogApiClient {
     }
 
     /**
-     * @param filter (optional) 
+     * @param keyword (optional) 
+     * @param parentId (optional) 
      * @param pageIndex (optional) 
      * @param pageSize (optional) 
      * @return Success
      */
-    getAllBlogPostCategories(filter?: string | null | undefined, pageIndex?: number | undefined, pageSize?: number | undefined): Observable<PostCategoryDto[]> {
+    getAllBlogPostCategories(keyword?: string | null | undefined, parentId?: number | null | undefined, pageIndex?: number | undefined, pageSize?: number | undefined): Observable<PostCategoryDto[]> {
         let url_ = this.baseUrl + "/api/blog/all-post-categories?";
-        if (filter !== undefined && filter !== null)
-            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (keyword !== undefined && keyword !== null)
+            url_ += "Keyword=" + encodeURIComponent("" + keyword) + "&";
+        if (parentId !== undefined && parentId !== null)
+            url_ += "ParentId=" + encodeURIComponent("" + parentId) + "&";
         if (pageIndex === null)
             throw new Error("The parameter 'pageIndex' cannot be null.");
         else if (pageIndex !== undefined)
@@ -409,15 +412,18 @@ export class AdminApiBlogApiClient {
     }
 
     /**
-     * @param filter (optional) 
+     * @param keyword (optional) 
+     * @param parentId (optional) 
      * @param pageIndex (optional) 
      * @param pageSize (optional) 
      * @return Success
      */
-    getAllBlogPostCategoryPaged(filter?: string | null | undefined, pageIndex?: number | undefined, pageSize?: number | undefined): Observable<PostCategoryDtoPagedResult> {
+    getAllBlogPostCategoryPaged(keyword?: string | null | undefined, parentId?: number | null | undefined, pageIndex?: number | undefined, pageSize?: number | undefined): Observable<PostCategoryDtoPagedResult> {
         let url_ = this.baseUrl + "/api/blog/paging-post-categories?";
-        if (filter !== undefined && filter !== null)
-            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (keyword !== undefined && keyword !== null)
+            url_ += "Keyword=" + encodeURIComponent("" + keyword) + "&";
+        if (parentId !== undefined && parentId !== null)
+            url_ += "ParentId=" + encodeURIComponent("" + parentId) + "&";
         if (pageIndex === null)
             throw new Error("The parameter 'pageIndex' cannot be null.");
         else if (pageIndex !== undefined)
@@ -601,34 +607,26 @@ export class AdminApiPostApiClient {
     }
 
     /**
-     * @param filter (optional) 
-     * @param pageIndex (optional) 
-     * @param pageSize (optional) 
+     * @param body (optional) 
      * @return Success
      */
-    getAllPosts(filter?: string | null | undefined, pageIndex?: number | undefined, pageSize?: number | undefined): Observable<PostDto[]> {
-        let url_ = this.baseUrl + "/api/post/all?";
-        if (filter !== undefined && filter !== null)
-            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
-        if (pageIndex === null)
-            throw new Error("The parameter 'pageIndex' cannot be null.");
-        else if (pageIndex !== undefined)
-            url_ += "PageIndex=" + encodeURIComponent("" + pageIndex) + "&";
-        if (pageSize === null)
-            throw new Error("The parameter 'pageSize' cannot be null.");
-        else if (pageSize !== undefined)
-            url_ += "PageSize=" + encodeURIComponent("" + pageSize) + "&";
+    getAllPosts(body?: GetAllPostsInput | undefined): Observable<PostDto[]> {
+        let url_ = this.baseUrl + "/api/post/all";
         url_ = url_.replace(/[?&]$/, "");
 
+        const content_ = JSON.stringify(body);
+
         let options_ : any = {
+            body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
+                "Content-Type": "application/json",
                 "Accept": "text/plain"
             })
         };
 
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
             return this.processGetAllPosts(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -672,34 +670,26 @@ export class AdminApiPostApiClient {
     }
 
     /**
-     * @param filter (optional) 
-     * @param pageIndex (optional) 
-     * @param pageSize (optional) 
+     * @param body (optional) 
      * @return Success
      */
-    getAllPostPaged(filter?: string | null | undefined, pageIndex?: number | undefined, pageSize?: number | undefined): Observable<PostDtoPagedResult> {
-        let url_ = this.baseUrl + "/api/post/paging?";
-        if (filter !== undefined && filter !== null)
-            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
-        if (pageIndex === null)
-            throw new Error("The parameter 'pageIndex' cannot be null.");
-        else if (pageIndex !== undefined)
-            url_ += "PageIndex=" + encodeURIComponent("" + pageIndex) + "&";
-        if (pageSize === null)
-            throw new Error("The parameter 'pageSize' cannot be null.");
-        else if (pageSize !== undefined)
-            url_ += "PageSize=" + encodeURIComponent("" + pageSize) + "&";
+    getAllPostPaged(body?: GetAllPostsInput | undefined): Observable<PostDtoPagedResult> {
+        let url_ = this.baseUrl + "/api/post/paging";
         url_ = url_.replace(/[?&]$/, "");
 
+        const content_ = JSON.stringify(body);
+
         let options_ : any = {
+            body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
+                "Content-Type": "application/json",
                 "Accept": "text/plain"
             })
         };
 
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
             return this.processGetAllPostPaged(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -958,34 +948,26 @@ export class AdminApiPostCategoryApiClient {
     }
 
     /**
-     * @param filter (optional) 
-     * @param pageIndex (optional) 
-     * @param pageSize (optional) 
+     * @param body (optional) 
      * @return Success
      */
-    getAllPostCategories(filter?: string | null | undefined, pageIndex?: number | undefined, pageSize?: number | undefined): Observable<PostCategoryDto[]> {
-        let url_ = this.baseUrl + "/api/postcategory/all?";
-        if (filter !== undefined && filter !== null)
-            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
-        if (pageIndex === null)
-            throw new Error("The parameter 'pageIndex' cannot be null.");
-        else if (pageIndex !== undefined)
-            url_ += "PageIndex=" + encodeURIComponent("" + pageIndex) + "&";
-        if (pageSize === null)
-            throw new Error("The parameter 'pageSize' cannot be null.");
-        else if (pageSize !== undefined)
-            url_ += "PageSize=" + encodeURIComponent("" + pageSize) + "&";
+    getAllPostCategories(body?: GetAllPostCategoriesInput | undefined): Observable<PostCategoryDto[]> {
+        let url_ = this.baseUrl + "/api/postcategory/all";
         url_ = url_.replace(/[?&]$/, "");
 
+        const content_ = JSON.stringify(body);
+
         let options_ : any = {
+            body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
+                "Content-Type": "application/json",
                 "Accept": "text/plain"
             })
         };
 
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
             return this.processGetAllPostCategories(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -1029,34 +1011,26 @@ export class AdminApiPostCategoryApiClient {
     }
 
     /**
-     * @param filter (optional) 
-     * @param pageIndex (optional) 
-     * @param pageSize (optional) 
+     * @param body (optional) 
      * @return Success
      */
-    getAllPostCategoryPaged(filter?: string | null | undefined, pageIndex?: number | undefined, pageSize?: number | undefined): Observable<PostCategoryDtoPagedResult> {
-        let url_ = this.baseUrl + "/api/postcategory/paging?";
-        if (filter !== undefined && filter !== null)
-            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
-        if (pageIndex === null)
-            throw new Error("The parameter 'pageIndex' cannot be null.");
-        else if (pageIndex !== undefined)
-            url_ += "PageIndex=" + encodeURIComponent("" + pageIndex) + "&";
-        if (pageSize === null)
-            throw new Error("The parameter 'pageSize' cannot be null.");
-        else if (pageSize !== undefined)
-            url_ += "PageSize=" + encodeURIComponent("" + pageSize) + "&";
+    getAllPostCategoryPaged(body?: GetAllPostCategoriesInput | undefined): Observable<PostCategoryDtoPagedResult> {
+        let url_ = this.baseUrl + "/api/postcategory/paging";
         url_ = url_.replace(/[?&]$/, "");
 
+        const content_ = JSON.stringify(body);
+
         let options_ : any = {
+            body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
+                "Content-Type": "application/json",
                 "Accept": "text/plain"
             })
         };
 
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
             return this.processGetAllPostCategoryPaged(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -1315,21 +1289,26 @@ export class AdminApiRoleApiClient {
     }
 
     /**
+     * @param body (optional) 
      * @return Success
      */
-    getAllRoles(): Observable<RoleDto[]> {
+    getAllRoles(body?: GetAllRolesInput | undefined): Observable<RoleDto[]> {
         let url_ = this.baseUrl + "/api/role/all";
         url_ = url_.replace(/[?&]$/, "");
 
+        const content_ = JSON.stringify(body);
+
         let options_ : any = {
+            body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
+                "Content-Type": "application/json",
                 "Accept": "text/plain"
             })
         };
 
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
             return this.processGetAllRoles(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -1373,34 +1352,26 @@ export class AdminApiRoleApiClient {
     }
 
     /**
-     * @param filter (optional) 
-     * @param pageIndex (optional) 
-     * @param pageSize (optional) 
+     * @param body (optional) 
      * @return Success
      */
-    getAllRolesPaged(filter?: string | null | undefined, pageIndex?: number | undefined, pageSize?: number | undefined): Observable<RoleDtoPagedResult> {
-        let url_ = this.baseUrl + "/api/role/paging?";
-        if (filter !== undefined && filter !== null)
-            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
-        if (pageIndex === null)
-            throw new Error("The parameter 'pageIndex' cannot be null.");
-        else if (pageIndex !== undefined)
-            url_ += "PageIndex=" + encodeURIComponent("" + pageIndex) + "&";
-        if (pageSize === null)
-            throw new Error("The parameter 'pageSize' cannot be null.");
-        else if (pageSize !== undefined)
-            url_ += "PageSize=" + encodeURIComponent("" + pageSize) + "&";
+    getAllRolesPaged(body?: GetAllRolesInput | undefined): Observable<RoleDtoPagedResult> {
+        let url_ = this.baseUrl + "/api/role/paging";
         url_ = url_.replace(/[?&]$/, "");
 
+        const content_ = JSON.stringify(body);
+
         let options_ : any = {
+            body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
+                "Content-Type": "application/json",
                 "Accept": "text/plain"
             })
         };
 
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
             return this.processGetAllRolesPaged(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -1880,34 +1851,26 @@ export class AdminApiUserApiClient {
     }
 
     /**
-     * @param filter (optional) 
-     * @param pageIndex (optional) 
-     * @param pageSize (optional) 
+     * @param body (optional) 
      * @return Success
      */
-    getAllUsers(filter?: string | null | undefined, pageIndex?: number | undefined, pageSize?: number | undefined): Observable<UserDto[]> {
-        let url_ = this.baseUrl + "/api/user/all?";
-        if (filter !== undefined && filter !== null)
-            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
-        if (pageIndex === null)
-            throw new Error("The parameter 'pageIndex' cannot be null.");
-        else if (pageIndex !== undefined)
-            url_ += "PageIndex=" + encodeURIComponent("" + pageIndex) + "&";
-        if (pageSize === null)
-            throw new Error("The parameter 'pageSize' cannot be null.");
-        else if (pageSize !== undefined)
-            url_ += "PageSize=" + encodeURIComponent("" + pageSize) + "&";
+    getAllUsers(body?: GetAllUsersInput | undefined): Observable<UserDto[]> {
+        let url_ = this.baseUrl + "/api/user/all";
         url_ = url_.replace(/[?&]$/, "");
 
+        const content_ = JSON.stringify(body);
+
         let options_ : any = {
+            body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
+                "Content-Type": "application/json",
                 "Accept": "text/plain"
             })
         };
 
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
             return this.processGetAllUsers(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -1951,34 +1914,26 @@ export class AdminApiUserApiClient {
     }
 
     /**
-     * @param filter (optional) 
-     * @param pageIndex (optional) 
-     * @param pageSize (optional) 
+     * @param body (optional) 
      * @return Success
      */
-    getAllUsersPaged(filter?: string | null | undefined, pageIndex?: number | undefined, pageSize?: number | undefined): Observable<UserDtoPagedResult> {
-        let url_ = this.baseUrl + "/api/user/paging?";
-        if (filter !== undefined && filter !== null)
-            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
-        if (pageIndex === null)
-            throw new Error("The parameter 'pageIndex' cannot be null.");
-        else if (pageIndex !== undefined)
-            url_ += "PageIndex=" + encodeURIComponent("" + pageIndex) + "&";
-        if (pageSize === null)
-            throw new Error("The parameter 'pageSize' cannot be null.");
-        else if (pageSize !== undefined)
-            url_ += "PageSize=" + encodeURIComponent("" + pageSize) + "&";
+    getAllUsersPaged(body?: GetAllUsersInput | undefined): Observable<UserDtoPagedResult> {
+        let url_ = this.baseUrl + "/api/user/paging";
         url_ = url_.replace(/[?&]$/, "");
 
+        const content_ = JSON.stringify(body);
+
         let options_ : any = {
+            body: content_,
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
+                "Content-Type": "application/json",
                 "Accept": "text/plain"
             })
         };
 
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
             return this.processGetAllUsersPaged(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
@@ -2833,6 +2788,194 @@ export interface ICreateUserDto {
     dob?: Date | undefined;
     avatar?: string | undefined;
     isActive?: boolean;
+}
+
+export class GetAllPostCategoriesInput implements IGetAllPostCategoriesInput {
+    pageIndex?: number;
+    pageSize?: number;
+    keyword?: string | undefined;
+    parentId?: number | undefined;
+
+    constructor(data?: IGetAllPostCategoriesInput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.pageIndex = _data["pageIndex"];
+            this.pageSize = _data["pageSize"];
+            this.keyword = _data["keyword"];
+            this.parentId = _data["parentId"];
+        }
+    }
+
+    static fromJS(data: any): GetAllPostCategoriesInput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetAllPostCategoriesInput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["pageIndex"] = this.pageIndex;
+        data["pageSize"] = this.pageSize;
+        data["keyword"] = this.keyword;
+        data["parentId"] = this.parentId;
+        return data;
+    }
+}
+
+export interface IGetAllPostCategoriesInput {
+    pageIndex?: number;
+    pageSize?: number;
+    keyword?: string | undefined;
+    parentId?: number | undefined;
+}
+
+export class GetAllPostsInput implements IGetAllPostsInput {
+    pageIndex?: number;
+    pageSize?: number;
+    keyword?: string | undefined;
+    categoryId?: number | undefined;
+    authorUserId?: number | undefined;
+
+    constructor(data?: IGetAllPostsInput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.pageIndex = _data["pageIndex"];
+            this.pageSize = _data["pageSize"];
+            this.keyword = _data["keyword"];
+            this.categoryId = _data["categoryId"];
+            this.authorUserId = _data["authorUserId"];
+        }
+    }
+
+    static fromJS(data: any): GetAllPostsInput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetAllPostsInput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["pageIndex"] = this.pageIndex;
+        data["pageSize"] = this.pageSize;
+        data["keyword"] = this.keyword;
+        data["categoryId"] = this.categoryId;
+        data["authorUserId"] = this.authorUserId;
+        return data;
+    }
+}
+
+export interface IGetAllPostsInput {
+    pageIndex?: number;
+    pageSize?: number;
+    keyword?: string | undefined;
+    categoryId?: number | undefined;
+    authorUserId?: number | undefined;
+}
+
+export class GetAllRolesInput implements IGetAllRolesInput {
+    pageIndex?: number;
+    pageSize?: number;
+    keyword?: string | undefined;
+
+    constructor(data?: IGetAllRolesInput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.pageIndex = _data["pageIndex"];
+            this.pageSize = _data["pageSize"];
+            this.keyword = _data["keyword"];
+        }
+    }
+
+    static fromJS(data: any): GetAllRolesInput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetAllRolesInput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["pageIndex"] = this.pageIndex;
+        data["pageSize"] = this.pageSize;
+        data["keyword"] = this.keyword;
+        return data;
+    }
+}
+
+export interface IGetAllRolesInput {
+    pageIndex?: number;
+    pageSize?: number;
+    keyword?: string | undefined;
+}
+
+export class GetAllUsersInput implements IGetAllUsersInput {
+    pageIndex?: number;
+    pageSize?: number;
+    keyword?: string | undefined;
+
+    constructor(data?: IGetAllUsersInput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.pageIndex = _data["pageIndex"];
+            this.pageSize = _data["pageSize"];
+            this.keyword = _data["keyword"];
+        }
+    }
+
+    static fromJS(data: any): GetAllUsersInput {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetAllUsersInput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["pageIndex"] = this.pageIndex;
+        data["pageSize"] = this.pageSize;
+        data["keyword"] = this.keyword;
+        return data;
+    }
+}
+
+export interface IGetAllUsersInput {
+    pageIndex?: number;
+    pageSize?: number;
+    keyword?: string | undefined;
 }
 
 export class LoginRequest implements ILoginRequest {

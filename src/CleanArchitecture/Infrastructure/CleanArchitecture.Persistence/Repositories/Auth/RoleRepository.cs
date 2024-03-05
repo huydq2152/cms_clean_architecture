@@ -40,17 +40,26 @@ public class RoleRepository:  IRoleRepository
 
     public async Task<List<RoleDto>> GetAllRolesAsync(GetAllRolesInput input)
     {
-        var result = await _mapper.ProjectTo<RoleDto>(_roleManager.Roles).ToListAsync();
+        var query = _roleManager.Roles;
+        if (!string.IsNullOrEmpty(input.Keyword))
+        {
+            query = query.Where(o => o.Name.Contains(input.Keyword)
+                                     || o.DisplayName.Contains(input.Keyword));
+        }
+
+        query = query.Where(o => !o.IsDeleted);
+
+        var result = await _mapper.ProjectTo<RoleDto>(query).ToListAsync();
         return result;
     }
 
     public async Task<PagedResult<RoleDto>> GetAllRolesPagedAsync(GetAllRolesInput input)
     {
         var query = _roleManager.Roles;
-        if (!string.IsNullOrEmpty(input.Filter))
+        if (!string.IsNullOrEmpty(input.Keyword))
         {
-            query = query.Where(o => o.Name.Contains(input.Filter)
-                                     || o.DisplayName.Contains(input.Filter));
+            query = query.Where(o => o.Name.Contains(input.Keyword)
+                                     || o.DisplayName.Contains(input.Keyword));
         }
 
         query = query.Where(o => !o.IsDeleted);

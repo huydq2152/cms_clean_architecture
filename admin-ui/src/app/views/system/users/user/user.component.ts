@@ -8,6 +8,7 @@ import { SetPasswordComponent } from '../set-password/set-password.component';
 import { UserDetailComponent } from '../user-detail/user-detail.component';
 import {
     AdminApiUserApiClient,
+    GetAllUsersInput,
     UserDto,
     UserDtoPagedResult,
 } from 'src/app/api/admin-api.service.generated';
@@ -52,7 +53,13 @@ export class UserComponent implements OnInit, OnDestroy {
     loadData(selectionId = null) {
         this.toggleBlockUI(true);
         this.userService
-            .getAllUsersPaged(this.keyword, this.pageIndex, this.pageSize)
+            .getAllUsersPaged(
+                new GetAllUsersInput({
+                    pageIndex: this.pageIndex,
+                    pageSize: this.pageSize,
+                    keyword: this.keyword,
+                })
+            )
             .pipe(takeUntil(this.ngUnsubscribe))
             .subscribe({
                 next: (response: UserDtoPagedResult) => {

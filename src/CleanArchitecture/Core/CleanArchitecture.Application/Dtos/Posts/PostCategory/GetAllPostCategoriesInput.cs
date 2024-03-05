@@ -4,5 +4,6 @@ namespace CleanArchitecture.Application.Dtos.Posts.PostCategory;
 
 public class GetAllPostCategoriesInput: PagingRequestParameters
 {
-    public string Filter { get; set; }
+    public string Keyword { get; set; }
+    public int? ParentId { get; set; }
 }
