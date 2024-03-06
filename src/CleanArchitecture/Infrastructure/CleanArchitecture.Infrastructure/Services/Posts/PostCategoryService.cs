@@ -1,8 +1,8 @@
-﻿using AutoMapper;
-using CleanArchitecture.Application.Dtos.Posts.PostCategory;
+﻿using CleanArchitecture.Application.Dtos.Posts.PostCategory;
 using CleanArchitecture.Application.Interfaces.Repositories.Posts;
 using CleanArchitecture.Application.Interfaces.Services.Posts;
 using Infrastructure.Common.Models.Paging;
+using ApplicationException = Contracts.Exceptions.ApplicationException;
 
 namespace CleanArchitecture.Infrastructure.Services.Posts;
 
@@ -52,7 +52,7 @@ public class PostCategoryService : IPostCategoryService
             var posts = await _postRepository.GetPostsByCategoryIdAsync(id);
             if (posts.Any())
             {
-                throw new Exception("Exist posts still not delete in this category");
+                throw new ApplicationException("Exist posts still not delete in this category");
             }
             await _postCategoryRepository.DeletePostCategoryAsync(id);
         }

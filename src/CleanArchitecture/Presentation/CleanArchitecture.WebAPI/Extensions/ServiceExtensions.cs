@@ -1,5 +1,5 @@
 ﻿using System.Text;
-using CleanArchitecture.WebAPI.Auth;
+using CleanArchitecture.Infrastructure.Auth;
 using CleanArchitecture.WebAPI.Filter;
 using Infrastructure.Configurations;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -29,7 +29,7 @@ public static class ServiceExtensions
                 Description = "API for CleanArchitecture Admin project",
             });
             options.ParameterFilter<SwaggerNullableParameterFilter>();
-            
+
             options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
                 In = ParameterLocation.Header,
@@ -46,11 +46,11 @@ public static class ServiceExtensions
                     {
                         Reference = new OpenApiReference
                         {
-                            Type=ReferenceType.SecurityScheme,
-                            Id="Bearer"
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
                         }
                     },
-                    new string[]{}
+                    new string[] { }
                 }
             });
         });
@@ -59,9 +59,7 @@ public static class ServiceExtensions
 
     private static void AddServices(this IServiceCollection services)
     {
-        services.AddScoped<ValidateModelAttribute>()
-            .AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>()
-            .AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
+        services.AddScoped(typeof(ValidationFilterAttribute<>));
     }
 
     public static void AddCorsPolicy(this IServiceCollection services, IConfiguration configuration,
@@ -78,14 +76,14 @@ public static class ServiceExtensions
                 .AllowCredentials();
         }));
     }
-    
+
     private static void AddAuthenticationAndAuthorization(this IServiceCollection services,
         IConfiguration configuration)
     {
         var jwtTokenSettingsSection = configuration.GetSection("JwtTokenSettings");
-        
+
         services.Configure<JwtTokenSettings>(jwtTokenSettingsSection);
-        
+
         services.AddAuthentication(o =>
         {
             o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -94,9 +92,9 @@ public static class ServiceExtensions
         {
             cfg.RequireHttpsMetadata = false;
             cfg.SaveToken = true;
-            
+
             var jwtTokenSettings = jwtTokenSettingsSection.Get<JwtTokenSettings>();
-            
+
             cfg.TokenValidationParameters = new TokenValidationParameters
             {
                 ValidateLifetime = true,

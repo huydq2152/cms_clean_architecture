@@ -2,6 +2,7 @@
 using CleanArchitecture.Application.Interfaces.Services.Auth.User;
 using CleanArchitecture.Application.Interfaces.Services.Common;
 using CleanArchitecture.Application.Interfaces.Services.Posts;
+using CleanArchitecture.Infrastructure.Auth;
 using CleanArchitecture.Infrastructure.Services.Auth;
 using CleanArchitecture.Infrastructure.Services.Auth.User;
 using CleanArchitecture.Infrastructure.Services.Common;
@@ -9,6 +10,7 @@ using CleanArchitecture.Infrastructure.Services.Posts;
 using Contracts.Services;
 using Infrastructure.Configurations;
 using Infrastructure.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -24,7 +26,9 @@ namespace CleanArchitecture.Infrastructure.Extensions
 
         private static void AddServices(this IServiceCollection services)
         {
-            services
+            services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>()
+                .AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>()
+                    
                 .AddTransient<IDateTimeService, DateTimeService>()
                 .AddTransient<ISerializeService, SerializeService>()
 

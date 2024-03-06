@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
-using TeduBlog.Api.Authorization;
 
-namespace CleanArchitecture.WebAPI.Auth
+namespace CleanArchitecture.Infrastructure.Auth
 {
     public class PermissionPolicyProvider : IAuthorizationPolicyProvider
     {

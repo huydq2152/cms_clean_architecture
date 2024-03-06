@@ -24,7 +24,7 @@ namespace CleanArchitecture.Application.Common.Mappings
             
             CreateMap<AppUser, UserDto>();
             CreateMap<CreateUserDto, AppUser>();
-            CreateMap<AppUser, UpdateUserDto>().ReverseMap().IgnoreAllNonExisting();
+            CreateMap<AppUser, UpdateUserDto>().ReverseMap();
 
             #endregion
             

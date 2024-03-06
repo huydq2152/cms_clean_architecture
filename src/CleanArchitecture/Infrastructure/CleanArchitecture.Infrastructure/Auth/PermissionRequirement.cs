@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 
-namespace TeduBlog.Api.Authorization
+namespace CleanArchitecture.Infrastructure.Auth
 {
     public class PermissionRequirement : IAuthorizationRequirement
     {

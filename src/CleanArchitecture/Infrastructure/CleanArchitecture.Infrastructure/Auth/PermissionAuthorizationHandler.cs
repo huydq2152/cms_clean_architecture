@@ -3,9 +3,8 @@ using CleanArchitecture.Domain.Entities.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Shared.SeedWork.Auth;
-using TeduBlog.Api.Authorization;
 
-namespace CleanArchitecture.WebAPI.Auth
+namespace CleanArchitecture.Infrastructure.Auth
 {
     public class PermissionAuthorizationHandler : AuthorizationHandler<PermissionRequirement>
     {

@@ -45,7 +45,7 @@ public class UserController : ApiControllerBase
     }
 
     [HttpPost]
-    [ValidateModel]
+    [ServiceFilter(typeof(ValidationFilterAttribute<CreateUserDto>))]
     [Authorize(StaticPermissions.Users.Create)]
     public async Task<IActionResult> CreateUserAsync([FromBody] CreateUserDto input)
     {
@@ -54,7 +54,7 @@ public class UserController : ApiControllerBase
     }
 
     [HttpPut]
-    [ValidateModel]
+    [ServiceFilter(typeof(ValidationFilterAttribute<UpdateUserDto>))]
     [Authorize(StaticPermissions.Users.Edit)]
     public async Task<IActionResult> UpdateUserAsync([FromBody] UpdateUserDto input)
     {
@@ -72,7 +72,7 @@ public class UserController : ApiControllerBase
 
     [HttpPost]
     [Route("change-password-current-user")]
-    [ValidateModel]
+    [ServiceFilter(typeof(ValidationFilterAttribute<ChangeMyPasswordRequest>))]
     [Authorize(StaticPermissions.Users.Edit)]
     public async Task<IActionResult> ChangeMyPassWordAsync([FromBody] ChangeMyPasswordRequest input)
     {
@@ -82,7 +82,7 @@ public class UserController : ApiControllerBase
 
     [HttpPost]
     [Route("set-password")]
-    [ValidateModel]
+    [ServiceFilter(typeof(ValidationFilterAttribute<SetPasswordRequest>))]
     [Authorize(StaticPermissions.Users.Edit)]
     public async Task<IActionResult> SetPasswordAsync([FromBody] SetPasswordRequest input)
     {
@@ -92,7 +92,7 @@ public class UserController : ApiControllerBase
 
     [HttpPost]
     [Route("change-email")]
-    [ValidateModel]
+    [ServiceFilter(typeof(ValidationFilterAttribute<ChangeEmailRequest>))]
     [Authorize(StaticPermissions.Users.Edit)]
     public async Task<IActionResult> ChangeEmailAsync([FromBody] ChangeEmailRequest input)
     {
@@ -102,7 +102,7 @@ public class UserController : ApiControllerBase
 
     [HttpPost]
     [Route("assign-roles")]
-    [ValidateModel]
+    [ServiceFilter(typeof(ValidationFilterAttribute<AssignRolesToUserRequest>))]
     [Authorize(StaticPermissions.Users.Edit)]
     public async Task<IActionResult> AssignRolesToUserAsync([FromBody] AssignRolesToUserRequest input)
     {

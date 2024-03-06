@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Reflection;
 using System.Security.Claims;
-using CleanArchitecture.Application.Dtos.Auth;
 using CleanArchitecture.Application.Dtos.Auth.Roles;
 using CleanArchitecture.Domain.Entities.Auth;
 using Microsoft.AspNetCore.Identity;

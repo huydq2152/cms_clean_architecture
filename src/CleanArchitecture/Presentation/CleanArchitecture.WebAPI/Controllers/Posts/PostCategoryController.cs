@@ -45,7 +45,7 @@ public class PostCategoryController : ApiControllerBase
     }
 
     [HttpPost]
-    [ValidateModel]
+    [ServiceFilter(typeof(ValidationFilterAttribute<CreatePostCategoryDto>))]
     [Authorize(StaticPermissions.PostCategories.Create)]
     public async Task<IActionResult> CreatePostCategoryAsync([FromBody] CreatePostCategoryDto input)
     {
@@ -54,7 +54,7 @@ public class PostCategoryController : ApiControllerBase
     }
 
     [HttpPut]
-    [ValidateModel]
+    [ServiceFilter(typeof(ValidationFilterAttribute<UpdatePostCategoryDto>))]
     [Authorize(StaticPermissions.PostCategories.Edit)]
     public async Task<IActionResult> UpdatePostCategoryAsync([FromBody] UpdatePostCategoryDto input)
     {

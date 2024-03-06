@@ -1,6 +1,7 @@
 ﻿using System.Net.Http.Headers;
 using Infrastructure.Configurations;
 using Microsoft.AspNetCore.Mvc;
+using ApplicationException = Contracts.Exceptions.ApplicationException;
 
 namespace CleanArchitecture.WebAPI.Controllers.Common;
 
@@ -31,7 +32,7 @@ public class MediaController : ApiControllerBase
         var filename = ContentDispositionHeaderValue.Parse(file.ContentDisposition)?.FileName?.Trim('"');
         if (allowImageTypes?.Any(x => filename?.EndsWith(x, StringComparison.OrdinalIgnoreCase) == true) == false)
         {
-            throw new Exception("Không cho phép tải lên file không phải ảnh.");
+            throw new ApplicationException("Không cho phép tải lên file không phải ảnh.");
         }
 
         var imageFolder = $@"\{_uploadImageSettings.ImageFolder}\{type}\{now:MMyyyy}";

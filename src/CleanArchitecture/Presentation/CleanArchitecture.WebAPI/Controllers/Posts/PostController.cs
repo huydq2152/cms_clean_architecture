@@ -9,7 +9,7 @@ using Shared.SeedWork.Auth;
 
 namespace CleanArchitecture.WebAPI.Controllers.Posts;
 
-public class PostController: ApiControllerBase
+public class PostController : ApiControllerBase
 {
     private readonly IPostService _postService;
 
@@ -45,7 +45,7 @@ public class PostController: ApiControllerBase
     }
 
     [HttpPost]
-    [ValidateModel]
+    [ServiceFilter(typeof(ValidationFilterAttribute<CreatePostDto>))]
     [Authorize(StaticPermissions.Posts.Create)]
     public async Task<IActionResult> CreatePostAsync([FromBody] CreatePostDto input)
     {
@@ -54,7 +54,7 @@ public class PostController: ApiControllerBase
     }
 
     [HttpPut]
-    [ValidateModel]
+    [ServiceFilter(typeof(ValidationFilterAttribute<UpdatePostDto>))]
     [Authorize(StaticPermissions.Posts.Edit)]
     public async Task<IActionResult> UpdatePostAsync([FromBody] UpdatePostDto input)
     {
