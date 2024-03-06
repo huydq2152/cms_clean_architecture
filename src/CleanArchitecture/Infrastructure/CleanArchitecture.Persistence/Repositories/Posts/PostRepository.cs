@@ -5,6 +5,7 @@ using CleanArchitecture.Domain.Entities.Posts;
 using CleanArchitecture.Persistence.Common.Repositories;
 using CleanArchitecture.Persistence.Contexts;
 using Contracts.Common.Interfaces;
+using Contracts.Exceptions;
 using Infrastructure.Common.Models.Paging;
 using Microsoft.EntityFrameworkCore;
 using Shared.Extensions.Collection;
@@ -99,7 +100,18 @@ public class PostRepository : RepositoryBase<Post, int>, IPostRepository
 
     public async Task UpdatePostAsync(UpdatePostDto post)
     {
-        var entity = _mapper.Map<Post>(post);
+        if (post.Id == null)
+        {
+            throw new BadRequestException("Id is required");
+        }
+
+        var entity = await GetByCondition(o => o.Id == post.Id).FirstOrDefaultAsync();
+        if (entity == null)
+        {
+            throw new NotFoundException(nameof(PostCategory), post.Id);
+        }
+
+        entity = _mapper.Map<Post>(post);
         await UpdateAsync(entity);
     }
 

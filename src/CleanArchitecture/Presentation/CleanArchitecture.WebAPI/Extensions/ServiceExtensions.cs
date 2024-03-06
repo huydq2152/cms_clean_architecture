@@ -59,7 +59,7 @@ public static class ServiceExtensions
 
     private static void AddServices(this IServiceCollection services)
     {
-        services.AddScoped(typeof(ValidationFilterAttribute<>));
+        services.AddScoped(typeof(ValidationModelAttribute<>));
     }
 
     public static void AddCorsPolicy(this IServiceCollection services, IConfiguration configuration,

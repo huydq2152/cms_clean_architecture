@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace CleanArchitecture.WebAPI.Filter;
 
-public class ValidationFilterAttribute<TDto> : IActionFilter where TDto : class
+public class ValidationModelAttribute<TDto> : IActionFilter where TDto : class
 {
     public void OnActionExecuting(ActionExecutingContext context)
     {

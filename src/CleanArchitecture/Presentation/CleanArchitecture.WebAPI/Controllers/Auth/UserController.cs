@@ -45,7 +45,7 @@ public class UserController : ApiControllerBase
     }
 
     [HttpPost]
-    [ServiceFilter(typeof(ValidationFilterAttribute<CreateUserDto>))]
+    [ServiceFilter(typeof(ValidationModelAttribute<CreateUserDto>))]
     [Authorize(StaticPermissions.Users.Create)]
     public async Task<IActionResult> CreateUserAsync([FromBody] CreateUserDto input)
     {
@@ -54,7 +54,7 @@ public class UserController : ApiControllerBase
     }
 
     [HttpPut]
-    [ServiceFilter(typeof(ValidationFilterAttribute<UpdateUserDto>))]
+    [ServiceFilter(typeof(ValidationModelAttribute<UpdateUserDto>))]
     [Authorize(StaticPermissions.Users.Edit)]
     public async Task<IActionResult> UpdateUserAsync([FromBody] UpdateUserDto input)
     {
@@ -72,7 +72,7 @@ public class UserController : ApiControllerBase
 
     [HttpPost]
     [Route("change-password-current-user")]
-    [ServiceFilter(typeof(ValidationFilterAttribute<ChangeMyPasswordRequest>))]
+    [ServiceFilter(typeof(ValidationModelAttribute<ChangeMyPasswordRequest>))]
     [Authorize(StaticPermissions.Users.Edit)]
     public async Task<IActionResult> ChangeMyPassWordAsync([FromBody] ChangeMyPasswordRequest input)
     {
@@ -82,7 +82,7 @@ public class UserController : ApiControllerBase
 
     [HttpPost]
     [Route("set-password")]
-    [ServiceFilter(typeof(ValidationFilterAttribute<SetPasswordRequest>))]
+    [ServiceFilter(typeof(ValidationModelAttribute<SetPasswordRequest>))]
     [Authorize(StaticPermissions.Users.Edit)]
     public async Task<IActionResult> SetPasswordAsync([FromBody] SetPasswordRequest input)
     {
@@ -92,7 +92,7 @@ public class UserController : ApiControllerBase
 
     [HttpPost]
     [Route("change-email")]
-    [ServiceFilter(typeof(ValidationFilterAttribute<ChangeEmailRequest>))]
+    [ServiceFilter(typeof(ValidationModelAttribute<ChangeEmailRequest>))]
     [Authorize(StaticPermissions.Users.Edit)]
     public async Task<IActionResult> ChangeEmailAsync([FromBody] ChangeEmailRequest input)
     {
@@ -102,7 +102,7 @@ public class UserController : ApiControllerBase
 
     [HttpPost]
     [Route("assign-roles")]
-    [ServiceFilter(typeof(ValidationFilterAttribute<AssignRolesToUserRequest>))]
+    [ServiceFilter(typeof(ValidationModelAttribute<AssignRolesToUserRequest>))]
     [Authorize(StaticPermissions.Users.Edit)]
     public async Task<IActionResult> AssignRolesToUserAsync([FromBody] AssignRolesToUserRequest input)
     {
