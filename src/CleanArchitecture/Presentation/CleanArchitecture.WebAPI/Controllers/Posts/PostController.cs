@@ -45,7 +45,7 @@ public class PostController : ApiControllerBase
     }
 
     [HttpPost]
-    [ServiceFilter(typeof(ValidationFilterAttribute<CreatePostDto>))]
+    [ServiceFilter(typeof(ValidationModelAttribute<CreatePostDto>))]
     [Authorize(StaticPermissions.Posts.Create)]
     public async Task<IActionResult> CreatePostAsync([FromBody] CreatePostDto input)
     {
@@ -54,7 +54,7 @@ public class PostController : ApiControllerBase
     }
 
     [HttpPut]
-    [ServiceFilter(typeof(ValidationFilterAttribute<UpdatePostDto>))]
+    [ServiceFilter(typeof(ValidationModelAttribute<UpdatePostDto>))]
     [Authorize(StaticPermissions.Posts.Edit)]
     public async Task<IActionResult> UpdatePostAsync([FromBody] UpdatePostDto input)
     {

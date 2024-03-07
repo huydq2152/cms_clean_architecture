@@ -45,7 +45,7 @@ namespace CleanArchitecture.WebAPI.Controllers.Auth
         }
 
         [HttpPost]
-        [ServiceFilter(typeof(ValidationFilterAttribute<CreateRoleDto>))]
+        [ServiceFilter(typeof(ValidationModelAttribute<CreateRoleDto>))]
         [Authorize(StaticPermissions.Roles.View)]
         public async Task<IActionResult> CreateRoleAsync([FromBody] CreateRoleDto input)
         {
@@ -54,7 +54,7 @@ namespace CleanArchitecture.WebAPI.Controllers.Auth
         }
 
         [HttpPut]
-        [ServiceFilter(typeof(ValidationFilterAttribute<UpdateRoleDto>))]
+        [ServiceFilter(typeof(ValidationModelAttribute<UpdateRoleDto>))]
         [Authorize(StaticPermissions.Roles.Edit)]
         public async Task<IActionResult> UpdateRoleAsync([FromBody] UpdateRoleDto input)
         {
