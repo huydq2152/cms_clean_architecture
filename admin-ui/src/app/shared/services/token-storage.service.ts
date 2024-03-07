@@ -16,11 +16,6 @@ export class TokenStorageService {
     public saveToken(token: string): void {
         window.localStorage.removeItem(TOKEN_KEY);
         window.localStorage.setItem(TOKEN_KEY, token);
-
-        const user = this.getUser();
-        if (user?.id) {
-            this.saveUser({ ...user, accessToken: token });
-        }
     }
 
     public getToken(): string | null {
