@@ -1,5 +1,5 @@
 ﻿using CleanArchitecture.Application.Dtos.Posts.PostCategory;
-using Infrastructure.Common.Models.Paging;
+using Infrastructure.Common.Helpers.Paging;
 
 namespace CleanArchitecture.Application.Interfaces.Repositories.Posts;
 

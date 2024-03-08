@@ -6,7 +6,7 @@ using CleanArchitecture.Persistence.Common.Repositories;
 using CleanArchitecture.Persistence.Contexts;
 using Contracts.Common.Interfaces;
 using Contracts.Exceptions;
-using Infrastructure.Common.Models.Paging;
+using Infrastructure.Common.Helpers.Paging;
 using Microsoft.EntityFrameworkCore;
 using Shared.Extensions.Collection;
 

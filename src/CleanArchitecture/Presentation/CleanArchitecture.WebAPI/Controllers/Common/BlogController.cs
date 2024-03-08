@@ -1,7 +1,7 @@
 ﻿using CleanArchitecture.Application.Dtos.Auth.Users;
 using CleanArchitecture.Application.Dtos.Posts.PostCategory;
 using CleanArchitecture.Application.Interfaces.Services.Common;
-using Infrastructure.Common.Models.Paging;
+using Infrastructure.Common.Helpers.Paging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

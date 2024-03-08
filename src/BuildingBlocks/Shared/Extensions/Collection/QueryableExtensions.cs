@@ -40,6 +40,12 @@ public static class QueryableExtensions
         return !condition ? query : query.Where<T>(predicate);
     }
     
+    /// <summary>
+    /// Sorts a <see cref="T:System.Linq.IQueryable`1" /> based on the provided order by query string.
+    /// </summary>
+    /// <param name="query">Queryable to apply sorting</param>
+    /// <param name="orderByQueryString">A string containing the order by parameters</param>
+    /// <returns>Sorted or not sorted query based on the provided order by query string</returns>
     public static IQueryable<T> Sort<T>(this IQueryable<T> query, string orderByQueryString)
     {
         if (!query.Any())
