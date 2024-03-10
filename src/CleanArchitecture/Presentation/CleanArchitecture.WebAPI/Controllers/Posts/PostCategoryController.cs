@@ -19,6 +19,7 @@ public class PostCategoryController : ApiControllerBase
     }
 
     [HttpGet("{id}")]
+    [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
     [Authorize(StaticPermissions.PostCategories.View)]
     public async Task<ActionResult<PostCategoryDto>> GetPostCategoryByIdAsync(int id)
     {
@@ -27,6 +28,7 @@ public class PostCategoryController : ApiControllerBase
     }
 
     [HttpPost("all")]
+    [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
     [Authorize(StaticPermissions.PostCategories.View)]
     public async Task<ActionResult<List<PostCategoryDto>>> GetAllPostCategoriesAsync(
         [FromBody] GetAllPostCategoriesInput input)
@@ -36,6 +38,7 @@ public class PostCategoryController : ApiControllerBase
     }
 
     [HttpPost("paging")]
+    [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
     [Authorize(StaticPermissions.PostCategories.View)]
     public async Task<ActionResult<PagedResult<PostCategoryDto>>> GetAllPostCategoryPagedAsync(
         [FromBody] GetAllPostCategoriesInput input)
