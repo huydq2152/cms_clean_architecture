@@ -5,6 +5,7 @@ using Contracts.Common.Interfaces.Repositories;
 using Contracts.Domains;
 using Contracts.Exceptions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace CleanArchitecture.Persistence.Common.Repositories
 {
@@ -176,6 +177,8 @@ namespace CleanArchitecture.Persistence.Common.Repositories
             _dbContext.Set<T>().RemoveRange(entities);
             await SaveChangeAsync();
         }
+        
+        #endregion
 
         private int SaveChange()
         {
@@ -187,6 +190,20 @@ namespace CleanArchitecture.Persistence.Common.Repositories
             return _unitOfWork.SaveChangeAsync();
         }
 
-        #endregion
+        public Task<IDbContextTransaction> BeginTransactionAsync()
+        {
+            return _dbContext.Database.BeginTransactionAsync();
+        }
+        
+        public async Task EndTransactionAsync()
+        {
+            await SaveChangeAsync();
+            await _dbContext.Database.CommitTransactionAsync();
+        }
+        
+        public Task RollbackTransactionAsync()
+        {
+            return _dbContext.Database.RollbackTransactionAsync();
+        }
     }
 }

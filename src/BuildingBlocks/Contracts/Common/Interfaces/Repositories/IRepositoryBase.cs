@@ -1,5 +1,6 @@
 ﻿using System.Linq.Expressions;
 using Contracts.Domains;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Contracts.Common.Interfaces.Repositories
 {
@@ -37,5 +38,9 @@ namespace Contracts.Common.Interfaces.Repositories
         Task DeleteListAsync(IEnumerable<T> entities);
 
         #endregion
+        
+        Task<IDbContextTransaction> BeginTransactionAsync();
+        Task EndTransactionAsync();
+        Task RollbackTransactionAsync();
     }
 }
