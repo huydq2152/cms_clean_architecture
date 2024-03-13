@@ -3,6 +3,7 @@ using CleanArchitecture.Persistence.Contexts;
 using Contracts.Common.Interfaces;
 using Contracts.Common.Interfaces.Repositories;
 using Contracts.Domains;
+using Contracts.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace CleanArchitecture.Persistence.Common.Repositories
@@ -17,6 +18,8 @@ namespace CleanArchitecture.Persistence.Common.Repositories
             _dbContext = dbContext;
             _unitOfWork = unitOfWork;
         }
+
+        #region Query
 
         public IQueryable<T> GetAll(bool trackChanges = false) =>
             !trackChanges ? _dbContext.Set<T>().AsNoTracking() : _dbContext.Set<T>();
@@ -47,6 +50,10 @@ namespace CleanArchitecture.Persistence.Common.Repositories
 
         public async Task<T> GetByIdAsync(K id, params Expression<Func<T, object>>[] includeProperties) =>
             await GetByCondition(o => o.Id.Equals(id), trackChanges: false, includeProperties).FirstOrDefaultAsync();
+
+        #endregion
+
+        #region Action
 
         public K Create(T entity)
         {
@@ -92,14 +99,35 @@ namespace CleanArchitecture.Persistence.Common.Repositories
         public void Update(T entity)
         {
             if (_dbContext.Entry(entity).State == EntityState.Unchanged) return;
-            T exist = _dbContext.Set<T>().Find(entity.Id);
+            if (entity.Id == null)
+            {
+                throw new BadRequestException("Id is required");
+            }
+
+            var exist = _dbContext.Set<T>().Find(entity.Id);
+            if (exist == null)
+            {
+                throw new NotFoundException(nameof(T), entity.Id);
+            }
+
             _dbContext.Entry(exist).CurrentValues.SetValues(entity);
+            SaveChange();
         }
 
         public async Task UpdateAsync(T entity)
         {
             if (_dbContext.Entry(entity).State == EntityState.Unchanged) return;
-            T exist = _dbContext.Set<T>().Find(entity.Id);
+            if (entity.Id == null)
+            {
+                throw new BadRequestException("Id is required");
+            }
+
+            var exist = await _dbContext.Set<T>().FindAsync(entity.Id);
+            if (exist == null)
+            {
+                throw new NotFoundException(nameof(T), entity.Id);
+            }
+
             _dbContext.Entry(exist).CurrentValues.SetValues(entity);
             await SaveChangeAsync();
         }
@@ -113,17 +141,26 @@ namespace CleanArchitecture.Persistence.Common.Repositories
         public async Task UpdateListAsync(IEnumerable<T> entities)
         {
             foreach (var entity in entities)
-                Update(entity);
+                await UpdateAsync(entity);
             await SaveChangeAsync();
         }
 
         public void Delete(T entity)
         {
+            if (entity == null)
+            {
+                throw new NotFoundException($"{nameof(T)} is not found" ); 
+            }
             _dbContext.Set<T>().Remove(entity);
+            SaveChangeAsync();
         }
 
         public async Task DeleteAsync(T entity)
         {
+            if (entity == null)
+            {
+                throw new NotFoundException($"{nameof(T)} is not found" ); 
+            }
             _dbContext.Set<T>().Remove(entity);
             await SaveChangeAsync();
         }
@@ -131,6 +168,7 @@ namespace CleanArchitecture.Persistence.Common.Repositories
         public void DeleteList(IEnumerable<T> entities)
         {
             _dbContext.Set<T>().RemoveRange(entities);
+            SaveChange();
         }
 
         public async Task DeleteListAsync(IEnumerable<T> entities)
@@ -148,5 +186,7 @@ namespace CleanArchitecture.Persistence.Common.Repositories
         {
             return _unitOfWork.SaveChangeAsync();
         }
+
+        #endregion
     }
 }
