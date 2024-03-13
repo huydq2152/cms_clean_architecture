@@ -3,7 +3,7 @@ using CleanArchitecture.Application.Extensions.Auth;
 using CleanArchitecture.Application.Interfaces.Services.Auth.User;
 using CleanArchitecture.WebAPI.Controllers.Common;
 using CleanArchitecture.WebAPI.Filter;
-using Infrastructure.Common.Models.Paging;
+using Infrastructure.Common.Helpers.Paging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shared.SeedWork.Auth;

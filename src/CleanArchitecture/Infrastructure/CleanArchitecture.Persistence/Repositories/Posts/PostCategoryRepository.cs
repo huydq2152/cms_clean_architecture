@@ -6,7 +6,7 @@ using CleanArchitecture.Persistence.Common.Repositories;
 using CleanArchitecture.Persistence.Contexts;
 using Contracts.Common.Interfaces;
 using Contracts.Exceptions;
-using Infrastructure.Common.Models.Paging;
+using Infrastructure.Common.Helpers.Paging;
 using Microsoft.EntityFrameworkCore;
 using Shared.Extensions.Collection;
 
@@ -66,7 +66,7 @@ public class PostCategoryRepository : RepositoryBase<PostCategory, int>, IPostCa
     public async Task<List<PostCategoryDto>> GetAllPostCategoriesAsync(GetAllPostCategoriesInput input)
     {
         var queryInput = new QueryInput { Input = input };
-        var objQuery = PostCategoryQuery(queryInput).OrderBy(o => o.SortOrder);
+        var objQuery = PostCategoryQuery(queryInput).Sort("SortOrder, Code");
         var result = await objQuery.ToListAsync();
         return result;
     }
@@ -74,7 +74,7 @@ public class PostCategoryRepository : RepositoryBase<PostCategory, int>, IPostCa
     public async Task<PagedResult<PostCategoryDto>> GetAllPostCategoriesPagedAsync(GetAllPostCategoriesInput input)
     {
         var queryInput = new QueryInput { Input = input };
-        var objQuery = PostCategoryQuery(queryInput).OrderBy(o => o.SortOrder);
+        var objQuery = PostCategoryQuery(queryInput).Sort("SortOrder, Code");
 
         var result = await PagedResult<PostCategoryDto>.ToPagedListAsync(objQuery, input.PageIndex, input.PageSize);
         return result;

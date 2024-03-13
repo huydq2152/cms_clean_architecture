@@ -4,7 +4,7 @@ using CleanArchitecture.Application.Interfaces.Repositories.Auth;
 using CleanArchitecture.Domain.Entities.Auth;
 using CleanArchitecture.Persistence.Contexts;
 using Contracts.Exceptions;
-using Infrastructure.Common.Models.Paging;
+using Infrastructure.Common.Helpers.Paging;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Shared.Extensions.Collection;
