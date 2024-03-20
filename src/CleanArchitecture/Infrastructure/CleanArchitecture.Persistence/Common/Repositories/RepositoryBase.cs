@@ -4,6 +4,7 @@ using Contracts.Common.Interfaces;
 using Contracts.Common.Interfaces.Repositories;
 using Contracts.Domains;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace CleanArchitecture.Persistence.Common.Repositories
 {
@@ -139,14 +140,31 @@ namespace CleanArchitecture.Persistence.Common.Repositories
             await SaveChangeAsync();
         }
 
-        private int SaveChange()
+        public int SaveChange()
         {
             return _unitOfWork.SaveChange();
         }
 
-        private Task<int> SaveChangeAsync()
+        public Task<int> SaveChangeAsync()
         {
             return _unitOfWork.SaveChangeAsync();
+        }
+
+        public async Task<IDbContextTransaction> BeginTransactionAsync()
+        {
+            var result = await _dbContext.Database.BeginTransactionAsync();
+            return result;
+        }
+
+        public async Task EndTransactionAsync()
+        {
+            await SaveChangeAsync();
+            await _dbContext.Database.CommitTransactionAsync();
+        }
+
+        public async Task RollbackTransactionAsync()
+        {
+            await _dbContext.Database.RollbackTransactionAsync();
         }
     }
 }

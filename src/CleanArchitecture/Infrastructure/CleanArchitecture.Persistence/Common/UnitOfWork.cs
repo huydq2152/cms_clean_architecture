@@ -48,17 +48,6 @@ namespace CleanArchitecture.Persistence.Common
             return await _dbContext.SaveChangesAsync();
         }
 
-        public Task<int> SaveAndRemoveCache(params string[] cacheKeys)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task Rollback()
-        {
-            _dbContext.ChangeTracker.Entries().ToList().ForEach(x => x.Reload());
-            return Task.CompletedTask;
-        }
-
         public void Dispose()
         {
             Dispose(true);
