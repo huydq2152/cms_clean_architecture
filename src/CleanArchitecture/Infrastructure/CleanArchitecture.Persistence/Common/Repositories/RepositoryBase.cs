@@ -178,6 +178,10 @@ namespace CleanArchitecture.Persistence.Common.Repositories
             _dbContext.Set<T>().RemoveRange(entities);
             await SaveChangeAsync();
         }
+        
+        #endregion
+
+        #region UnitOfWork
 
         public int SaveChange()
         {
@@ -205,5 +209,7 @@ namespace CleanArchitecture.Persistence.Common.Repositories
         {
             await _dbContext.Database.RollbackTransactionAsync();
         }
+
+        #endregion
     }
 }

@@ -36,11 +36,17 @@ namespace Contracts.Common.Interfaces.Repositories
         Task DeleteAsync(T entity);
         void DeleteList(IEnumerable<T> entities);
         Task DeleteListAsync(IEnumerable<T> entities);
+        
+        #endregion
+
+        #region UnitOfWork
 
         int SaveChange();
         Task<int> SaveChangeAsync();
         Task<IDbContextTransaction> BeginTransactionAsync();
         Task EndTransactionAsync();
         Task RollbackTransactionAsync();
+
+        #endregion
     }
 }
