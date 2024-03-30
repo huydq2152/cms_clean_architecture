@@ -60,6 +60,7 @@ public static class ServiceExtensions
     private static void AddServices(this IServiceCollection services)
     {
         services.AddScoped(typeof(ValidationModelAttribute<>));
+        services.AddScoped(typeof(ValidateMediaTypeAttribute));
     }
 
     public static void AddCorsPolicy(this IServiceCollection services, IConfiguration configuration,

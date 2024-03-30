@@ -66,6 +66,7 @@ public class AuthController : ApiControllerBase
             new Claim(ClaimTypes.NameIdentifier, user.UserName),
             new Claim(ClaimTypes.Name, user.UserName),
             new Claim(UserClaims.FirstName, user.FirstName),
+            new Claim(UserClaims.LastName, user.LastName),
             new Claim(UserClaims.Roles, string.Join(";", roles)),
             new Claim(UserClaims.Permissions, _serializeService.Serialize(permissions)),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
