@@ -11,4 +11,5 @@ public interface IPostService
     Task CreatePostAsync(CreatePostDto post);
     Task UpdatePostAsync(UpdatePostDto post);
     Task DeletePostsAsync(int[] ids);
+    Task<List<PostDto>> GetLatestPostsAsync(int numOfPosts);
 }

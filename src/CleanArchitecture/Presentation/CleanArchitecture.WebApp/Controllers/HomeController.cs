@@ -1,21 +1,26 @@
 ﻿using CleanArchitecture.WebApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using CleanArchitecture.Application.Interfaces.Services.Posts;
 
 namespace CleanArchitecture.WebApp.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IPostService _postService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IPostService postService)
         {
-            _logger = logger;
+            _postService = postService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var model = new HomeViewModel()
+            {
+                LatestPosts = await _postService.GetLatestPostsAsync(10)
+            };
+            return View(model);
         }
 
         public IActionResult Privacy()

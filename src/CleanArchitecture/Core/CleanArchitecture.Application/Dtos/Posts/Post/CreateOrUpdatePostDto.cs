@@ -19,6 +19,7 @@ public class CreateOrUpdatePostDto: EntityBaseDto<int?>
     
     public int AuthorUserId { get; set; }
     public string AuthorUserName { get; set; }
+    public string AuthorFullName { get; set; }
     
     public string Source { get; set; }
     public string Tags { get; set; }

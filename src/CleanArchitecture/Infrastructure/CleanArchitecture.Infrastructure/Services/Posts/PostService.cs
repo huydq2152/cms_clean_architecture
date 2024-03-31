@@ -49,4 +49,10 @@ public class PostService: IPostService
     {
         await _postRepository.DeletePostAsync(ids);
     }
+
+    public async Task<List<PostDto>> GetLatestPostsAsync(int numOfPosts)
+    {
+        var result = await _postRepository.GetLatestPostsAsync(numOfPosts);
+        return result;
+    }
 }

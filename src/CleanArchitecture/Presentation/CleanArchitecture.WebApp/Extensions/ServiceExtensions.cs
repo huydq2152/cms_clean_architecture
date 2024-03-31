@@ -1,7 +1,16 @@
+using CleanArchitecture.Application.Common.Mappings;
+using CleanArchitecture.Application.Interfaces.Repositories.Posts;
+using CleanArchitecture.Application.Interfaces.Services.Posts;
 using CleanArchitecture.Domain.Entities.Auth;
+using CleanArchitecture.Infrastructure.Services.Posts;
+using CleanArchitecture.Persistence.Common;
+using CleanArchitecture.Persistence.Common.Repositories;
 using CleanArchitecture.Persistence.Contexts;
 using CleanArchitecture.Persistence.Interceptors;
+using CleanArchitecture.Persistence.Repositories.Posts;
 using CleanArchitecture.WebApp.Helper;
+using Contracts.Common.Interfaces;
+using Contracts.Common.Interfaces.Repositories;
 using Infrastructure.Configurations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -22,14 +31,14 @@ public static class ServiceExtensions
                 builder => builder.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName));
         });
     }
-    
+
     public static void AddConfigurationSettings(this IServiceCollection services, IConfiguration configuration)
     {
         var systemConfig = configuration.GetSection(nameof(SystemConfig)).Get<SystemConfig>();
         if (systemConfig == null) throw new ArgumentNullException("System config setting is not configured");
         services.AddSingleton(systemConfig);
     }
-    
+
     public static void AddIdentity(this IServiceCollection services)
     {
         services.AddIdentity<AppUser, AppRole>(options => options.SignIn.RequireConfirmedAccount = false)
@@ -58,5 +67,19 @@ public static class ServiceExtensions
         });
 
         services.AddScoped<IUserClaimsPrincipalFactory<AppUser>, CustomClaimsPrincipalFactory>();
+    }
+
+    public static void AddServices(this IServiceCollection services)
+    {
+        services.AddAutoMapper(cfg => cfg.AddProfile(new MappingProfile()))
+            .AddTransient(typeof(IUnitOfWork), typeof(UnitOfWork))
+            .AddTransient(typeof(IRepositoryBase<,>), typeof(RepositoryBase<,>))
+            .AddScoped<SignInManager<AppUser>, SignInManager<AppUser>>()
+            .AddScoped<UserManager<AppUser>, UserManager<AppUser>>()
+            .AddScoped<RoleManager<AppRole>, RoleManager<AppRole>>()
+            .AddTransient<IPostCategoryRepository, PostCategoryRepository>()
+            .AddTransient<IPostRepository, PostRepository>()
+            .AddTransient<IPostCategoryService, PostCategoryService>()
+            .AddTransient<IPostService, PostService>();
     }
 }

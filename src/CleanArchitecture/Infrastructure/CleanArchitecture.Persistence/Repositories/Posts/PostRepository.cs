@@ -57,6 +57,7 @@ public class PostRepository : RepositoryBase<Post, int>, IPostRepository
 
                 AuthorUserId = obj.AuthorUserId,
                 AuthorUserName = obj.Author.UserName,
+                AuthorFullName = obj.Author.GetFullName(),
 
                 Tags = obj.Tags,
                 SeoDescription = obj.SeoDescription,
@@ -78,7 +79,7 @@ public class PostRepository : RepositoryBase<Post, int>, IPostRepository
     public async Task<List<PostDto>> GetAllPostsAsync(GetAllPostsInput input)
     {
         var queryInput = new QueryInput { Input = input };
-        var objQuery = PostQuery(queryInput);
+        var objQuery = PostQuery(queryInput).Sort("Code, Name");
         var result = await objQuery.ToListAsync();
         return result;
     }
@@ -86,7 +87,8 @@ public class PostRepository : RepositoryBase<Post, int>, IPostRepository
     public async Task<PagedResult<PostDto>> GetAllPostPagedAsync(GetAllPostsInput input)
     {
         var queryInput = new QueryInput { Input = input };
-        var objQuery = PostQuery(queryInput);
+        var objQuery = PostQuery(queryInput).Sort("Code, Name");
+        ;
 
         var result = await PagedResult<PostDto>.ToPagedListAsync(objQuery, input.PageIndex, input.PageSize);
         return result;
@@ -112,7 +114,15 @@ public class PostRepository : RepositoryBase<Post, int>, IPostRepository
 
     public async Task<List<PostDto>> GetPostsByCategoryIdAsync(int id)
     {
+        var queryInput = new QueryInput { Input = new GetAllPostsInput { CategoryId = id } };
         var entities = await GetByCondition(o => !o.IsDeleted && o.CategoryId == id).ToListAsync();
+        var result = _mapper.Map<List<PostDto>>(entities);
+        return result;
+    }
+
+    public async Task<List<PostDto>> GetLatestPostsAsync(int numOfPosts)
+    {
+        var entities = await GetAll().Sort("CreationTime").Take(numOfPosts).ToListAsync();
         var result = _mapper.Map<List<PostDto>>(entities);
         return result;
     }

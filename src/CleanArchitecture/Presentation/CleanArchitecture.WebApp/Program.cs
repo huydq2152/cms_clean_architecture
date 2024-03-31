@@ -8,6 +8,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext(builder.Configuration);
 builder.Services.AddConfigurationSettings(builder.Configuration);
 builder.Services.AddIdentity();
+builder.Services.AddServices();
 
 //Start pipeline
 var app = builder.Build();
@@ -24,7 +25,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
