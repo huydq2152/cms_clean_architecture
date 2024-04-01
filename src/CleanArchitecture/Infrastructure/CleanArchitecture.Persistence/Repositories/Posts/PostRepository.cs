@@ -2,6 +2,7 @@
 using CleanArchitecture.Application.Dtos.Posts.Post;
 using CleanArchitecture.Application.Interfaces.Repositories.Posts;
 using CleanArchitecture.Domain.Entities.Posts;
+using CleanArchitecture.Domain.Enums;
 using CleanArchitecture.Persistence.Common.Repositories;
 using CleanArchitecture.Persistence.Contexts;
 using Contracts.Common.Interfaces;
@@ -35,11 +36,11 @@ public class PostRepository : RepositoryBase<Post, int>, IPostRepository
 
         var query = from obj in GetAll()
                 .Where(o => !o.IsDeleted)
-                .WhereIf(input != null && !string.IsNullOrWhiteSpace(input.Keyword),
+                .WhereIf(!string.IsNullOrWhiteSpace(input?.Keyword),
                     o => o.Code.Contains(input.Keyword) || o.Name.Contains(input.Keyword))
                 .WhereIf(id.HasValue, o => o.Id == id.Value)
-                .WhereIf(input is { CategoryId: not null }, o => o.CategoryId == input.CategoryId)
-                .WhereIf(input is { AuthorUserId: not null }, o => o.AuthorUserId == input.AuthorUserId)
+                .WhereIf(input?.CategoryId != null, o => o.CategoryId == input.CategoryId)
+                .WhereIf(input?.AuthorUserId != null, o => o.AuthorUserId == input.AuthorUserId)
             select new PostDto()
             {
                 Id = obj.Id,
@@ -64,6 +65,8 @@ public class PostRepository : RepositoryBase<Post, int>, IPostRepository
                 ViewCount = obj.ViewCount,
                 Status = obj.Status,
                 IsActive = obj.IsActive,
+                
+                CreationTime = obj.CreationTime,
             };
         return query;
     }
@@ -88,7 +91,6 @@ public class PostRepository : RepositoryBase<Post, int>, IPostRepository
     {
         var queryInput = new QueryInput { Input = input };
         var objQuery = PostQuery(queryInput).Sort("Code, Name");
-        ;
 
         var result = await PagedResult<PostDto>.ToPagedListAsync(objQuery, input.PageIndex, input.PageSize);
         return result;
@@ -114,15 +116,18 @@ public class PostRepository : RepositoryBase<Post, int>, IPostRepository
 
     public async Task<List<PostDto>> GetPostsByCategoryIdAsync(int id)
     {
-        var queryInput = new QueryInput { Input = new GetAllPostsInput { CategoryId = id } };
         var entities = await GetByCondition(o => !o.IsDeleted && o.CategoryId == id).ToListAsync();
         var result = _mapper.Map<List<PostDto>>(entities);
         return result;
     }
 
-    public async Task<List<PostDto>> GetLatestPostsAsync(int numOfPosts)
+    public async Task<List<PostDto>> GetLatestPublishedPostsAsync(int numOfPosts)
     {
-        var entities = await GetAll().Sort("CreationTime").Take(numOfPosts).ToListAsync();
+        var queryInput = new QueryInput();
+        var objQuery = PostQuery(queryInput)
+            .Where(o => o.IsActive && o.Status == PostStatusEnum.Published)
+            .Sort("CreationTime desc").Take(numOfPosts);
+        var entities = await objQuery.ToListAsync();
         var result = _mapper.Map<List<PostDto>>(entities);
         return result;
     }

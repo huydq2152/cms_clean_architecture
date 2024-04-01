@@ -50,9 +50,9 @@ public class PostService: IPostService
         await _postRepository.DeletePostAsync(ids);
     }
 
-    public async Task<List<PostDto>> GetLatestPostsAsync(int numOfPosts)
+    public async Task<List<PostDto>> GetLatestPublishedPostsAsync(int numOfPosts)
     {
-        var result = await _postRepository.GetLatestPostsAsync(numOfPosts);
+        var result = await _postRepository.GetLatestPublishedPostsAsync(numOfPosts);
         return result;
     }
 }

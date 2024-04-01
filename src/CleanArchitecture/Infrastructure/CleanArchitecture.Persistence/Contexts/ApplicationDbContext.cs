@@ -14,6 +14,7 @@ namespace CleanArchitecture.Persistence.Contexts
         }
 
         public DbSet<PostCategory> PostCategories => Set<PostCategory>();
+        public DbSet<Post> Posts => Set<Post>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

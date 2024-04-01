@@ -1,4 +1,5 @@
 ﻿using CleanArchitecture.Domain.Entities.Posts;
+using CleanArchitecture.Domain.Enums;
 using Shared;
 
 namespace CleanArchitecture.Persistence.Contexts.Seed;
@@ -25,20 +26,45 @@ public class TestDataForEntitiesCreator
     private async Task CreateTestDataForPostCategory()
     {
         var postCategories = new List<PostCategory>();
-        for (int i = 1; i < 36; i++)
+        for (var i = 1; i < 15; i++)
         {
             postCategories.Add(new PostCategory()
             {
                 Code = Helper.StringHelper.ShortIdentity(),
-                Name = $"Name {i}",
-                SortOrder = i
+                Name = $"Danh mục bài viết số {i}",
+                SortOrder = i,
+                Slug = $"danh-muc-bai-viet-so-{i}",
+                SeoDescription = $"Mô tả seo danh mục bài viết số {i}",
+                IsActive = true,
             });
         }
-        
         if (!_dbContext.PostCategories.Any())
         {
             await _dbContext.PostCategories.AddRangeAsync(postCategories);
-            await _dbContext.SaveChangesAsync();
         }
+
+        var posts = new List<Post>();
+        for (var i = 1; i < 15; i++)
+        {
+            posts.Add(new Post()
+            {
+                Code = Helper.StringHelper.ShortIdentity(),
+                Name = $"Bài viết số {i}",
+                Slug = $"bai-viet-so-{i}",
+                Description = $"Mô tả bài viết số {i}",
+                Content = $"Nội dung bài viết số {i}",
+                SeoDescription = $"Mô tả seo bài viết số {i}",
+                CategoryId = i,
+                AuthorUserId = 1,
+                Status = PostStatusEnum.Published,
+                IsActive = true,
+            });
+        }
+        if (!_dbContext.Posts.Any())
+        {
+            await _dbContext.Posts.AddRangeAsync(posts);
+        }
+
+        await _dbContext.SaveChangesAsync();
     }
 }

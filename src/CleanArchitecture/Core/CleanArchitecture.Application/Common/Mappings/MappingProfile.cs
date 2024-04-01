@@ -34,7 +34,7 @@ namespace CleanArchitecture.Application.Common.Mappings
             CreateMap<CreatePostCategoryDto, PostCategory>();
             CreateMap<UpdatePostCategoryDto, PostCategory>();
             
-            CreateMap<PostDto, Post>();
+            CreateMap<PostDto, Post>().ReverseMap();
             CreateMap<CreatePostDto, Post>();
             CreateMap<UpdatePostDto, Post>();
 

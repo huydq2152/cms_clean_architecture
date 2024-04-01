@@ -18,7 +18,7 @@ namespace CleanArchitecture.WebApp.Controllers
         {
             var model = new HomeViewModel()
             {
-                LatestPosts = await _postService.GetLatestPostsAsync(10)
+                LatestPosts = await _postService.GetLatestPublishedPostsAsync(10)
             };
             return View(model);
         }
