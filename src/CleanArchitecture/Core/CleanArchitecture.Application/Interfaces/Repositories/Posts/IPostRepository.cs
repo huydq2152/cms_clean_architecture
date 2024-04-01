@@ -9,10 +9,11 @@ public interface IPostRepository: IRepositoryBase<Post, int>
 {
     Task<PostDto> GetPostByIdAsync(int id);
     Task<List<PostDto>> GetAllPostsAsync(GetAllPostsInput input);
-    Task<PagedResult<PostDto>> GetAllPostPagedAsync(GetAllPostsInput query);
+    Task<PagedResult<PostDto>> GetAllPostPagedAsync(GetAllPostsInput input);
     Task CreatePostAsync(CreatePostDto post);
     Task UpdatePostAsync(UpdatePostDto post);
     Task DeletePostAsync(int[] ids);
     Task<List<PostDto>> GetPostsByCategoryIdAsync(int id);
     Task<List<PostDto>> GetLatestPublishedPostsAsync(int numOfPosts);
+    Task<PagedResult<PostDto>> GetPostPagedByCategoryIdAsync(GetAllPostsInput input);
 }

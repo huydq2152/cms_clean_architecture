@@ -5,7 +5,6 @@ using CleanArchitecture.Domain.Entities.Posts;
 using CleanArchitecture.Persistence.Common.Repositories;
 using CleanArchitecture.Persistence.Contexts;
 using Contracts.Common.Interfaces;
-using Contracts.Exceptions;
 using Infrastructure.Common.Helpers.Paging;
 using Microsoft.EntityFrameworkCore;
 using Shared.Extensions.Collection;
@@ -26,6 +25,7 @@ public class PostCategoryRepository : RepositoryBase<PostCategory, int>, IPostCa
     {
         public GetAllPostCategoriesInput? Input { get; init; }
         public int? Id { get; init; }
+        public string? Slug { get; init; }
     }
 
     private IQueryable<PostCategoryDto> PostCategoryQuery(QueryInput queryInput)
@@ -35,8 +35,9 @@ public class PostCategoryRepository : RepositoryBase<PostCategory, int>, IPostCa
 
         var query = from obj in GetAll()
                 .Where(o => !o.IsDeleted)
-                .WhereIf(input != null && !string.IsNullOrWhiteSpace(input.Keyword),
-                    e => e.Code.Contains(input.Keyword) || e.Name.Contains(input.Keyword))
+                .WhereIf(!string.IsNullOrWhiteSpace(input?.Keyword),
+                    o => o.Code.Contains(input.Keyword) || o.Name.Contains(input.Keyword))
+                .WhereIf(!string.IsNullOrWhiteSpace(queryInput.Slug), o => o.Slug == queryInput.Slug)
                 .WhereIf(id.HasValue, e => e.Id == id.Value)
                 .WhereIf(input is { ParentId: not null }, e => e.ParentId == input.ParentId)
             select new PostCategoryDto()
@@ -96,5 +97,16 @@ public class PostCategoryRepository : RepositoryBase<PostCategory, int>, IPostCa
     {
         var entity = GetByCondition(o => o.Id == id).FirstOrDefault();
         await DeleteAsync(entity);
+    }
+
+    public async Task<PostCategoryDto> GetPostCategoryBySlug(string slug)
+    {
+        var queryInput = new QueryInput()
+        {
+            Slug = slug
+        };
+        var objQuery = PostCategoryQuery(queryInput);
+        var result = await objQuery.FirstOrDefaultAsync();
+        return result;
     }
 }

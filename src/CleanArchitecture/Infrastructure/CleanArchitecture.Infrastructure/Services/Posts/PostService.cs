@@ -9,12 +9,12 @@ namespace CleanArchitecture.Infrastructure.Services.Posts;
 public class PostService: IPostService
 {
     private readonly IPostRepository _postRepository;
-    private readonly IMapper _mapper;
+    private readonly IPostCategoryRepository _postCategoryRepository;
 
-    public PostService(IPostRepository postRepository, IMapper mapper)
+    public PostService(IPostRepository postRepository, IPostCategoryRepository postCategoryRepository)
     {
         _postRepository = postRepository;
-        _mapper = mapper;
+        _postCategoryRepository = postCategoryRepository;
     }
 
     public async Task<PostDto> GetPostByIdAsync(int id)
@@ -53,6 +53,17 @@ public class PostService: IPostService
     public async Task<List<PostDto>> GetLatestPublishedPostsAsync(int numOfPosts)
     {
         var result = await _postRepository.GetLatestPublishedPostsAsync(numOfPosts);
+        return result;
+    }
+
+    public async Task<PagedResult<PostDto>> GetPostPagedByCategorySlugAsync(GetAllPostsInput input, string categorySlug)
+    {
+        var postCategory = await _postCategoryRepository.GetPostCategoryBySlug(categorySlug);
+        if (postCategory != null)
+        {
+            input.CategoryId = postCategory.Id;
+        }
+        var result = await _postRepository.GetPostPagedByCategoryIdAsync(input);
         return result;
     }
 }

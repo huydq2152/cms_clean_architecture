@@ -1,17 +1,15 @@
-﻿@inject IOptions<SystemConfig> SystemConfig;
-@model HomeViewModel
+@model PostsByCategoryViewModel
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = Model.Category.Name + (Model.Posts.PageIndex > 1 ? $" - Trang {Model.Posts.PageIndex}" : "");
+    ViewData["Description"] = Model.Category.SeoDescription + (Model.Posts.PageIndex > 1 ? $" - Trang {Model.Posts.PageIndex}" : "");
 }
-
 <!-- Page Header-->
 <header class="masthead" style="background-image: url('/assets/img/home-bg.jpg')">
     <div class="container position-relative px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
                 <div class="site-heading">
-                    <h1>@SystemConfig.Value.AppName</h1>
-                    <span class="subheading">@SystemConfig.Value.AppSlogan</span>
+                    <h1>@Model.Category.Name</h1>
                 </div>
             </div>
         </div>
@@ -21,29 +19,25 @@
 <div class="container px-4 px-lg-5">
     <div class="row gx-4 gx-lg-5 justify-content-center">
         <div class="col-md-10 col-lg-8 col-xl-7">
-            @foreach (var item in Model.LatestPosts)
+            @foreach (var item in Model.Posts.Results)
             {
                 <!-- Post preview-->
                 <div class="post-preview">
-                    <a href="@string.Format(UrlConst.PostDetails, item.Slug)" title="@item.Name">
+                    <a href="@string.Format(UrlConst.PostDetails,item.Slug)" title="@item.Name">
                         <h2 class="post-title">@item.Name</h2>
                         <h3 class="post-subtitle">@item.Description</h3>
                     </a>
                     <p class="post-meta">
                         Posted by
-                        <a href="@string.Format(UrlConst.Author, item.AuthorUserName)">@item.AuthorFullName</a>
+                        <a href="@string.Format(UrlConst.Author,item.AuthorUserName)">@item.AuthorFullName</a>
                         on @item.CreationTime.ToLongTimeString()
                     </p>
                 </div>
                 <!-- Divider-->
-                <hr class="my-4"/>
+                <hr class="my-4" />
             }
-            <!-- Divider-->
-            <hr class="my-4"/>
             <!-- Pager-->
-            <div class="d-flex justify-content-end mb-4">
-                <a class="btn btn-primary text-uppercase" href="@UrlConst.Posts">Older Posts →</a>
-            </div>
+            @(await Component.InvokeAsync("Pager", Model.Posts))
         </div>
     </div>
 </div>

@@ -6,7 +6,6 @@ using CleanArchitecture.Domain.Enums;
 using CleanArchitecture.Persistence.Common.Repositories;
 using CleanArchitecture.Persistence.Contexts;
 using Contracts.Common.Interfaces;
-using Contracts.Exceptions;
 using Infrastructure.Common.Helpers.Paging;
 using Microsoft.EntityFrameworkCore;
 using Shared.Extensions.Collection;
@@ -65,7 +64,7 @@ public class PostRepository : RepositoryBase<Post, int>, IPostRepository
                 ViewCount = obj.ViewCount,
                 Status = obj.Status,
                 IsActive = obj.IsActive,
-                
+
                 CreationTime = obj.CreationTime,
             };
         return query;
@@ -129,6 +128,17 @@ public class PostRepository : RepositoryBase<Post, int>, IPostRepository
             .Sort("CreationTime desc").Take(numOfPosts);
         var entities = await objQuery.ToListAsync();
         var result = _mapper.Map<List<PostDto>>(entities);
+        return result;
+    }
+
+    public async Task<PagedResult<PostDto>> GetPostPagedByCategoryIdAsync(GetAllPostsInput input)
+    {
+        var queryInput = new QueryInput { Input = input };
+        var objQuery = PostQuery(queryInput)
+            .Where(o => o.CategoryId == input.CategoryId && o.IsActive && o.Status == PostStatusEnum.Published)
+            .Sort("Code, Name");
+
+        var result = await PagedResult<PostDto>.ToPagedListAsync(objQuery, input.PageIndex, input.PageSize);
         return result;
     }
 }

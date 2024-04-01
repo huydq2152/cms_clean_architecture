@@ -1,6 +1,7 @@
 ﻿using CleanArchitecture.Application.Dtos.Posts.PostCategory;
 using CleanArchitecture.Application.Interfaces.Repositories.Posts;
 using CleanArchitecture.Application.Interfaces.Services.Posts;
+using Contracts.Exceptions;
 using Infrastructure.Common.Helpers.Paging;
 using ApplicationException = Contracts.Exceptions.ApplicationException;
 
@@ -54,7 +55,19 @@ public class PostCategoryService : IPostCategoryService
             {
                 throw new ApplicationException("Exist posts still not delete in this category");
             }
+
             await _postCategoryRepository.DeletePostCategoryAsync(id);
         }
+    }
+
+    public async Task<PostCategoryDto> GetPostCategoryBySlug(string slug)
+    {
+        var result = await _postCategoryRepository.GetPostCategoryBySlug(slug);
+        if (result == null)
+        {
+            throw new NotFoundException("Category not found");
+        }
+
+        return result;
     }
 }

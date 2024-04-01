@@ -11,4 +11,5 @@ public interface IPostCategoryRepository
     Task CreatePostCategoryAsync(CreatePostCategoryDto postCategory);
     Task UpdatePostCategoryAsync(UpdatePostCategoryDto postCategory);
     Task DeletePostCategoryAsync(int id);
+    Task<PostCategoryDto> GetPostCategoryBySlug(string slug);
 }
