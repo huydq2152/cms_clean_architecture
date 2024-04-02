@@ -70,4 +70,8 @@
     <ProjectReference Include="..\..\Infrastructure\CleanArchitecture.Persistence\CleanArchitecture.Persistence.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.28" />
+  </ItemGroup>
+
 </Project>

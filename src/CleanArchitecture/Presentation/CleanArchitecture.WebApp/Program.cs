@@ -3,8 +3,9 @@ using CleanArchitecture.WebApp.Extensions;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.AddAppConfigurations();
+
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 builder.Services.AddDbContext(builder.Configuration);
 builder.Services.AddConfigurationSettings(builder.Configuration);
 builder.Services.AddIdentity();

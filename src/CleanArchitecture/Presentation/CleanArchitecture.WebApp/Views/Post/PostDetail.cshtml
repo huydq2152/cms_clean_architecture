@@ -12,9 +12,9 @@
                     <h1>@Model.Post.Name</h1>
                     <h2 class="subheading">@Model.Post.Description</h2>
                     <span class="meta">
-                        Posted by
+                        Đăng bởi
                         <a href="@string.Format(UrlConst.Author,Model.Post.AuthorUserName)">@Model.Post.AuthorFullName</a>
-                        on @Model.Post.CreationTime.ToLongTimeString()
+                        lúc @Model.Post.CreationTime.ToLongTimeString()
                     </span>
                 </div>
             </div>

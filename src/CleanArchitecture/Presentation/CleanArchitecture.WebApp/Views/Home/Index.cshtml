@@ -21,6 +21,7 @@
 <div class="container px-4 px-lg-5">
     <div class="row gx-4 gx-lg-5 justify-content-center">
         <div class="col-md-10 col-lg-8 col-xl-7">
+            <h1 style="margin-bottom: 72px;">Các bài viết mới nhất</h1>
             @foreach (var item in Model.LatestPosts)
             {
                 <!-- Post preview-->
@@ -30,20 +31,14 @@
                         <h3 class="post-subtitle">@item.Description</h3>
                     </a>
                     <p class="post-meta">
-                        Posted by
+                        Đăng bởi
                         <a href="@string.Format(UrlConst.Author, item.AuthorUserName)">@item.AuthorFullName</a>
-                        on @item.CreationTime.ToLongTimeString()
+                        lúc @item.CreationTime.ToLongTimeString()
                     </p>
                 </div>
                 <!-- Divider-->
                 <hr class="my-4"/>
             }
-            <!-- Divider-->
-            <hr class="my-4"/>
-            <!-- Pager-->
-            <div class="d-flex justify-content-end mb-4">
-                <a class="btn btn-primary text-uppercase" href="@UrlConst.Posts">Older Posts →</a>
-            </div>
         </div>
     </div>
 </div>
