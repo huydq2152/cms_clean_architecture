@@ -1,6 +1,6 @@
 using CleanArchitecture.Application.Dtos.Posts.Post;
 
-namespace CleanArchitecture.WebApp.Models;
+namespace CleanArchitecture.WebApp.Models.Common;
 
 public class HomeViewModel
 {

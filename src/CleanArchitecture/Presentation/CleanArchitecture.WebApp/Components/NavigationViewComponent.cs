@@ -1,6 +1,7 @@
 using CleanArchitecture.Application.Dtos.Posts.PostCategory;
 using CleanArchitecture.Application.Interfaces.Services.Posts;
 using CleanArchitecture.WebApp.Models;
+using CleanArchitecture.WebApp.Models.Common;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArchitecture.WebApp.Components;

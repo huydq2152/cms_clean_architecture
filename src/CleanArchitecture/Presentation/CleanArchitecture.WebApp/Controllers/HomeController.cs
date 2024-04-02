@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using CleanArchitecture.Application.Interfaces.Services.Posts;
+using CleanArchitecture.WebApp.Models.Common;
 
 namespace CleanArchitecture.WebApp.Controllers
 {

@@ -26,6 +26,7 @@ public class PostRepository : RepositoryBase<Post, int>, IPostRepository
     {
         public GetAllPostsInput? Input { get; init; }
         public int? Id { get; init; }
+        public string? Slug { get; init; }
     }
 
     private IQueryable<PostDto> PostQuery(QueryInput queryInput)
@@ -40,6 +41,7 @@ public class PostRepository : RepositoryBase<Post, int>, IPostRepository
                 .WhereIf(id.HasValue, o => o.Id == id.Value)
                 .WhereIf(input?.CategoryId != null, o => o.CategoryId == input.CategoryId)
                 .WhereIf(input?.AuthorUserId != null, o => o.AuthorUserId == input.AuthorUserId)
+                .WhereIf(queryInput.Slug != null, o => o.Slug == queryInput.Slug)
             select new PostDto()
             {
                 Id = obj.Id,
@@ -139,6 +141,17 @@ public class PostRepository : RepositoryBase<Post, int>, IPostRepository
             .Sort("Code, Name");
 
         var result = await PagedResult<PostDto>.ToPagedListAsync(objQuery, input.PageIndex, input.PageSize);
+        return result;
+    }
+
+    public async Task<PostDto> GetPostBySlugAsync(string slug)
+    {
+        var queryInput = new QueryInput()
+        {
+            Slug = slug
+        };
+        var objQuery = PostQuery(queryInput);
+        var result = await objQuery.FirstOrDefaultAsync();
         return result;
     }
 }

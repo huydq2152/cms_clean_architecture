@@ -13,4 +13,5 @@ public interface IPostService
     Task DeletePostsAsync(int[] ids);
     Task<List<PostDto>> GetLatestPublishedPostsAsync(int numOfPosts);
     Task<PagedResult<PostDto>> GetPostPagedByCategorySlugAsync(GetAllPostsInput input, string categorySlug);
+    Task<PostDto> GetPostBySlugAsync(string slug);
 }

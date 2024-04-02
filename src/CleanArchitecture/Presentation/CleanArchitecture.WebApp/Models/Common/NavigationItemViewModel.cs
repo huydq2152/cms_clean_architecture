@@ -1,4 +1,4 @@
-namespace CleanArchitecture.WebApp.Models;
+namespace CleanArchitecture.WebApp.Models.Common;
 
 public class NavigationItemViewModel
 {

@@ -6,7 +6,7 @@ using Infrastructure.Common.Helpers.Paging;
 
 namespace CleanArchitecture.Infrastructure.Services.Posts;
 
-public class PostService: IPostService
+public class PostService : IPostService
 {
     private readonly IPostRepository _postRepository;
     private readonly IPostCategoryRepository _postCategoryRepository;
@@ -63,7 +63,14 @@ public class PostService: IPostService
         {
             input.CategoryId = postCategory.Id;
         }
+
         var result = await _postRepository.GetPostPagedByCategoryIdAsync(input);
+        return result;
+    }
+
+    public async Task<PostDto> GetPostBySlugAsync(string slug)
+    {
+        var result = await _postRepository.GetPostBySlugAsync(slug);
         return result;
     }
 }

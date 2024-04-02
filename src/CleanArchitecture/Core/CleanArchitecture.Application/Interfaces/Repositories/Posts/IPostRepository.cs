@@ -16,4 +16,5 @@ public interface IPostRepository: IRepositoryBase<Post, int>
     Task<List<PostDto>> GetPostsByCategoryIdAsync(int id);
     Task<List<PostDto>> GetLatestPublishedPostsAsync(int numOfPosts);
     Task<PagedResult<PostDto>> GetPostPagedByCategoryIdAsync(GetAllPostsInput input);
+    Task<PostDto> GetPostBySlugAsync(string slug);
 }
