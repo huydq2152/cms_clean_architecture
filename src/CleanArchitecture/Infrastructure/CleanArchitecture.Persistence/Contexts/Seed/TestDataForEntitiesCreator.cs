@@ -38,9 +38,9 @@ public class TestDataForEntitiesCreator
                 IsActive = true,
             });
         }
-        if (!_dbContext.PostCategories.Any())
+        if (!_dbContext.Set<PostCategory>().Any())
         {
-            await _dbContext.PostCategories.AddRangeAsync(postCategories);
+            await _dbContext.Set<PostCategory>().AddRangeAsync(postCategories);
         }
 
         var posts = new List<Post>();
@@ -60,9 +60,9 @@ public class TestDataForEntitiesCreator
                 IsActive = true,
             });
         }
-        if (!_dbContext.Posts.Any())
+        if (!_dbContext.Set<Post>().Any())
         {
-            await _dbContext.Posts.AddRangeAsync(posts);
+            await _dbContext.Set<Post>().AddRangeAsync(posts);
         }
 
         await _dbContext.SaveChangesAsync();
