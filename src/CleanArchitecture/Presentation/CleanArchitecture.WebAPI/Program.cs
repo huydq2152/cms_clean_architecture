@@ -3,6 +3,7 @@ using CleanArchitecture.Infrastructure.Extensions;
 using CleanArchitecture.Persistence.Contexts.Seed;
 using CleanArchitecture.Persistence.Extensions;
 using CleanArchitecture.WebAPI.Extensions;
+using Hangfire;
 using Logging;
 using Serilog;
 
@@ -54,11 +55,18 @@ try
 
     app.UseMiddleware<ErrorWrappingMiddleware>();
     app.UseStaticFiles();
+    
+    app.UseHangfireDashboard();
+    
     app.UseCors(blogCorsPolicy);
     app.UseHttpsRedirection();
     app.UseAuthentication();
     app.UseAuthorization();
-    app.MapDefaultControllerRoute();
+    app.UseEndpoints(endpoints =>
+    {
+        endpoints.MapControllers();
+        endpoints.MapHangfireDashboard();
+    });
 
     app.Run();
 }

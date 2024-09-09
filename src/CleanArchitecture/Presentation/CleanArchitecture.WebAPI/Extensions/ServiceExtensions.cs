@@ -2,6 +2,7 @@
 using CleanArchitecture.Infrastructure.Auth;
 using CleanArchitecture.WebAPI.Filter;
 using Infrastructure.Configurations;
+using Infrastructure.ScheduledJobs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
@@ -55,6 +56,8 @@ public static class ServiceExtensions
             });
         });
         services.AddAuthenticationAndAuthorization(configuration);
+        
+        services.AddHangfireServices(configuration);
     }
 
     private static void AddServices(this IServiceCollection services)
