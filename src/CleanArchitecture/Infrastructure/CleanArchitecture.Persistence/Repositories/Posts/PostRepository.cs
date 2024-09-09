@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CleanArchitecture.Application.Common.AutoMappers;
 using CleanArchitecture.Application.Dtos.Posts.Post;
 using CleanArchitecture.Application.Interfaces.Repositories.Posts;
 using CleanArchitecture.Domain.Entities.Posts;
@@ -14,12 +15,9 @@ namespace CleanArchitecture.Persistence.Repositories.Posts;
 
 public class PostRepository : RepositoryBase<Post, int>, IPostRepository
 {
-    private readonly IMapper _mapper;
-
     public PostRepository(ApplicationDbContext dbContext, IUnitOfWork unitOfWork, IMapper mapper) : base(
         dbContext, unitOfWork)
     {
-        _mapper = mapper;
     }
 
     private class QueryInput
@@ -99,13 +97,13 @@ public class PostRepository : RepositoryBase<Post, int>, IPostRepository
 
     public async Task CreatePostAsync(CreatePostDto post)
     {
-        var entity = _mapper.Map<Post>(post);
+        var entity = post.DtoToEntityMapper().Map<Post>();
         await CreateAsync(entity);
     }
 
     public async Task UpdatePostAsync(UpdatePostDto post)
     {
-        var entity = _mapper.Map<Post>(post);
+        var entity = post.DtoToEntityMapper().Map<Post>();
         await UpdateAsync(entity);
     }
 
@@ -118,7 +116,7 @@ public class PostRepository : RepositoryBase<Post, int>, IPostRepository
     public async Task<List<PostDto>> GetPostsByCategoryIdAsync(int id)
     {
         var entities = await GetByCondition(o => !o.IsDeleted && o.CategoryId == id).ToListAsync();
-        var result = _mapper.Map<List<PostDto>>(entities);
+        var result = entities.EntityToDtoMapper().Map<PostDto>();
         return result;
     }
 
@@ -128,8 +126,7 @@ public class PostRepository : RepositoryBase<Post, int>, IPostRepository
         var objQuery = PostQuery(queryInput)
             .Where(o => o.IsActive && o.Status == PostStatusEnum.Published)
             .Sort("CreationTime desc").Take(numOfPosts);
-        var entities = await objQuery.ToListAsync();
-        var result = _mapper.Map<List<PostDto>>(entities);
+        var result = await objQuery.ToListAsync();
         return result;
     }
 

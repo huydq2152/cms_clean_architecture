@@ -16,8 +16,8 @@ try
     var blogCorsPolicy = "BlogCorsPolicy";
 
     builder.Host.AddAppConfigurations();
+    
     // Add services to the container.
-    builder.Services.AddApplicationLayer();
     builder.Services.AddInfrastructureLayer(builder.Configuration);
     builder.Services.AddPersistenceLayer(builder.Configuration);
     builder.Services.AddWebApiLayer(builder.Configuration);

@@ -1,4 +1,3 @@
-using CleanArchitecture.Application.Common.Mappings;
 using CleanArchitecture.Application.Interfaces.Repositories.Posts;
 using CleanArchitecture.Application.Interfaces.Services.Posts;
 using CleanArchitecture.Domain.Entities.Auth;
@@ -71,8 +70,7 @@ public static class ServiceExtensions
 
     public static void AddServices(this IServiceCollection services)
     {
-        services.AddAutoMapper(cfg => cfg.AddProfile(new MappingProfile()))
-            .AddTransient(typeof(IUnitOfWork), typeof(UnitOfWork))
+        services.AddTransient(typeof(IUnitOfWork), typeof(UnitOfWork))
             .AddTransient(typeof(IRepositoryBase<,>), typeof(RepositoryBase<,>))
             .AddScoped<SignInManager<AppUser>, SignInManager<AppUser>>()
             .AddScoped<UserManager<AppUser>, UserManager<AppUser>>()
