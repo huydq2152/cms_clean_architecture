@@ -15,7 +15,7 @@ namespace CleanArchitecture.Persistence.Repositories.Posts;
 
 public class PostRepository : RepositoryBase<Post, int>, IPostRepository
 {
-    public PostRepository(ApplicationDbContext dbContext, IUnitOfWork unitOfWork, IMapper mapper) : base(
+    public PostRepository(ApplicationDbContext dbContext, IUnitOfWork unitOfWork) : base(
         dbContext, unitOfWork)
     {
     }
@@ -32,41 +32,17 @@ public class PostRepository : RepositoryBase<Post, int>, IPostRepository
         var input = queryInput.Input;
         var id = queryInput.Id;
 
-        var query = from obj in GetAll()
-                .Where(o => !o.IsDeleted)
-                .WhereIf(!string.IsNullOrWhiteSpace(input?.Keyword),
-                    o => o.Code.Contains(input.Keyword) || o.Name.Contains(input.Keyword))
-                .WhereIf(id.HasValue, o => o.Id == id.Value)
-                .WhereIf(input?.CategoryId != null, o => o.CategoryId == input.CategoryId)
-                .WhereIf(input?.AuthorUserId != null, o => o.AuthorUserId == input.AuthorUserId)
-                .WhereIf(queryInput.Slug != null, o => o.Slug == queryInput.Slug)
-            select new PostDto()
-            {
-                Id = obj.Id,
-                Code = obj.Code,
-                Name = obj.Name,
-                Slug = obj.Slug,
-                Description = obj.Description,
-
-                CategoryId = obj.CategoryId,
-                CategoryCode = obj.Category.Code,
-                CategoryName = obj.Category.Name,
-
-                Thumbnail = obj.Thumbnail,
-                Content = obj.Content,
-
-                AuthorUserId = obj.AuthorUserId,
-                AuthorUserName = obj.Author.UserName,
-                AuthorFullName = obj.Author.GetFullName(),
-
-                Tags = obj.Tags,
-                SeoDescription = obj.SeoDescription,
-                ViewCount = obj.ViewCount,
-                Status = obj.Status,
-                IsActive = obj.IsActive,
-
-                CreationTime = obj.CreationTime,
-            };
+        var query = GetAll()
+            .Where(o => !o.IsDeleted)
+            .WhereIf(!string.IsNullOrWhiteSpace(input?.Keyword),
+                o => o.Code.Contains(input.Keyword) || o.Name.Contains(input.Keyword))
+            .WhereIf(id.HasValue, o => o.Id == id.Value)
+            .WhereIf(input?.CategoryId != null, o => o.CategoryId == input.CategoryId)
+            .WhereIf(input?.AuthorUserId != null, o => o.AuthorUserId == input.AuthorUserId)
+            .WhereIf(queryInput.Slug != null, o => o.Slug == queryInput.Slug)
+            .EntityToDtoMapper()
+            .ToProjection<PostDto>();
+        
         return query;
     }
 

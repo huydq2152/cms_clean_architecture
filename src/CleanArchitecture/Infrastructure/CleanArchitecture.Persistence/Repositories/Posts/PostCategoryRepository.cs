@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CleanArchitecture.Application.Common.AutoMappers;
 using CleanArchitecture.Application.Dtos.Posts.PostCategory;
 using CleanArchitecture.Application.Interfaces.Repositories.Posts;
 using CleanArchitecture.Domain.Entities.Posts;
@@ -13,12 +14,9 @@ namespace CleanArchitecture.Persistence.Repositories.Posts;
 
 public class PostCategoryRepository : RepositoryBase<PostCategory, int>, IPostCategoryRepository
 {
-    private readonly IMapper _mapper;
-
-    public PostCategoryRepository(ApplicationDbContext dbContext, IUnitOfWork unitOfWork, IMapper mapper) : base(
+    public PostCategoryRepository(ApplicationDbContext dbContext, IUnitOfWork unitOfWork) : base(
         dbContext, unitOfWork)
     {
-        _mapper = mapper;
     }
 
     private class QueryInput
@@ -33,26 +31,15 @@ public class PostCategoryRepository : RepositoryBase<PostCategory, int>, IPostCa
         var input = queryInput.Input;
         var id = queryInput.Id;
 
-        var query = from obj in GetAll()
-                .Where(o => !o.IsDeleted)
-                .WhereIf(!string.IsNullOrWhiteSpace(input?.Keyword),
-                    o => o.Code.Contains(input.Keyword) || o.Name.Contains(input.Keyword))
-                .WhereIf(!string.IsNullOrWhiteSpace(queryInput.Slug), o => o.Slug == queryInput.Slug)
-                .WhereIf(id.HasValue, e => e.Id == id.Value)
-                .WhereIf(input is { ParentId: not null }, e => e.ParentId == input.ParentId)
-            select new PostCategoryDto()
-            {
-                Id = obj.Id,
-                Code = obj.Code,
-                Name = obj.Name,
-                Slug = obj.Slug,
-                IsActive = obj.IsActive,
-                SeoDescription = obj.SeoDescription,
-                SortOrder = obj.SortOrder,
-                ParentId = obj.ParentId,
-                ParentCode = obj.Parent.Code,
-                ParentName = obj.Parent.Name
-            };
+        var query = GetAll()
+            .Where(o => !o.IsDeleted)
+            .WhereIf(!string.IsNullOrWhiteSpace(input?.Keyword),
+                o => o.Code.Contains(input.Keyword) || o.Name.Contains(input.Keyword))
+            .WhereIf(!string.IsNullOrWhiteSpace(queryInput.Slug), o => o.Slug == queryInput.Slug)
+            .WhereIf(id.HasValue, e => e.Id == id.Value)
+            .WhereIf(input is { ParentId: not null }, e => e.ParentId == input.ParentId)
+            .EntityToDtoMapper()
+            .ToProjection<PostCategoryDto>();
         return query;
     }
 
@@ -83,13 +70,13 @@ public class PostCategoryRepository : RepositoryBase<PostCategory, int>, IPostCa
 
     public async Task CreatePostCategoryAsync(CreatePostCategoryDto postCategory)
     {
-        var entity = _mapper.Map<PostCategory>(postCategory);
+        var entity = postCategory.DtoToEntityMapper().Map<PostCategory>();
         await CreateAsync(entity);
     }
 
     public async Task UpdatePostCategoryAsync(UpdatePostCategoryDto postCategory)
     {
-        var entity = _mapper.Map<PostCategory>(postCategory);
+        var entity = postCategory.DtoToEntityMapper().Map<PostCategory>();
         await UpdateAsync(entity);
     }
 
