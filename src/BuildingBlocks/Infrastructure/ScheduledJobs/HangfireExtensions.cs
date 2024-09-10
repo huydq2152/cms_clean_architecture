@@ -5,13 +5,12 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Shared.Configurations;
-using Shared.Extensions;
 
 namespace Infrastructure.ScheduledJobs;
 
 public static class HangfireExtensions
 {
-    public static IServiceCollection AddHangfireServices(this IServiceCollection services, IConfiguration configuration)
+    public static void AddHangfireServices(this IServiceCollection services, IConfiguration configuration)
     {
         var settings = configuration.GetSection("HangFireSettings").Get<HangFireSettings>();
         if (settings == null || string.IsNullOrEmpty(settings.ConnectionString))
@@ -21,8 +20,6 @@ public static class HangfireExtensions
         
         services.AddHangfireServer(serverOptions 
             => { serverOptions.ServerName = settings.ServerName; });
-        
-        return services;
     }
 
     private static void ConfigureHangfireServices(this IServiceCollection services,
@@ -35,7 +32,7 @@ public static class HangfireExtensions
             .UseSqlServerStorage(settings.ConnectionString));
     }
     
-    internal static IApplicationBuilder UseHangfireDashboard(this IApplicationBuilder app, IConfiguration configuration)
+    public static void UseHangfireDashboard(this IApplicationBuilder app, IConfiguration configuration)
     {
         var configDashboard = configuration.GetSection("HangFireSettings:Dashboard").Get<DashboardOptions>();
         var hangfireSettings = configuration.GetSection("HangFireSettings").Get<HangFireSettings>();
@@ -49,7 +46,5 @@ public static class HangfireExtensions
             AppPath = configDashboard.AppPath,
             IgnoreAntiforgeryToken = true
         });
-
-        return app;
     }
 }

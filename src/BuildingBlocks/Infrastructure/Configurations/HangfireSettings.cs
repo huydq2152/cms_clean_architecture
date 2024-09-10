@@ -3,12 +3,10 @@ namespace Shared.Configurations;
 public class HangFireSettings
 {
     public string Route { get; set; }
-
     public string ServerName { get; set; }
-    
-    public string ConnectionString { get; set; }
 
     public Dashboard Dashboard { get; set; }
+    public string ConnectionString { get; set; }
 }
 
 public class Dashboard
