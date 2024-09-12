@@ -1,3 +1,4 @@
+@using CleanArchitecture.Domain
 @model CleanArchitecture.WebApp.Models.Posts.PostsByCategoryViewModel
 @{
     ViewData["Title"] = Model.Category.Name + (Model.Posts.PageIndex > 1 ? $" - Trang {Model.Posts.PageIndex}" : "");

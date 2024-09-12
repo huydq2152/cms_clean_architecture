@@ -1,5 +1,5 @@
 ﻿using System.Security.Claims;
-using Shared.SeedWork.Auth;
+using Contracts.Common.Models.Auth;
 
 namespace CleanArchitecture.Application.Extensions.Auth
 {

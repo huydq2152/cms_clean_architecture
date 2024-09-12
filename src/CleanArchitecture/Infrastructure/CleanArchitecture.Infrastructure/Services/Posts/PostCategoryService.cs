@@ -1,8 +1,8 @@
 ﻿using CleanArchitecture.Application.Dtos.Posts.PostCategory;
 using CleanArchitecture.Application.Interfaces.Repositories.Posts;
 using CleanArchitecture.Application.Interfaces.Services.Posts;
+using Contracts.Common.Models.Paging;
 using Contracts.Exceptions;
-using Infrastructure.Common.Helpers.Paging;
 using ApplicationException = Contracts.Exceptions.ApplicationException;
 
 namespace CleanArchitecture.Infrastructure.Services.Posts;

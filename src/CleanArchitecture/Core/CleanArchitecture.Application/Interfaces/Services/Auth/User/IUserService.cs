@@ -1,5 +1,5 @@
 ﻿using CleanArchitecture.Application.Dtos.Auth.Users;
-using Infrastructure.Common.Helpers.Paging;
+using Contracts.Common.Models.Paging;
 
 namespace CleanArchitecture.Application.Interfaces.Services.Auth.User;
 

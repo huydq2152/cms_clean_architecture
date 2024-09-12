@@ -1,11 +1,11 @@
 ﻿using CleanArchitecture.Application.Dtos.Posts.Post;
 using CleanArchitecture.Application.Interfaces.Services.Posts;
+using CleanArchitecture.Domain.StaticData.Auth;
 using CleanArchitecture.WebAPI.Controllers.Common;
 using CleanArchitecture.WebAPI.Filter;
-using Infrastructure.Common.Helpers.Paging;
+using Contracts.Common.Models.Paging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Shared.SeedWork.Auth;
 
 namespace CleanArchitecture.WebAPI.Controllers.Posts;
 

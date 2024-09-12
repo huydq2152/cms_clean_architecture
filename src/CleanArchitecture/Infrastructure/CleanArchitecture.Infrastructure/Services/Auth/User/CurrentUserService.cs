@@ -1,7 +1,7 @@
 ﻿using System.Security.Claims;
 using CleanArchitecture.Application.Interfaces.Services.Auth.User;
+using Contracts.Common.Models.Auth;
 using Microsoft.AspNetCore.Http;
-using Shared.SeedWork.Auth;
 
 namespace CleanArchitecture.Infrastructure.Services.Auth.User;
 

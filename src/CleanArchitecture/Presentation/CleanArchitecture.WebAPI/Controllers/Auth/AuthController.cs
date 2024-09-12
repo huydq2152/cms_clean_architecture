@@ -4,12 +4,13 @@ using CleanArchitecture.Application.Dtos.Auth;
 using CleanArchitecture.Application.Dtos.Auth.Roles;
 using CleanArchitecture.Application.Interfaces.Services.Auth;
 using CleanArchitecture.Domain.Entities.Auth;
+using CleanArchitecture.Domain.StaticData.Auth;
 using CleanArchitecture.WebAPI.Controllers.Common;
+using Contracts.Common.Models.Auth;
 using Contracts.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.JsonWebTokens;
-using Shared.SeedWork.Auth;
 
 namespace CleanArchitecture.WebAPI.Controllers.Auth;
 

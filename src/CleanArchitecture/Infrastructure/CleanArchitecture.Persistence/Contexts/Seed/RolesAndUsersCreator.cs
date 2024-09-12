@@ -1,7 +1,7 @@
 ﻿using CleanArchitecture.Domain.Entities.Auth;
+using CleanArchitecture.Domain.StaticData.Auth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Shared.SeedWork.Auth;
 
 namespace CleanArchitecture.Persistence.Contexts.Seed;
 

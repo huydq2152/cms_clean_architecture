@@ -1,9 +1,9 @@
-﻿using Contracts.Services;
+﻿using Contracts.Common.Models.Email;
+using Contracts.Services;
 using Infrastructure.Configurations;
 using MailKit.Net.Smtp;
 using MimeKit;
 using Serilog;
-using Shared.Services.Email;
 
 namespace Infrastructure.Services;
 

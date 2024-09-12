@@ -1,4 +1,4 @@
-﻿using Logging;
+﻿using Infrastructure.Logging;
 using Serilog;
 
 namespace CleanArchitecture.WebApp.Extensions;

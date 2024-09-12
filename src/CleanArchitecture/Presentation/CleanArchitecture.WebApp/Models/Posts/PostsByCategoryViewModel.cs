@@ -1,6 +1,6 @@
 using CleanArchitecture.Application.Dtos.Posts.Post;
 using CleanArchitecture.Application.Dtos.Posts.PostCategory;
-using Infrastructure.Common.Helpers.Paging;
+using Contracts.Common.Models.Paging;
 
 namespace CleanArchitecture.WebApp.Models.Posts;
 

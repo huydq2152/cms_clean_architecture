@@ -4,11 +4,11 @@ using CleanArchitecture.Application.Dtos.Posts.PostCategory;
 using CleanArchitecture.Application.Interfaces.Repositories.Posts;
 using CleanArchitecture.Application.Interfaces.Services.Common;
 using CleanArchitecture.Domain.Entities.Auth;
+using Contracts.Common.Models.Paging;
 using Contracts.Exceptions;
-using Infrastructure.Common.Helpers.Paging;
+using Infrastructure.Extensions.Collection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Shared.Extensions.Collection;
 
 namespace CleanArchitecture.Infrastructure.Services.Common;
 

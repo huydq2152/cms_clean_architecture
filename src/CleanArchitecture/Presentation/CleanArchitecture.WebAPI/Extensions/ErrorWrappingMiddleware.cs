@@ -1,5 +1,5 @@
 using System.Text.Json;
-using Shared.SeedWork;
+using Contracts.Common.Models.Api;
 using ILogger = Serilog.ILogger;
 
 namespace CleanArchitecture.WebAPI.Extensions;

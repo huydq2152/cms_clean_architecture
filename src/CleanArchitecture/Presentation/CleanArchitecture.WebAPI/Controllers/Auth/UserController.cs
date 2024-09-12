@@ -1,12 +1,12 @@
 ﻿using CleanArchitecture.Application.Dtos.Auth.Users;
 using CleanArchitecture.Application.Extensions.Auth;
 using CleanArchitecture.Application.Interfaces.Services.Auth.User;
+using CleanArchitecture.Domain.StaticData.Auth;
 using CleanArchitecture.WebAPI.Controllers.Common;
 using CleanArchitecture.WebAPI.Filter;
-using Infrastructure.Common.Helpers.Paging;
+using Contracts.Common.Models.Paging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Shared.SeedWork.Auth;
 
 namespace CleanArchitecture.WebAPI.Controllers.Auth;
 

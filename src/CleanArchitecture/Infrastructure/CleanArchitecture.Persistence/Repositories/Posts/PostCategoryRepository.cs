@@ -6,9 +6,9 @@ using CleanArchitecture.Domain.Entities.Posts;
 using CleanArchitecture.Persistence.Common.Repositories;
 using CleanArchitecture.Persistence.Contexts;
 using Contracts.Common.Interfaces;
-using Infrastructure.Common.Helpers.Paging;
+using Contracts.Common.Models.Paging;
+using Infrastructure.Extensions.Collection;
 using Microsoft.EntityFrameworkCore;
-using Shared.Extensions.Collection;
 
 namespace CleanArchitecture.Persistence.Repositories.Posts;
 

@@ -3,11 +3,11 @@ using CleanArchitecture.Application.Dtos.Auth.Users;
 using CleanArchitecture.Application.Interfaces.Repositories.Auth;
 using CleanArchitecture.Domain.Entities.Auth;
 using CleanArchitecture.Persistence.Contexts;
+using Contracts.Common.Models.Paging;
 using Contracts.Exceptions;
-using Infrastructure.Common.Helpers.Paging;
+using Infrastructure.Extensions.Collection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Shared.Extensions.Collection;
 
 namespace CleanArchitecture.Persistence.Repositories.Auth;
 

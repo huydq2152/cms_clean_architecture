@@ -1,7 +1,7 @@
 ﻿using CleanArchitecture.Application.Dtos.Auth.Users;
 using CleanArchitecture.Application.Interfaces.Repositories.Auth;
 using CleanArchitecture.Application.Interfaces.Services.Auth.User;
-using Infrastructure.Common.Helpers.Paging;
+using Contracts.Common.Models.Paging;
 
 namespace CleanArchitecture.Infrastructure.Services.Auth.User;
 

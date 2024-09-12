@@ -1,5 +1,5 @@
+using Contracts.Common.Models.Paging;
 using Microsoft.AspNetCore.Mvc;
-using Shared.SeedWork.Paging;
 
 namespace CleanArchitecture.WebApp.Components;
 

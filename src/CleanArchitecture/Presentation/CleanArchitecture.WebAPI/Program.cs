@@ -3,8 +3,8 @@ using CleanArchitecture.Infrastructure.Extensions;
 using CleanArchitecture.Persistence.Contexts.Seed;
 using CleanArchitecture.Persistence.Extensions;
 using CleanArchitecture.WebAPI.Extensions;
+using Infrastructure.Logging;
 using Infrastructure.ScheduledJobs;
-using Logging;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);

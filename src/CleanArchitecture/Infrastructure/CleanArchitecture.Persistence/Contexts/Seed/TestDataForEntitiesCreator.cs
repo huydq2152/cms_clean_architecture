@@ -1,5 +1,6 @@
 ﻿using CleanArchitecture.Domain.Entities.Posts;
 using CleanArchitecture.Domain.Enums;
+using Infrastructure.Common.Helpers;
 using Shared;
 
 namespace CleanArchitecture.Persistence.Contexts.Seed;
@@ -30,7 +31,7 @@ public class TestDataForEntitiesCreator
         {
             postCategories.Add(new PostCategory()
             {
-                Code = Helper.StringHelper.ShortIdentity(),
+                Code = StringHelper.ShortIdentity(),
                 Name = $"Danh mục bài viết số {i}",
                 SortOrder = i,
                 Slug = $"danh-muc-bai-viet-so-{i}",
@@ -48,7 +49,7 @@ public class TestDataForEntitiesCreator
         {
             posts.Add(new Post()
             {
-                Code = Helper.StringHelper.ShortIdentity(),
+                Code = StringHelper.ShortIdentity(),
                 Name = $"Bài viết số {i}",
                 Slug = $"bai-viet-so-{i}",
                 Description = $"Mô tả bài viết số {i}",

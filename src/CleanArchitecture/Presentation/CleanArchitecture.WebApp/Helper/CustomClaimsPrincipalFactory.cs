@@ -1,8 +1,8 @@
 using System.Security.Claims;
 using CleanArchitecture.Domain.Entities.Auth;
+using Contracts.Common.Models.Auth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
-using Shared.SeedWork.Auth;
 
 namespace CleanArchitecture.WebApp.Helper;
 

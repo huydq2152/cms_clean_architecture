@@ -2,7 +2,7 @@
 using CleanArchitecture.Application.Dtos.Posts.Post;
 using CleanArchitecture.Application.Interfaces.Repositories.Posts;
 using CleanArchitecture.Application.Interfaces.Services.Posts;
-using Infrastructure.Common.Helpers.Paging;
+using Contracts.Common.Models.Paging;
 
 namespace CleanArchitecture.Infrastructure.Services.Posts;
 

@@ -1,4 +1,4 @@
-using Shared.SeedWork.Paging;
+using Contracts.Common.Models.Paging;
 
 namespace CleanArchitecture.Application.Dtos.Auth.Roles;
 
