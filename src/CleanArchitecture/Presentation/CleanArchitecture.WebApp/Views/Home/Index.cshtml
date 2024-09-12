@@ -1,5 +1,5 @@
 ﻿@inject IOptions<SystemConfig> SystemConfig;
-@using CleanArchitecture.Domain
+@using CleanArchitecture.Domain.Consts
 @model CleanArchitecture.WebApp.Models.Common.HomeViewModel
 @{
     ViewData["Title"] = "Home Page";
@@ -27,13 +27,13 @@
             {
                 <!-- Post preview-->
                 <div class="post-preview">
-                    <a href="@string.Format(UrlConst.PostDetails, item.Slug)" title="@item.Name">
+                    <a href="@string.Format(UrlConsts.PostDetails, item.Slug)" title="@item.Name">
                         <h2 class="post-title">@item.Name</h2>
                         <h3 class="post-subtitle">@item.Description</h3>
                     </a>
                     <p class="post-meta">
                         Đăng bởi
-                        <a href="@string.Format(UrlConst.Author, item.AuthorUserName)">@item.AuthorFullName</a>
+                        <a href="@string.Format(UrlConsts.Author, item.AuthorUserName)">@item.AuthorFullName</a>
                         lúc @item.CreationTime.ToLongTimeString()
                     </p>
                 </div>

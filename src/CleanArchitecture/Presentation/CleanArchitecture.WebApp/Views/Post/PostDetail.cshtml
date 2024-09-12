@@ -1,4 +1,4 @@
-@using CleanArchitecture.Domain
+@using CleanArchitecture.Domain.Consts
 @model CleanArchitecture.WebApp.Models.Posts.PostDetailViewModel
 @{
     ViewData["Title"] = Model.Post.Name;
@@ -14,7 +14,7 @@
                     <h2 class="subheading">@Model.Post.Description</h2>
                     <span class="meta">
                         Đăng bởi
-                        <a href="@string.Format(UrlConst.Author,Model.Post.AuthorUserName)">@Model.Post.AuthorFullName</a>
+                        <a href="@string.Format(UrlConsts.Author,Model.Post.AuthorUserName)">@Model.Post.AuthorFullName</a>
                         lúc @Model.Post.CreationTime.ToLongTimeString()
                     </span>
                 </div>

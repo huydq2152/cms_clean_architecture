@@ -1,5 +1,5 @@
 @inject IOptions<SystemConfig> SystemConfig
-@using CleanArchitecture.Domain
+@using CleanArchitecture.Domain.Consts
 @model List<CleanArchitecture.WebApp.Models.Common.NavigationItemViewModel>
 <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
     <div class="container px-4 px-lg-5">
@@ -11,26 +11,26 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ms-auto py-4 py-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link px-lg-3 py-3 py-lg-4" href="@UrlConst.Home">Trang chủ</a>
+                    <a class="nav-link px-lg-3 py-3 py-lg-4" href="@UrlConsts.Home">Trang chủ</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link px-lg-3 py-3 py-lg-4" href="@UrlConst.About">Về tôi</a>
+                    <a class="nav-link px-lg-3 py-3 py-lg-4" href="@UrlConsts.About">Về tôi</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle px-lg-3 py-3 py-lg-4" href="@UrlConst.Posts" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle px-lg-3 py-3 py-lg-4" href="@UrlConsts.Posts" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Danh mục bài viết
                     </a>
                     <ul class="dropdown-menu">
                         @foreach (var item in Model)
                         {
                             <li>
-                                <a class="dropdown-item" title="@item.Name" href="@string.Format(UrlConst.PostsByCategorySlug, item.Slug)">@item.Name</a>
+                                <a class="dropdown-item" title="@item.Name" href="@string.Format(UrlConsts.PostsByCategorySlug, item.Slug)">@item.Name</a>
                             </li>
                         }
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link px-lg-3 py-3 py-lg-4" href="@UrlConst.Contact">Liên hệ</a>
+                    <a class="nav-link px-lg-3 py-3 py-lg-4" href="@UrlConsts.Contact">Liên hệ</a>
                 </li>
             </ul>
         </div>

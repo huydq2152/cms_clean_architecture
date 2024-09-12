@@ -1,11 +1,6 @@
-﻿namespace CleanArchitecture.Domain;
+namespace CleanArchitecture.Domain.Consts;
 
-public class AppConst
-{
-    public const string WebApiProjectName = "CleanArchitecture.WebApi";
-}
-
-public class UrlConst
+public class UrlConsts
 {
     public static string Posts = "/posts";
     public static string Home = "/";
