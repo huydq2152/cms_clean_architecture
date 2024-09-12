@@ -5,9 +5,12 @@ using Infrastructure.Configurations;
 using Infrastructure.ScheduledJobs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using Telerik.Reporting.Cache.File;
+using Telerik.Reporting.Services;
 
 namespace CleanArchitecture.WebAPI.Extensions;
 
@@ -16,7 +19,30 @@ public static class ServiceExtensions
     public static void AddWebApiLayer(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddServices();
+        
+        services.AddControllers().AddNewtonsoftJson();
+        
+        #region Telerik Report Rest service Configuration
+
         services.AddControllers();
+
+        services.Configure<IISServerOptions>(options =>
+        {
+            options.AllowSynchronousIO = true;
+            options.MaxRequestBodySize = int.MaxValue;
+        });
+
+        // Configure dependencies for ReportsController.
+        services.TryAddSingleton<IReportServiceConfiguration>(sp =>
+            new ReportServiceConfiguration
+            {
+                HostAppId = $"ReportingCore6App-{Guid.NewGuid()}",
+                Storage = new FileStorage(),
+                ReportSourceResolver = new UriReportSourceResolver(Path.Combine(sp.GetService<IWebHostEnvironment>()?.ContentRootPath ?? string.Empty, "Reports")),
+            });
+
+        #endregion
+        
         services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen(options =>
@@ -55,7 +81,7 @@ public static class ServiceExtensions
                 }
             });
         });
-        services.AddAuthenticationAndAuthorization(configuration);
+        // services.AddAuthenticationAndAuthorization(configuration);
         
         services.AddHangfireServices(configuration);
     }

@@ -58,8 +58,8 @@ try
     app.UseCors(blogCorsPolicy);
     app.UseRouting();
     app.UseHttpsRedirection();
-    app.UseAuthentication();
-    app.UseAuthorization();
+    // app.UseAuthentication();
+    // app.UseAuthorization();
     
     app.UseHangfireDashboard(builder.Configuration);
     

@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.27" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.33" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
@@ -22,6 +23,27 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Telerik.Reporting">
+      <HintPath>..\..\..\..\3rds\Telerik\Reporting\Telerik.Reporting.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Reporting.Data.Schema">
+      <HintPath>..\..\..\..\3rds\Telerik\Reporting\Telerik.Reporting.Data.Schema.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Reporting.JsonSerialization">
+      <HintPath>..\..\..\..\3rds\Telerik\Reporting\Telerik.Reporting.JsonSerialization.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Reporting.OpenXmlRendering.2.7.2">
+      <HintPath>..\..\..\..\3rds\Telerik\Reporting\Telerik.Reporting.OpenXmlRendering.2.7.2.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Reporting.Services.AspNetCore">
+      <HintPath>..\..\..\..\3rds\Telerik\Reporting\Telerik.Reporting.Services.AspNetCore.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Reporting.WebServiceDataSource">
+      <HintPath>..\..\..\..\3rds\Telerik\Reporting\Telerik.Reporting.WebServiceDataSource.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
