@@ -16,12 +16,12 @@ namespace CleanArchitecture.WebAPI.Extensions;
 
 public static class ServiceExtensions
 {
-    public static void AddWebApiLayer(this IServiceCollection services, IConfiguration configuration)
+    public static void AddWebApiLayer(this IServiceCollection services, WebApplicationBuilder builder)
     {
         services.AddServices();
-        
+
         services.AddControllers().AddNewtonsoftJson();
-        
+
         #region Telerik Report Rest service Configuration
 
         services.AddControllers();
@@ -32,21 +32,30 @@ public static class ServiceExtensions
             options.MaxRequestBodySize = int.MaxValue;
         });
 
+        var reportsPath = Path.Combine(builder.Environment.ContentRootPath, "Reports");
+
         // Configure dependencies for ReportsController.
         services.TryAddSingleton<IReportServiceConfiguration>(sp =>
             new ReportServiceConfiguration
             {
                 HostAppId = $"ReportingCore6App-{Guid.NewGuid()}",
                 Storage = new FileStorage(),
-                ReportSourceResolver = new UriReportSourceResolver(Path.Combine(sp.GetService<IWebHostEnvironment>()?.ContentRootPath ?? string.Empty, "Reports")),
+                ReportSourceResolver = new TypeReportSourceResolver()
+                    .AddFallbackResolver(
+                        new UriReportSourceResolver(reportsPath))
             });
 
         #endregion
-        
+
         services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen(options =>
         {
+            options.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
+            options.IgnoreObsoleteActions();
+            options.IgnoreObsoleteProperties();
+            options.CustomSchemaIds(type => type.FullName);
+            
             options.CustomOperationIds(description =>
                 description.TryGetMethodInfo(out var methodInfo) ? methodInfo.Name : null);
             options.SwaggerDoc("AdminAPI", new OpenApiInfo
@@ -82,8 +91,8 @@ public static class ServiceExtensions
             });
         });
         // services.AddAuthenticationAndAuthorization(configuration);
-        
-        services.AddHangfireServices(configuration);
+
+        services.AddHangfireServices(builder.Configuration);
     }
 
     private static void AddServices(this IServiceCollection services)
