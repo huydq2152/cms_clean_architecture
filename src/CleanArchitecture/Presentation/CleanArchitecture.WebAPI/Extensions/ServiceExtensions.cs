@@ -16,7 +16,7 @@ namespace CleanArchitecture.WebAPI.Extensions;
 
 public static class ServiceExtensions
 {
-    public static void AddWebApiLayer(this IServiceCollection services, WebApplicationBuilder builder)
+    public static void AddWebApiLayer(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddServices();
 
@@ -31,18 +31,15 @@ public static class ServiceExtensions
             options.AllowSynchronousIO = true;
             options.MaxRequestBodySize = int.MaxValue;
         });
-
-        var reportsPath = Path.Combine(builder.Environment.ContentRootPath, "Reports");
-
+        
         // Configure dependencies for ReportsController.
         services.TryAddSingleton<IReportServiceConfiguration>(sp =>
             new ReportServiceConfiguration
             {
                 HostAppId = $"ReportingCore6App-{Guid.NewGuid()}",
                 Storage = new FileStorage(),
-                ReportSourceResolver = new TypeReportSourceResolver()
-                    .AddFallbackResolver(
-                        new UriReportSourceResolver(reportsPath))
+                ReportSourceResolver = new UriReportSourceResolver(
+                    Path.Combine(sp.GetService<IWebHostEnvironment>().ContentRootPath, "Reports"))
             });
 
         #endregion
@@ -92,7 +89,7 @@ public static class ServiceExtensions
         });
         // services.AddAuthenticationAndAuthorization(configuration);
 
-        services.AddHangfireServices(builder.Configuration);
+        services.AddHangfireServices(configuration);
     }
 
     private static void AddServices(this IServiceCollection services)

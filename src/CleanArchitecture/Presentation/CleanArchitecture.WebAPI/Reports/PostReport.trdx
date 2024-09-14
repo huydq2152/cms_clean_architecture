@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report Width="25.671cm" Name="TestReport" ShowSnapGrid="True" SnapGridSize="0.1cm" xmlns="http://schemas.telerik.com/reporting/2023/1.0">
+  <DataSources>
+    <JsonDataSource Name="jsonDataSource1">
+      <Source>
+        <String>W3sic3R1ZGVudENvZGUiOiIyMDE4Mzc2NiIsInN0dWRlbnROYW1lIjoixJHhurduZyBxdWFuZyBodXkiLCJjYXJkTnVtYmVyIjoidHgxIiwiY2FyZFR5cGUiOiJUaOG6uyBjxrAgZMOibiIsInZlaGljbGVUeXBlIjoiWGUgbcOheSIsInJlbmV3Q2FyZFRpbWUiOiIxMS80LzIwMjMifSx7InN0dWRlbnRDb2RlIjoiMjAxODM3NzciLCJzdHVkZW50TmFtZSI6IlRy4buLbmggVHJ1bmcgS2nDqm4iLCJjYXJkTnVtYmVyIjoidHgyIiwiY2FyZFR5cGUiOiJUaOG6uyBjxrAgZMOibiIsInZlaGljbGVUeXBlIjoiWGUgbcOheSIsInJlbmV3Q2FyZFRpbWUiOiIxMS80LzIwMjMifSx7InN0dWRlbnRDb2RlIjoiIiwic3R1ZGVudE5hbWUiOiIiLCJjYXJkTnVtYmVyIjoidHgzIiwiY2FyZFR5cGUiOiJUaOG6uyBjxrAgZMOibiIsInZlaGljbGVUeXBlIjoiw5QgdMO0IiwicmVuZXdDYXJkVGltZSI6IjExLzQvMjAyMyJ9LHsic3R1ZGVudENvZGUiOiIiLCJzdHVkZW50TmFtZSI6IiIsImNhcmROdW1iZXIiOiJ4ZW1heV9uZ2F5IiwiY2FyZFR5cGUiOiJUaOG6uyBuZ8OgeSIsInZlaGljbGVUeXBlIjoiWGUgbcOheSIsInJlbmV3Q2FyZFRpbWUiOiIxNC8zLzIwMjMifSx7InN0dWRlbnRDb2RlIjoiIiwic3R1ZGVudE5hbWUiOiIiLCJjYXJkTnVtYmVyIjoib3RvX25nYXkiLCJjYXJkVHlwZSI6IlRo4bq7IG5nw6B5IiwidmVoaWNsZVR5cGUiOiLDlCB0w7QiLCJyZW5ld0NhcmRUaW1lIjoiMTQvMy8yMDIzIn0seyJzdHVkZW50Q29kZSI6IiIsInN0dWRlbnROYW1lIjoiIiwiY2FyZE51bWJlciI6InhlbWF5X25nYXlfMiIsImNhcmRUeXBlIjoiVGjhursgbmfDoHkiLCJ2ZWhpY2xlVHlwZSI6IlhlIG3DoXkiLCJyZW5ld0NhcmRUaW1lIjoiMTUvMy8yMDIzIn1d</String>
+      </Source>
+    </JsonDataSource>
+  </DataSources>
+  <Items>
+    <PageHeaderSection Height="3.1cm" Name="pageHeaderSection1">
+      <Items>
+        <HtmlTextBox Width="2.487in" Height="0.7in" Left="0in" Top="0in" Value="{Parameters.HeaderLeft.Value}" Name="htmlTextBox1">
+          <Style TextAlign="Center" VerticalAlign="Middle" />
+        </HtmlTextBox>
+        <HtmlTextBox Width="2.469in" Height="0.7in" Left="7.638in" Top="0in" Value="{Parameters.HeaderRight.Value}" Name="htmlTextBox2">
+          <Style TextAlign="Center" VerticalAlign="Middle" />
+        </HtmlTextBox>
+        <TextBox Width="10.107in" Height="0.498in" Left="0in" Top="0.722in" Value="= &quot;DANH SÁCH BÀI VIẾT&quot; " Name="textBox1">
+          <Style TextAlign="Center" VerticalAlign="Middle">
+            <Font Name="Times New Roman" Size="14pt" Bold="True" />
+          </Style>
+        </TextBox>
+      </Items>
+    </PageHeaderSection>
+    <DetailSection Height="5cm" Name="detailSection1">
+      <Items>
+        <Table DataSourceName="jsonDataSource1" Width="24.229cm" Height="3cm" Left="0.763cm" Top="1cm" Name="table2">
+          <Body>
+            <Cells>
+              <TableCell RowIndex="0" ColumnIndex="0" RowSpan="1" ColumnSpan="1">
+                <ReportItem>
+                  <TextBox Width="2.912cm" Height="1.5cm" Left="0cm" Top="0cm" Value="= RowNumber()" Name="textBox26" StyleName="">
+                    <Style TextAlign="Center" VerticalAlign="Middle">
+                      <Font Size="9pt" Bold="False" />
+                      <BorderStyle Top="Solid" Bottom="Solid" Left="Solid" Right="Solid" />
+                      <BorderColor Top="Black" Bottom="Black" Left="Black" Right="Black" />
+                      <BorderWidth Top="1pt" Bottom="1pt" Left="1pt" Right="1pt" />
+                    </Style>
+                  </TextBox>
+                </ReportItem>
+              </TableCell>
+              <TableCell RowIndex="0" ColumnIndex="1" RowSpan="1" ColumnSpan="1">
+                <ReportItem>
+                  <TextBox Width="4.354cm" Height="1.5cm" Left="0cm" Top="0cm" Value="= Fields.code" Name="textBox24" StyleName="">
+                    <Style TextAlign="Center" VerticalAlign="Middle">
+                      <BorderStyle Top="Solid" Bottom="Solid" Left="Solid" Right="Solid" />
+                      <BorderColor Top="Black" Bottom="Black" Left="Black" Right="Black" />
+                      <BorderWidth Top="1pt" Bottom="1pt" Left="1pt" Right="1pt" />
+                    </Style>
+                  </TextBox>
+                </ReportItem>
+              </TableCell>
+              <TableCell RowIndex="0" ColumnIndex="2" RowSpan="1" ColumnSpan="1">
+                <ReportItem>
+                  <TextBox Width="5.849cm" Height="1.5cm" Left="0cm" Top="0cm" Value="= Fields.name" Name="textBox20" StyleName="">
+                    <Style TextAlign="Center" VerticalAlign="Middle">
+                      <BorderStyle Top="Solid" Bottom="Solid" Left="Solid" Right="Solid" />
+                      <BorderColor Top="Black" Bottom="Black" Left="Black" Right="Black" />
+                      <BorderWidth Top="1pt" Bottom="1pt" Left="1pt" Right="1pt" />
+                    </Style>
+                  </TextBox>
+                </ReportItem>
+              </TableCell>
+              <TableCell RowIndex="0" ColumnIndex="3" RowSpan="1" ColumnSpan="1">
+                <ReportItem>
+                  <TextBox Width="11.114cm" Height="1.5cm" Left="0cm" Top="0cm" Value="= Fields.description" Name="textBox31" StyleName="">
+                    <Style TextAlign="Center" VerticalAlign="Middle">
+                      <BorderStyle Top="Solid" Bottom="Solid" Left="Solid" Right="Solid" />
+                    </Style>
+                  </TextBox>
+                </ReportItem>
+              </TableCell>
+            </Cells>
+            <Columns>
+              <Column Width="2.912cm" />
+              <Column Width="4.354cm" />
+              <Column Width="5.849cm" />
+              <Column Width="11.114cm" />
+            </Columns>
+            <Rows>
+              <Row Height="1.5cm" />
+            </Rows>
+          </Body>
+          <Corner />
+          <RowGroups>
+            <TableGroup Name="detailTableGroup1">
+              <Groupings>
+                <Grouping />
+              </Groupings>
+            </TableGroup>
+          </RowGroups>
+          <ColumnGroups>
+            <TableGroup Name="group7">
+              <ReportItem>
+                <TextBox Width="2.912cm" Height="1.5cm" Left="0cm" Top="0cm" Value="TT" Name="textBox17" StyleName="">
+                  <Style TextAlign="Center" VerticalAlign="Middle">
+                    <Font Bold="True" />
+                    <BorderStyle Top="Solid" Bottom="Solid" Left="Solid" Right="Solid" />
+                    <BorderColor Top="Black" Bottom="Black" Left="Black" Right="Black" />
+                    <BorderWidth Top="1pt" Bottom="1pt" Left="1pt" Right="1pt" />
+                  </Style>
+                </TextBox>
+              </ReportItem>
+            </TableGroup>
+            <TableGroup Name="tableGroup2">
+              <ReportItem>
+                <TextBox Width="4.354cm" Height="1.5cm" Left="0cm" Top="0cm" Value="Mã bài viết" Name="textBox36" StyleName="">
+                  <Style TextAlign="Center" VerticalAlign="Middle">
+                    <Font Bold="True" />
+                    <BorderStyle Top="Solid" Bottom="Solid" Left="Solid" Right="Solid" />
+                    <BorderColor Top="Black" Bottom="Black" Left="Black" Right="Black" />
+                    <BorderWidth Top="1pt" Bottom="1pt" Left="1pt" Right="1pt" />
+                  </Style>
+                </TextBox>
+              </ReportItem>
+            </TableGroup>
+            <TableGroup Name="group8">
+              <ReportItem>
+                <TextBox Width="5.849cm" Height="1.5cm" Left="0cm" Top="0cm" Value="Tên bài viết" Name="textBox25" StyleName="">
+                  <Style TextAlign="Center" VerticalAlign="Middle">
+                    <Font Bold="True" />
+                    <BorderStyle Top="Solid" Bottom="Solid" Left="Solid" Right="Solid" />
+                    <BorderColor Top="Black" Bottom="Black" Left="Black" Right="Black" />
+                    <BorderWidth Top="1pt" Bottom="1pt" Left="1pt" Right="1pt" />
+                  </Style>
+                </TextBox>
+              </ReportItem>
+            </TableGroup>
+            <TableGroup Name="group10">
+              <ReportItem>
+                <TextBox Width="11.114cm" Height="1.5cm" Left="0cm" Top="0cm" Value="Mô tả bài viết" Name="textBox30" StyleName="">
+                  <Style TextAlign="Center" VerticalAlign="Middle">
+                    <Font Bold="True" />
+                    <BorderStyle Top="Solid" Bottom="Solid" Left="Solid" Right="Solid" />
+                  </Style>
+                </TextBox>
+              </ReportItem>
+            </TableGroup>
+          </ColumnGroups>
+          <Bindings>
+            <Binding Path="DataSource.Source" Expression="= Parameters.ReportData.Value" />
+          </Bindings>
+        </Table>
+      </Items>
+    </DetailSection>
+    <PageFooterSection Height="4.808cm" Name="pageFooterSection1">
+      <Items>
+        <TextBox Width="2.567in" Height="0.2in" Left="6.22in" Top="0.236in" Value="=&quot;Hà Nội, Ngày &quot; + Now().ToString(&quot;dd&quot;) +&quot; Tháng &quot; + Now().ToString(&quot;MM&quot;)+&quot; Năm &quot;+ Now().ToString(&quot;yyyy&quot;)" Name="textBox3">
+          <Style TextAlign="Center" VerticalAlign="Middle">
+            <Font Bold="False" Italic="True" />
+          </Style>
+        </TextBox>
+        <TextBox Width="2.567in" Height="0.2in" Left="6.22in" Top="0.436in" Value="Quản lý hệ thống" Name="textBox2">
+          <Style TextAlign="Center" VerticalAlign="Middle">
+            <Font Bold="True" />
+          </Style>
+        </TextBox>
+        <TextBox Width="8.029cm" Height="0.808cm" Left="0cm" Top="4cm" Value="= Now().ToString(&quot;dd/MM/yyyy HH:mm&quot;)" Name="textBox21">
+          <Style TextAlign="Left" VerticalAlign="Middle">
+            <Font Name="Times New Roman" Bold="False" />
+          </Style>
+        </TextBox>
+        <TextBox Width="8.65cm" Height="0.808cm" Left="17.021cm" Top="4cm" Value="= &quot;Page &quot; + PageNumber + &quot;/&quot; + PageCount" Name="textBox19">
+          <Style TextAlign="Right" VerticalAlign="Middle">
+            <Font Name="Times New Roman" Bold="False" />
+          </Style>
+        </TextBox>
+      </Items>
+    </PageFooterSection>
+  </Items>
+  <PageSettings PaperKind="A4" Landscape="True" ContinuousPaper="False">
+    <Margins>
+      <MarginsU Left="2cm" Right="2cm" Top="2cm" Bottom="2cm" />
+    </Margins>
+  </PageSettings>
+  <StyleSheet>
+    <StyleRule>
+      <Style>
+        <Padding Left="2pt" Right="2pt" />
+      </Style>
+      <Selectors>
+        <TypeSelector Type="TextItemBase" />
+        <TypeSelector Type="HtmlTextBox" />
+      </Selectors>
+    </StyleRule>
+  </StyleSheet>
+</Report>

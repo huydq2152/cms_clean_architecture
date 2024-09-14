@@ -22,7 +22,7 @@ try
     builder.Services.AddApplicationLayer();
     builder.Services.AddInfrastructureLayer(builder.Configuration);
     builder.Services.AddPersistenceLayer(builder.Configuration);
-    builder.Services.AddWebApiLayer(builder);
+    builder.Services.AddWebApiLayer(builder.Configuration);
     builder.Services.AddCorsPolicy(builder.Configuration, blogCorsPolicy);
 
     var app = builder.Build();

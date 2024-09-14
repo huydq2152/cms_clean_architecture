@@ -14,5 +14,18 @@ namespace CleanArchitecture.WebAPI.Controllers.Reports
             : base(reportServiceConfiguration)
         {
         }
+        
+        protected override HttpStatusCode SendMailMessage(MailMessage mailMessage)
+        {
+            throw new System.NotImplementedException("This method should be implemented in order to send mail messages");
+
+            // using (var smtpClient = new SmtpClient("smtp01.mycompany.com", 25))
+            // {
+            //     smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+            //     smtpClient.EnableSsl = false;               
+            //     smtpClient.Send(mailMessage);
+            // }
+            // return HttpStatusCode.OK;
+        }
     }
 }
