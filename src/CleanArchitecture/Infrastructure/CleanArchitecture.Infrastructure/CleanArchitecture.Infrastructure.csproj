@@ -16,19 +16,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="MassTransit" Version="8.2.5" />
-    <PackageReference Include="MassTransit.RabbitMQ" Version="8.2.5" />
     <PackageReference Include="MediatR" Version="12.4.1" />
-    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="6.0.33" />
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="7.3.1" />
-    <PackageReference Include="MiniExcel" Version="1.34.2" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.3.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Excels\Services\Importing\" />
-    <Folder Include="MasstransisRabbitMQ\MessageBus\Consumers\Commands\" />
-    <Folder Include="MasstransisRabbitMQ\UseCases\Commands\" />
+    <Folder Include="Excels\" />
+    <Folder Include="MasstransitRabbitMQ\UseCases\" />
   </ItemGroup>
 
 </Project>
