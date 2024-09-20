@@ -1,7 +1,7 @@
 ﻿using Contracts.Domains.Interfaces;
 using Microsoft.AspNetCore.Identity;
 
-namespace CleanArchitecture.Domain.Entities.Auth;
+namespace CleanArchitecture.Domain.Entities.Auths;
 
 public class AppRole: IdentityRole<int>, IFullAuditedEntityBase
 {

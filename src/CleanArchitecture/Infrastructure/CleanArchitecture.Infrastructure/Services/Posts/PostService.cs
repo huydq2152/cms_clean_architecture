@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CleanArchitecture.Application.Dtos.Posts.Post;
 using CleanArchitecture.Application.Excels.Exporting.Dtos;
+using CleanArchitecture.Application.Excels.Importing.Dtos;
 using CleanArchitecture.Application.Interfaces.Repositories.Posts;
 using CleanArchitecture.Application.Interfaces.Services.Posts;
 using Contracts.Common.Models.Paging;
@@ -79,5 +80,10 @@ public class PostService : IPostService
     {
         var result = await _postRepository.GetAllPostsForExportAsync(input);
         return result;
+    }
+
+    public Task ImportPostsFromExcelAsync(ImportPostFromExcelJobInput input)
+    {
+        throw new NotImplementedException();
     }
 }

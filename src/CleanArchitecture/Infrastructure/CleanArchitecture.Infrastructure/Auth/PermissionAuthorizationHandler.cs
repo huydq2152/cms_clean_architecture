@@ -1,5 +1,5 @@
 ﻿using System.Security.Claims;
-using CleanArchitecture.Domain.Entities.Auth;
+using CleanArchitecture.Domain.Entities.Auths;
 using CleanArchitecture.Domain.StaticData.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;

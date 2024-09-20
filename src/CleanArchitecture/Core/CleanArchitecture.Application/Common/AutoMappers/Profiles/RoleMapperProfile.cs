@@ -1,6 +1,6 @@
 using AutoMapper;
 using CleanArchitecture.Application.Dtos.Auth.Roles;
-using CleanArchitecture.Domain.Entities.Auth;
+using CleanArchitecture.Domain.Entities.Auths;
 
 namespace CleanArchitecture.Application.Common.AutoMappers.Profiles;
 

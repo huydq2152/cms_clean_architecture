@@ -147,7 +147,7 @@ namespace CleanArchitecture.Persistence.Common.Repositories
             await SaveChangeAsync();
         }
 
-        public void Delete(T entity)
+        public void Delete(T? entity)
         {
             if (entity == null)
             {
@@ -157,7 +157,7 @@ namespace CleanArchitecture.Persistence.Common.Repositories
             SaveChangeAsync();
         }
 
-        public async Task DeleteAsync(T entity)
+        public async Task DeleteAsync(T? entity)
         {
             if (entity == null)
             {

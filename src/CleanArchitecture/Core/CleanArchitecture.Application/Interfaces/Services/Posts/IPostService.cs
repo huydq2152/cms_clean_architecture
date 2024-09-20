@@ -1,5 +1,6 @@
 ﻿using CleanArchitecture.Application.Dtos.Posts.Post;
 using CleanArchitecture.Application.Excels.Exporting.Dtos;
+using CleanArchitecture.Application.Excels.Importing.Dtos;
 using Contracts.Common.Models.Paging;
 
 namespace CleanArchitecture.Application.Interfaces.Services.Posts;
@@ -16,4 +17,5 @@ public interface IPostService
     Task<PagedResult<PostDto>> GetPostPagedByCategorySlugAsync(GetAllPostsInput input, string categorySlug);
     Task<PostDto> GetPostBySlugAsync(string slug);
     Task<List<ExportPostDto>> GetAllPostsForExportAsync(GetExportPostsInput input);
+    Task ImportPostsFromExcelAsync(ImportPostFromExcelJobInput input);
 }

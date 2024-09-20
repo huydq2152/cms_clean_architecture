@@ -1,5 +1,5 @@
 using System.Security.Claims;
-using CleanArchitecture.Domain.Entities.Auth;
+using CleanArchitecture.Domain.Entities.Auths;
 using Contracts.Common.Models.Auth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;

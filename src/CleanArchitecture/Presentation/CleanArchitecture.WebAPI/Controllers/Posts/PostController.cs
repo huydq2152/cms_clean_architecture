@@ -1,12 +1,18 @@
 ﻿using CleanArchitecture.Application.Dtos.Posts.Post;
 using CleanArchitecture.Application.Excels.Exporting.Dtos;
+using CleanArchitecture.Application.Excels.Importing.Dtos;
 using CleanArchitecture.Application.Excels.Interfaces;
 using CleanArchitecture.Application.Interfaces.Services.Posts;
+using CleanArchitecture.Domain.Consts;
+using CleanArchitecture.Domain.Entities.Apps;
 using CleanArchitecture.Domain.StaticData.Auth;
+using CleanArchitecture.Persistence.Storage;
 using CleanArchitecture.WebAPI.Controllers.Common;
 using CleanArchitecture.WebAPI.Filter;
 using Contracts.Common.Models.Files;
 using Contracts.Common.Models.Paging;
+using Contracts.ScheduledJobs;
+using Infrastructure.Extensions.IO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,11 +22,16 @@ public class PostController : ApiControllerBase
 {
     private readonly IPostService _postService;
     private readonly IPostListExcelExporter _postListExcelExporter;
+    private readonly IBinaryObjectManager _binaryObjectManager;
+    private readonly IScheduledJobService _scheduledJobService;
 
-    public PostController(IPostService postService, IPostListExcelExporter postListExcelExporter)
+    public PostController(IPostService postService, IPostListExcelExporter postListExcelExporter,
+        IBinaryObjectManager binaryObjectManager, IScheduledJobService scheduledJobService)
     {
         _postService = postService;
         _postListExcelExporter = postListExcelExporter;
+        _binaryObjectManager = binaryObjectManager;
+        _scheduledJobService = scheduledJobService;
     }
 
     [HttpGet("{id}")]
@@ -90,5 +101,42 @@ public class PostController : ApiControllerBase
         var file = _postListExcelExporter.ExportToFile(posts);
 
         return Ok(file);
+    }
+
+    [HttpPost]
+    [Authorize(StaticPermissions.Posts.Create)]
+    public async Task<ActionResult<JsonResult>> ImportFromExcel()
+    {
+        var file = Request.Form.Files.First();
+
+        if (file == null)
+        {
+            return BadRequest("Vui lòng chọn file để import");
+        }
+
+        if (file.Length > AppConsts.ImportFromExcelMaxFileLength)
+        {
+            return BadRequest("Dung lượng file đã vượt quá giới hạn cho phép. Vui lòng chọn file khác.");
+        }
+
+        byte[] fileBytes;
+        await using (var stream = file.OpenReadStream())
+        {
+            fileBytes = stream.GetAllBytes();
+        }
+
+        var fileObject = new BinaryObject(fileBytes, $"{DateTime.UtcNow} import from excel file.");
+
+        await _binaryObjectManager.CreateBinaryObjectAsync(fileObject);
+
+        var importPostsFromExcelJobInput = new ImportPostFromExcelJobInput
+        {
+            BinaryObjectId = fileObject.Id,
+            UserId = 1
+        };
+        
+        var jobId = _scheduledJobService.Schedule(() => _postService.ImportPostsFromExcelAsync(importPostsFromExcelJobInput));
+        
+        return Ok(jobId);
     }
 }

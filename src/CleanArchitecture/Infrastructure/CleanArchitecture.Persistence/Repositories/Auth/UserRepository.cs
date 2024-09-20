@@ -1,7 +1,7 @@
 using AutoMapper;
 using CleanArchitecture.Application.Dtos.Auth.Users;
 using CleanArchitecture.Application.Interfaces.Repositories.Auth;
-using CleanArchitecture.Domain.Entities.Auth;
+using CleanArchitecture.Domain.Entities.Auths;
 using CleanArchitecture.Persistence.Contexts;
 using Contracts.Common.Models.Paging;
 using Contracts.Exceptions;

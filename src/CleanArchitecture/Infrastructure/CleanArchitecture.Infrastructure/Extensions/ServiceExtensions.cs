@@ -7,6 +7,7 @@ using CleanArchitecture.Infrastructure.Services.Auth;
 using CleanArchitecture.Infrastructure.Services.Auth.User;
 using CleanArchitecture.Infrastructure.Services.Common;
 using CleanArchitecture.Infrastructure.Services.Posts;
+using CleanArchitecture.Infrastructure.Storage;
 using Contracts.Services;
 using Infrastructure.Cache.Extensions;
 using Infrastructure.Configurations;

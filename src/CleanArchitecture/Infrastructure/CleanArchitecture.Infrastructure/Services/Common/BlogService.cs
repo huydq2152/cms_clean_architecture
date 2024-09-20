@@ -3,7 +3,7 @@ using CleanArchitecture.Application.Dtos.Auth.Users;
 using CleanArchitecture.Application.Dtos.Posts.PostCategory;
 using CleanArchitecture.Application.Interfaces.Repositories.Posts;
 using CleanArchitecture.Application.Interfaces.Services.Common;
-using CleanArchitecture.Domain.Entities.Auth;
+using CleanArchitecture.Domain.Entities.Auths;
 using Contracts.Common.Models.Paging;
 using Contracts.Exceptions;
 using Infrastructure.Extensions.Collection;

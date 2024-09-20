@@ -3,7 +3,7 @@ using AutoMapper;
 using CleanArchitecture.Application.Dtos.Auth.Roles;
 using CleanArchitecture.Application.Extensions.Auth;
 using CleanArchitecture.Application.Interfaces.Repositories.Auth;
-using CleanArchitecture.Domain.Entities.Auth;
+using CleanArchitecture.Domain.Entities.Auths;
 using CleanArchitecture.Domain.StaticData.Auth;
 using CleanArchitecture.Persistence.Contexts;
 using Contracts.Common.Models.Paging;

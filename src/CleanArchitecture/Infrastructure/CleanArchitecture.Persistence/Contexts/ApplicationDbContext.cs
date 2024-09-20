@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using CleanArchitecture.Domain.Entities.Auth;
+using CleanArchitecture.Domain.Entities.Auths;
 using CleanArchitecture.Domain.Entities.Posts;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;

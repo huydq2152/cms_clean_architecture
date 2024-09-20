@@ -1,6 +1,6 @@
 ﻿using CleanArchitecture.Application.Interfaces.Repositories.Auth;
 using CleanArchitecture.Application.Interfaces.Repositories.Posts;
-using CleanArchitecture.Domain.Entities.Auth;
+using CleanArchitecture.Domain.Entities.Auths;
 using CleanArchitecture.Persistence.Common;
 using CleanArchitecture.Persistence.Common.Repositories;
 using CleanArchitecture.Persistence.Contexts;
@@ -8,6 +8,7 @@ using CleanArchitecture.Persistence.Contexts.Seed;
 using CleanArchitecture.Persistence.Interceptors;
 using CleanArchitecture.Persistence.Repositories.Auth;
 using CleanArchitecture.Persistence.Repositories.Posts;
+using CleanArchitecture.Persistence.Storage;
 using Contracts.Common.Interfaces;
 using Contracts.Common.Interfaces.Repositories;
 using Microsoft.AspNetCore.Identity;
@@ -33,6 +34,8 @@ public static class ServiceExtension
             .AddScoped<AuditableEntitySaveChangesInterceptor>()
             .AddTransient(typeof(IUnitOfWork), typeof(UnitOfWork))
             .AddTransient(typeof(IRepositoryBase<,>), typeof(RepositoryBase<,>))
+            
+            .AddTransient<IBinaryObjectManager, DbBinaryObjectManager>()
             .AddTransient<IRoleRepository, RoleRepository>()
             .AddTransient<IUserRepository, UserRepository>()
             .AddTransient<IPostCategoryRepository, PostCategoryRepository>()

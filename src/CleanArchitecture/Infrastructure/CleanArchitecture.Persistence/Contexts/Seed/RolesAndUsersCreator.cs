@@ -1,4 +1,4 @@
-﻿using CleanArchitecture.Domain.Entities.Auth;
+﻿using CleanArchitecture.Domain.Entities.Auths;
 using CleanArchitecture.Domain.StaticData.Auth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
