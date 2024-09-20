@@ -21,28 +21,12 @@ public static class ServiceExtensions
         services.AddServices();
 
         services.AddControllers().AddNewtonsoftJson();
-
-        #region Telerik Report Rest service Configuration
-
-        services.AddControllers();
-
+        
         services.Configure<IISServerOptions>(options =>
         {
             options.AllowSynchronousIO = true;
             options.MaxRequestBodySize = int.MaxValue;
         });
-        
-        // Configure dependencies for ReportsController.
-        services.TryAddSingleton<IReportServiceConfiguration>(sp =>
-            new ReportServiceConfiguration
-            {
-                HostAppId = $"ReportingCore6App-{Guid.NewGuid()}",
-                Storage = new FileStorage(),
-                ReportSourceResolver = new UriReportSourceResolver(
-                    Path.Combine(sp.GetService<IWebHostEnvironment>().ContentRootPath, "Reports"))
-            });
-
-        #endregion
 
         services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
         services.AddEndpointsApiExplorer();

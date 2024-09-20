@@ -11,6 +11,7 @@ using Contracts.Services;
 using Infrastructure.Cache.Extensions;
 using Infrastructure.Configurations;
 using Infrastructure.MasstransitRabbitMQ.Extensions;
+using Infrastructure.Reposts.Extensions;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
@@ -24,6 +25,7 @@ namespace CleanArchitecture.Infrastructure.Extensions
         {
             services.AddServices();
             services.AddConfigurationSettings(configuration);
+            services.AddTelerikReporting();
             services.AddConfigurationMasstransitRabbitMQ(configuration);
             services.AddMediatR();
             services.AddDistributedCache();
