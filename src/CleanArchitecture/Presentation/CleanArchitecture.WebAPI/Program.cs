@@ -61,7 +61,7 @@ try
     // app.UseAuthentication();
     // app.UseAuthorization();
     
-    app.UseHangfireDashboard(builder.Configuration);
+    app.UseHangfireDashboard(builder.Services);
     
     app.UseEndpoints(endpoints =>
     {

@@ -1,4 +1,4 @@
-namespace CleanArchitecture.Application.Dtos.Reports.PostReporting;
+namespace CleanArchitecture.Application.Reports.Dtos.PostReporting;
 
 public class PostReportingOutput
 {

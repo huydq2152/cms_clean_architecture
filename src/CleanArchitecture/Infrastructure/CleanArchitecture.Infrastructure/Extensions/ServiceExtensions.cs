@@ -3,7 +3,8 @@ using CleanArchitecture.Application.Interfaces.Services.Auth.User;
 using CleanArchitecture.Application.Interfaces.Services.Common;
 using CleanArchitecture.Application.Interfaces.Services.Posts;
 using CleanArchitecture.Infrastructure.Auth;
-using CleanArchitecture.Infrastructure.MasstransisRabbitMQ.DependencyInjection.Extensions;
+using CleanArchitecture.Infrastructure.Cache.Extensions;
+using CleanArchitecture.Infrastructure.MasstransisRabbitMQ.Extensions;
 using CleanArchitecture.Infrastructure.Services.Auth;
 using CleanArchitecture.Infrastructure.Services.Auth.User;
 using CleanArchitecture.Infrastructure.Services.Common;
@@ -25,6 +26,7 @@ namespace CleanArchitecture.Infrastructure.Extensions
             services.AddConfigurationSettings(configuration);
             services.AddConfigurationMasstransisRabbitMQ(configuration);
             services.AddMediatR();
+            services.AddDistributedCache();
         }
 
         private static void AddServices(this IServiceCollection services)

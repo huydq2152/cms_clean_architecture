@@ -1,4 +1,4 @@
-using CleanArchitecture.Application.Dtos.Reports.PostReporting;
+using CleanArchitecture.Application.Reports.Dtos.PostReporting;
 
 namespace CleanArchitecture.Application.Interfaces.Services.Reports;
 

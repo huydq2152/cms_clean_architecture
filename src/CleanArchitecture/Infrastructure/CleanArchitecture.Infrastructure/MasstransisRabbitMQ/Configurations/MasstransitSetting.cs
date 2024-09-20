@@ -1,6 +1,6 @@
-namespace CleanArchitecture.Infrastructure.MasstransisRabbitMQ.DependencyInjection.Options;
+namespace CleanArchitecture.Infrastructure.MasstransisRabbitMQ.Configurations;
 
-public class MasstransitConfiguration
+public class MasstransitSetting
 {
     public string Host { get; set; }
     public string VHost { get; set; }

@@ -1,8 +1,11 @@
 ﻿using CleanArchitecture.Application.Dtos.Posts.Post;
+using CleanArchitecture.Application.Excels.Exporting.Dtos;
+using CleanArchitecture.Application.Excels.Interfaces;
 using CleanArchitecture.Application.Interfaces.Services.Posts;
 using CleanArchitecture.Domain.StaticData.Auth;
 using CleanArchitecture.WebAPI.Controllers.Common;
 using CleanArchitecture.WebAPI.Filter;
+using Contracts.Common.Models.Files;
 using Contracts.Common.Models.Paging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,10 +15,12 @@ namespace CleanArchitecture.WebAPI.Controllers.Posts;
 public class PostController : ApiControllerBase
 {
     private readonly IPostService _postService;
+    private readonly IPostListExcelExporter _postListExcelExporter;
 
-    public PostController(IPostService postService)
+    public PostController(IPostService postService, IPostListExcelExporter postListExcelExporter)
     {
         _postService = postService;
+        _postListExcelExporter = postListExcelExporter;
     }
 
     [HttpGet("{id}")]
@@ -71,5 +76,19 @@ public class PostController : ApiControllerBase
     {
         await _postService.DeletePostsAsync(ids);
         return Ok();
+    }
+
+    [HttpPost("export-posts")]
+    public async Task<ActionResult<FileDto>> GetExportPosts(GetExportPostsInput input)
+    {
+        var posts = await _postService.GetAllPostsForExportAsync(input);
+        if (posts.Count == 0)
+        {
+            return new FileDto();
+        }
+
+        var file = _postListExcelExporter.ExportToFile(posts);
+
+        return Ok(file);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using CleanArchitecture.Application.Dtos.Posts.Post;
+using CleanArchitecture.Application.Excels.Exporting.Dtos;
 using CleanArchitecture.Domain.Entities.Posts;
 using Contracts.Common.Interfaces.Repositories;
 using Contracts.Common.Models.Paging;
@@ -17,4 +18,5 @@ public interface IPostRepository: IRepositoryBase<Post, int>
     Task<List<PostDto>> GetLatestPublishedPostsAsync(int numOfPosts);
     Task<PagedResult<PostDto>> GetPostPagedByCategoryIdAsync(GetAllPostsInput input);
     Task<PostDto> GetPostBySlugAsync(string slug);
+    Task<List<ExportPostDto>> GetAllPostsForExportAsync(GetExportPostsInput input);
 }

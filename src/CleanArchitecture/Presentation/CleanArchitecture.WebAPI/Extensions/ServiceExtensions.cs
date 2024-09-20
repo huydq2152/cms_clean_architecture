@@ -89,7 +89,7 @@ public static class ServiceExtensions
         });
         // services.AddAuthenticationAndAuthorization(configuration);
 
-        services.AddHangfireServices(configuration);
+        services.AddHangfireServices();
     }
 
     private static void AddServices(this IServiceCollection services)

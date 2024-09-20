@@ -1,6 +1,7 @@
 
 using Hangfire;
 using Hangfire.API.Extensions;
+using Infrastructure.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,9 +11,9 @@ namespace Infrastructure.ScheduledJobs;
 
 public static class HangfireExtensions
 {
-    public static void AddHangfireServices(this IServiceCollection services, IConfiguration configuration)
+    public static void AddHangfireServices(this IServiceCollection services)
     {
-        var settings = configuration.GetSection("HangFireSettings").Get<HangFireSettings>();
+        var settings = services.GetOption<HangFireSettings>(nameof(HangFireSettings));
         if (settings == null || string.IsNullOrEmpty(settings.ConnectionString))
             throw new Exception("HangFireSettings is not configured properly!");
         
@@ -32,10 +33,10 @@ public static class HangfireExtensions
             .UseSqlServerStorage(settings.ConnectionString));
     }
     
-    public static void UseHangfireDashboard(this IApplicationBuilder app, IConfiguration configuration)
+    public static void UseHangfireDashboard(this IApplicationBuilder app, IServiceCollection services)
     {
-        var configDashboard = configuration.GetSection("HangFireSettings:Dashboard").Get<DashboardOptions>();
-        var hangfireSettings = configuration.GetSection("HangFireSettings").Get<HangFireSettings>();
+        var hangfireSettings = services.GetOption<HangFireSettings>(nameof(HangFireSettings));
+        var configDashboard = hangfireSettings.Dashboard;
         var hangfireRoute = hangfireSettings.Route;
 
         app.UseHangfireDashboard(hangfireRoute, new DashboardOptions

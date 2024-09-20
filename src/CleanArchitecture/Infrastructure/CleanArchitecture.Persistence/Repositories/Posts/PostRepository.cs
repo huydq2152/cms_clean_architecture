@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CleanArchitecture.Application.Common.AutoMappers;
 using CleanArchitecture.Application.Dtos.Posts.Post;
+using CleanArchitecture.Application.Excels.Exporting.Dtos;
 using CleanArchitecture.Application.Interfaces.Repositories.Posts;
 using CleanArchitecture.Domain.Entities.Posts;
 using CleanArchitecture.Domain.Enums;
@@ -42,7 +43,7 @@ public class PostRepository : RepositoryBase<Post, int>, IPostRepository
             .WhereIf(queryInput.Slug != null, o => o.Slug == queryInput.Slug)
             .EntityToDtoMapper()
             .ToProjection<PostDto>();
-        
+
         return query;
     }
 
@@ -125,6 +126,13 @@ public class PostRepository : RepositoryBase<Post, int>, IPostRepository
         };
         var objQuery = PostQuery(queryInput);
         var result = await objQuery.FirstOrDefaultAsync();
+        return result;
+    }
+
+    public async Task<List<ExportPostDto>> GetAllPostsForExportAsync(GetExportPostsInput input)
+    {
+        var posts = await GetAll().Where(o => !o.IsDeleted && o.IsActive == input.IsActive).ToListAsync();
+        var result = posts.EntityToDtoMapper().Map<ExportPostDto>();
         return result;
     }
 }

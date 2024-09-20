@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CleanArchitecture.Application.Dtos.Posts.Post;
+using CleanArchitecture.Application.Excels.Exporting.Dtos;
 using CleanArchitecture.Application.Interfaces.Repositories.Posts;
 using CleanArchitecture.Application.Interfaces.Services.Posts;
 using Contracts.Common.Models.Paging;
@@ -71,6 +72,12 @@ public class PostService : IPostService
     public async Task<PostDto> GetPostBySlugAsync(string slug)
     {
         var result = await _postRepository.GetPostBySlugAsync(slug);
+        return result;
+    }
+
+    public async Task<List<ExportPostDto>> GetAllPostsForExportAsync(GetExportPostsInput input)
+    {
+        var result = await _postRepository.GetAllPostsForExportAsync(input);
         return result;
     }
 }
