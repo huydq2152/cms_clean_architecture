@@ -126,7 +126,7 @@ public class PostController : ApiControllerBase
         }
 
         var fileObject = new BinaryObject(fileBytes, $"{DateTime.UtcNow} import from excel file.");
-
+ 
         await _binaryObjectManager.CreateBinaryObjectAsync(fileObject);
 
         var importPostsFromExcelJobInput = new ImportPostFromExcelJobInput
@@ -135,7 +135,7 @@ public class PostController : ApiControllerBase
             UserId = 1
         };
         
-        var jobId = _scheduledJobService.Schedule(() => _postService.ImportPostsFromExcelAsync(importPostsFromExcelJobInput));
+        var jobId = _scheduledJobService.Enqueue(() => _postService.ImportPostsFromExcelAsync(importPostsFromExcelJobInput));
         
         return Ok(jobId);
     }
