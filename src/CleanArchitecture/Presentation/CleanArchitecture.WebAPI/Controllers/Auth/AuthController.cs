@@ -59,7 +59,7 @@ public class AuthController : ApiControllerBase
 
         //Authorization
         var roles = await _userManager.GetRolesAsync(user);
-        var permissions = await this.GetPermissionsByUserIdAsync(user.Id.ToString());
+        var permissions = await GetPermissionsByUserIdAsync(user.Id.ToString());
         var claims = new[]
         {
             new Claim(JwtRegisteredClaimNames.Email, user.Email),

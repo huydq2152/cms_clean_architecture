@@ -71,7 +71,7 @@ public static class ServiceExtensions
                 }
             });
         });
-        // services.AddAuthenticationAndAuthorization(configuration);
+        services.AddAuthenticationAndAuthorization(configuration);
 
         services.AddHangfireServices();
     }
